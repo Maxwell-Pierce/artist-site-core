@@ -38,6 +38,8 @@ def build(site,dest):
         (dest/'index.html').write_text(render((CORE/'templates/index.html').read_text(),config))
     for name in ['app.js','style.css','sw.js']:
         shutil.copy2(CORE/'runtime'/name,dest/name)
+    worker=(dest/'sw.js').read_text().replace('__ARTIST_CACHE__','artist-'+config['slug']+'-shell-')
+    (dest/'sw.js').write_text(worker)
     css=(dest/'style.css').read_text()
     palette={'bg':'#100d1b','surface':'#1c1429','ink':'#f3ebdd','muted':'#b8abc6','gold':'#eac584','pink':'#f163bd'}
     for key,old in palette.items():
@@ -52,7 +54,7 @@ def build(site,dest):
     marker='<script id="artist-config" type="application/json">'+json_script(public)+'</script>'
     for path in dest.glob('*.html'):
         text=path.read_text();text=re.sub(r'<script id="artist-config".*?</script>','',text,flags=re.S)
-        text=text.replace('<script id="hero-video-data"',marker+'<script id="hero-video-data"',1)
+        text=text.replace('</head>',marker+'</head>',1)
         path.write_text(text)
     os.environ['ARTIST_SITE_ROOT']=str(dest)
     import refresh_tracks,build_videos
