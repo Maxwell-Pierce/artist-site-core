@@ -1,0 +1,46 @@
+name: Analyze artist lyrics
+description: Refresh configured playlists and incrementally align new or changed audio.
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Check configured playlists
+      id: catalog
+      shell: bash
+      run: |
+        python - <<'PY'
+        import json,os
+        configured=bool(json.load(open('catalog-source.json'))['playlists'])
+        with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('configured='+str(configured).lower()+'\n')
+        PY
+    - name: Pull configured playlists
+      if: steps.catalog.outputs.configured == 'true'
+      shell: bash
+      run: ARTIST_SITE_ROOT="$GITHUB_WORKSPACE" python "$GITHUB_ACTION_PATH/../../scripts/refresh_tracks.py"
+    - uses: actions/cache@v4
+      if: steps.catalog.outputs.configured == 'true'
+      with:
+        path: |
+          .cache/lyrics-v3
+          .cache/lyric-audio-v2
+          ~/.cache/whisper
+          ~/.cache/torch
+          ~/.cache/pip
+        key: lyric-align-v3-${{ runner.os }}-${{ github.run_id }}
+        restore-keys: lyric-align-v3-${{ runner.os }}-
+    - name: Install CPU alignment dependencies
+      if: steps.catalog.outputs.configured == 'true'
+      shell: bash
+      run: |
+        pip install torch==2.5.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+        pip install 'numpy<2' soundfile stable-ts==2.19.1 demucs==4.0.1
+    - name: Analyze only uncached or changed tracks
+      if: steps.catalog.outputs.configured == 'true'
+      shell: bash
+      run: ARTIST_SITE_ROOT="$GITHUB_WORKSPACE" python "$GITHUB_ACTION_PATH/../../scripts/build_lyrics.py"
+    - name: Save analysis results
+      if: steps.catalog.outputs.configured == 'true'
+      shell: bash
+      run: python "$GITHUB_ACTION_PATH/../../scripts/commit_results.py"

@@ -1,0 +1,19 @@
+name: Build artist site
+description: Build using saved catalogs and lyrics; no audio processing or model downloads.
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Test shared pipeline
+      shell: bash
+      run: python -m unittest discover -s "$GITHUB_ACTION_PATH/../../tests"
+    - name: Build from saved data
+      shell: bash
+      run: |
+        export ARTIST_CORE_SHA="$(git -C "$GITHUB_ACTION_PATH/../.." rev-parse HEAD)"
+        python "$GITHUB_ACTION_PATH/../../scripts/build.py" --site "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/_site"
+    - name: Validate player JavaScript
+      shell: bash
+      run: node --check _site/app.js
