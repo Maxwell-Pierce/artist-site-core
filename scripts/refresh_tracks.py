@@ -22,6 +22,23 @@ def extract_playlist(page,pid):
     source=next((d for d in objs if d.get('id')==pid and d.get('type')=='playlist' and isinstance(d.get('songs'),list)),None)
     if source is None or source.get('visibility')!='public':raise ValueError('Public playlist payload missing: '+pid)
     details={d['id']:d for d in objs if d.get('songPath') and 'tags' in d}
+    # Playlist entity embeds a short preview; its scoped songs query has the full list.
+    for query in objs:
+        key=query.get('queryKey')
+        if not (isinstance(key,list) and key[:2]==['playlist','songs'] and pid in key):continue
+        data=query.get('state',{}).get('data',{});pages=data.get('pages',[]) if isinstance(data,dict) else []
+        if not pages or any(not isinstance(p,dict) or not isinstance(p.get('songs'),list) for p in pages):continue
+        if pages[-1].get('nextCursor') is not None:raise ValueError('Playlist requires additional pages; refusing partial import')
+        members=[]
+        for chunk in pages:
+            for member in chunk['songs']:
+                if 'postId' in member:
+                    detail=details.get(member['postId'])
+                    if detail is None:raise ValueError('Missing metadata for playlist member: '+member['postId'])
+                    members.append(detail)
+                else:members.append(member)
+        source={**source,'songs':members}
+        break
     songs=[];seen=set()
     for raw in source['songs']:
         if raw.get('visibility')!='public':continue
@@ -29,7 +46,7 @@ def extract_playlist(page,pid):
         if d['id'] in seen:continue
         seen.add(d['id'])
         if not d.get('songPath','').startswith('https://cdn.treblo.com/'):raise ValueError('Missing playable stream: '+d['id'])
-        songs.append(dict(id=d['id'],title=d['title'],artist=d.get('artistUsername','Unknown artist'),audio=d['songPath'],artwork=image(d.get('artwork')),duration=d.get('duration',0),tags=d.get('tags',[]),alignedLyrics=d.get('alignedLyrics',[]),lyrics=d.get('lyrics',''),likes=d.get('likes'),plays=d.get('playCount'),comments=d.get('commentsCount'),url='https://treblo.com/song/'+d['id']))
+        songs.append(dict(id=d['id'],title=d['title'],artist=d.get('artistUsername','Unknown artist'),audio=d['songPath'],artwork=image(d.get('artwork')),duration=d.get('duration',0),tags=d.get('tags',[]),alignedLyrics=d.get('alignedLyrics') if isinstance(d.get('alignedLyrics'),list) else [],lyrics=d.get('lyrics',''),likes=d.get('likes'),plays=d.get('playCount'),comments=d.get('commentsCount'),url='https://treblo.com/song/'+d['id']))
     # Explicitly check count fields when supplied: never silently publish a partial page.
     count=source.get('songCount',source.get('songsCount'))
     if isinstance(count,int) and count!=len(source['songs']):raise ValueError('Incomplete playlist payload')

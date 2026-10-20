@@ -1,0 +1,14 @@
+name: Refresh artist catalog
+description: Import complete public playlists and save catalog data without installing audio models.
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Import configured public playlists
+      shell: bash
+      run: ARTIST_SITE_ROOT="$GITHUB_WORKSPACE" python "$GITHUB_ACTION_PATH/../../scripts/refresh_tracks.py"
+    - name: Save refreshed catalog
+      shell: bash
+      run: python "$GITHUB_ACTION_PATH/../../scripts/commit_results.py"

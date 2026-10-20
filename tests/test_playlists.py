@@ -15,6 +15,18 @@ class ParserTests(unittest.TestCase):
         p=m.extract_playlist(page(playlist([b,a,b]),[extra,song('unrelated')]),PID)
         self.assertEqual([t['id'] for t in p['tracks']],['b','a']);self.assertEqual(p['artists'],2)
         self.assertEqual(p['tracks'][1]['plays'],23);self.assertIsNone(p['plays']);self.assertEqual(p['trackLikes'],6)
+    def test_complete_scoped_song_query_replaces_preview(self):
+        a,b=song('a'),song('b');entity={**playlist([a]),'songCount':2}
+        query={'queryKey':['playlist','songs','viewer','anonymous',PID,'list',{'pageSize':30}], 'state':{'data':{'pages':[{'songs':[{'postId':'a'},{'postId':'b'}],'nextCursor':None}]}}}
+        other={'queryKey':['playlist','songs','different-playlist'],'state':{'data':{'pages':[{'songs':[song('unrelated')],'nextCursor':None}]}}}
+        result=m.extract_playlist(page(entity,[other,query,{**a,'tags':[]},{**b,'tags':[]}]),PID)
+        self.assertEqual([t['id'] for t in result['tracks']],['a','b'])
+    def test_incomplete_song_query_still_rejected(self):
+        query={'queryKey':['playlist','songs',PID],'state':{'data':{'pages':[{'songs':[song('a')],'nextCursor':'more'}]}}}
+        with self.assertRaises(ValueError):m.extract_playlist(page(playlist([song('a')]),[query]),PID)
+    def test_missing_lyrics_are_valid_instrumentals(self):
+        result=m.extract_playlist(page(playlist([{**song('a'),'alignedLyrics':None,'lyrics':''}])),PID)
+        self.assertEqual(result['trackCount'],1);self.assertEqual(result['tracks'][0]['alignedLyrics'],[])
     def test_removals_are_reflected(self):
         self.assertEqual(m.extract_playlist(page(playlist([song('a')])),PID)['trackCount'],1)
     def test_malformed_or_partial_payload_rejected(self):

@@ -63,6 +63,20 @@ def build(site,dest):
     playlists=json.loads((dest/'playlists.json').read_text())
     for name,content in refresh_tracks.build(playlists).items():
         target=dest/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(content)
+    # New tracks can display supplied line timings while expensive recognition queues.
+    from lyrics_common import clean_lines
+    report_path=dest/'lyrics/report.json'
+    report=json.loads(report_path.read_text()) if report_path.exists() else []
+    known={row['id'] for row in report}
+    for track in json.loads((dest/'tracks.json').read_text()):
+        sidecar=dest/'lyrics'/(track['id']+'.json')
+        if sidecar.exists():continue
+        lines=clean_lines(track.get('alignedLyrics'),track['duration'])
+        data={'id':track['id'],'source':'treblo','alignment':'line','lines':lines,'timingSource':'supplied-lines-awaiting-analysis'}
+        sidecar.write_text(json.dumps(data,ensure_ascii=False))
+        if track['id'] not in known:
+            report.append({'id':track['id'],'title':track['title'],'status':'awaiting-analysis' if lines else 'no-timed-lines','alignedWords':0,'totalWords':sum(len(line['text'].split()) for line in lines),'lines':len(lines)})
+    report_path.write_text(json.dumps(report,indent=2))
     from estimate_lyrics import build_estimates
     estimated=build_estimates(dest/'lyrics')
     if not playlists:
