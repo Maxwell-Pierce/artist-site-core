@@ -1,5 +1,9 @@
 # Changes
 
+## 1.0.2
+
+Version app icon URLs and the shell cache from artist artwork so branding updates replace cached fallback icons.
+
 ## 1.0.1
 
 Read the playlist-specific complete songs query instead of the truncated entity preview. Keep partial-page rejection and normalize absent lyrics for instrumental tracks. Add a lightweight catalog-refresh action and a supplied-line caption fallback while recognition is queued.

@@ -17,6 +17,15 @@ class BuildTests(unittest.TestCase):
    self.assertEqual(json.loads((dest/'lyrics/sample.json').read_text())['estimatedWords'],2)
    self.assertEqual(json.loads((dest/'manifest.webmanifest').read_text())['name'],'A < B')
    self.assertTrue((dest/'assets/icon-192.png').read_bytes().startswith(b'\x89PNG'))
+ def test_icons_version_shell_and_preserve_artist_artwork(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   site=Path(tmp)/'site';site.mkdir();(site/'artist.json').write_text(json.dumps(config()));(site/'assets').mkdir()
+   for size in [180,192,512]:(site/f'assets/icon-{size}.png').write_bytes(b'artist-icon-one')
+   out=build(site,Path(tmp)/'out');first=json.loads((out/'manifest.webmanifest').read_text())['icons'][0]['src'];worker=(out/'sw.js').read_text()
+   self.assertIn('?v=',first);self.assertIn(first,worker);self.assertEqual((out/'assets/icon-192.png').read_bytes(),b'artist-icon-one')
+   (site/'assets/icon-192.png').write_bytes(b'artist-icon-two')
+   out=build(site,Path(tmp)/'out');second=json.loads((out/'manifest.webmanifest').read_text())['icons'][0]['src']
+   self.assertNotEqual(first,second);self.assertNotEqual(worker,(out/'sw.js').read_text())
  def test_config_validation(self):
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp)

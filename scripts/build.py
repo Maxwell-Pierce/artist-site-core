@@ -86,6 +86,15 @@ def build(site,dest):
     (dest/'manifest.webmanifest').write_text(json.dumps(manifest,indent=2))
     from icons import ensure_icons
     ensure_icons(dest,config)
+    # Icon URL and shell cache versions follow the actual artist artwork.
+    icon_version=hashlib.sha256(b''.join((dest/'assets'/f'icon-{size}.png').read_bytes() for size in [180,192,512])).hexdigest()[:12]
+    for icon in manifest['icons']:icon['src']+='?v='+icon_version
+    (dest/'manifest.webmanifest').write_text(json.dumps(manifest,indent=2))
+    worker=(dest/'sw.js').read_text().replace("PREFIX+'v1'","PREFIX+'"+icon_version+"'")
+    for size in [180,192,512]:worker=worker.replace(f'assets/icon-{size}.png',f'assets/icon-{size}.png?v='+icon_version)
+    (dest/'sw.js').write_text(worker)
+    for page in dest.rglob('*.html'):
+        page.write_text(page.read_text().replace('assets/icon-180.png','assets/icon-180.png?v='+icon_version))
     if not (dest/'offline.html').exists():(dest/'offline.html').write_text('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline</title><p>You are offline. Reconnect to continue listening.</p>')
     (dest/'.nojekyll').touch()
     (dest/'build-info.json').write_text(json.dumps({'coreVersion':(CORE/'VERSION').read_text().strip(),'artist':config['slug'],'estimatedWords':estimated,'coreCommit':os.environ.get('ARTIST_CORE_SHA','local')}))
