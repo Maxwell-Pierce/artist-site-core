@@ -1,5 +1,9 @@
 # Changes
 
+## 1.1.1
+
+Ship a six-chapter Artist Studio help centre covering setup, token permissions, every editor control, drafts, publication, recovery, troubleshooting and maintainer integration. Link help from the toolbar and connection form.
+
 ## 1.1.0
 
 Add opt-in Artist Studio: browser-only GitHub content editing, live sandboxed preview, structured pages, navigation, theme controls, local recovery, draft branches and explicit publication tracking. Preserve existing HTML, configuration and player runtime. Include structured-page validation and GitHub adapter tests.
