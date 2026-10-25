@@ -1,5 +1,9 @@
 # Changes
 
+## 1.1.0
+
+Add opt-in Artist Studio: browser-only GitHub content editing, live sandboxed preview, structured pages, navigation, theme controls, local recovery, draft branches and explicit publication tracking. Preserve existing HTML, configuration and player runtime. Include structured-page validation and GitHub adapter tests.
+
 ## 1.0.2
 
 Version app icon URLs and the shell cache from artist artwork so branding updates replace cached fallback icons.

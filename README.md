@@ -47,3 +47,7 @@ The first configured playlist is the homepage entry queue. Add IDs to `catalog-s
 ## Platform limits
 
 PWA media-card taps are owned by the browser/OS; the web API cannot guarantee Android returns to the standalone window. Native integration is outside this shared web core. The core does not promise offline audio playback.
+
+## Optional website builder
+
+[Artist Studio](editor/README.md) provides browser-only content, page, navigation and theme editing with GitHub draft branches and explicit Pages publication. Enable per consumer with `builder.json`: `{"enabled":true}`. The editor is separate from the music runtime; existing consumers, configuration fields and artist-owned HTML remain supported.
