@@ -22,4 +22,4 @@ runs:
       shell: bash
       run: |
         node --check "$GITHUB_ACTION_PATH/../../editor/studio.mjs"
-        node --test "$GITHUB_ACTION_PATH/../../tests/editor.test.mjs"
+        node --test "$GITHUB_ACTION_PATH/../../tests/"*.test.mjs

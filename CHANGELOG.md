@@ -1,5 +1,9 @@
 # Changes
 
+## 1.2.0
+
+Add opt-in remembered Studio connections with explicit forget/disconnect, persistent saved-catalog music preview, optional DJ events with timezone-aware upcoming/ongoing filtering and ICS downloads, and configurable monochrome social/music footer links. Bundle 45 Simple Icons brand SVGs plus generic support for other/custom services. Update the manual and regression tests. Legacy sites without events/links load no extra public runtime.
+
 ## 1.1.1
 
 Ship a six-chapter Artist Studio help centre covering setup, token permissions, every editor control, drafts, publication, recovery, troubleshooting and maintainer integration. Link help from the toolbar and connection form.

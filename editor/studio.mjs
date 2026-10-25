@@ -1,7 +1,9 @@
+import {rememberConnection, rememberedConnection, forgottenConnection} from './connection.mjs';
+import {validatePresence, mountPresence, platforms, safePresenceURL} from './presence.mjs';
 import {GitHubRepository} from './github.mjs';
 import {clone,escapeHTML as esc,validate,blocksHTML} from './model.mjs';
 const $=id=>document.getElementById(id);
-let repo,artist,pages,source,base,branch,repository,tab='home',selected=0,dirty=false,busy=false,history=[],previewTimer,draftBranch,draftHead,existingPages=[],assetPaths=[],previewGeneration=0,baseCSS='';
+let repo,artist,pages,source,base,branch,repository,tab='home',selected=0,dirty=false,busy=false,history=[],previewTimer,draftBranch,draftHead,existingPages=[],assetPaths=[],previewGeneration=0,baseCSS='',presenceCSS='',previewTracks=[];
 const notice=(message,error=false)=>{$('notice').textContent=message;$('notice').classList.toggle('error',error);};
 const key=()=>`artist-studio:${repository}:${branch}`;
 function snapshot(){return {artist:clone(artist),pages:clone(pages)};}
@@ -18,7 +20,7 @@ function configField(parent,label,path,type,options){const keys=path.split('.');
 function button(parent,text,fn,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.onclick=fn;parent.append(b);return b;}
 function render(){
  const target=$('fields');target.replaceChildren();
- const titles={home:'Home page',pages:'Pages & navigation',identity:'Identity & entrance',theme:'Colours & appearance'};
+ const titles={home:'Home page',pages:'Pages & navigation',identity:'Identity & entrance',theme:'Colours & appearance',events:'DJ events & calendar',socials:'Social & music links'};
  $('panel-title').textContent=tab==='page'?(pages.pages[selected]?.title||'New page'):titles[tab];
  document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('selected',b.dataset.tab===tab));
  const list=$('page-list');list.replaceChildren();pages.pages.forEach((p,i)=>button(list,`${p.nav===false?'○':'▤'} ${p.label||p.title}`,()=>{tab='page';selected=i;render();preview();}));
@@ -30,6 +32,8 @@ function render(){
   configField(target,'Portrait effect','entrance.effect','select',['fade','eye-glow']);
  }else if(tab==='theme'){
   for(const [prop,label] of Object.entries({bg:'Background',surface:'Panels',ink:'Primary text',muted:'Secondary text',gold:'Primary accent',pink:'Secondary accent'}))configField(target,label,'theme.'+prop,'color');
+ }else if(tab==='events'){renderEvents(target);
+ }else if(tab==='socials'){renderSocials(target);
  }else if(tab==='pages'){
   const p=document.createElement('p');p.className='hint';p.textContent='Pages are added alongside existing HTML pages. Existing handcrafted pages are preserved. Use the arrows to set menu order.';target.append(p);
   const menuHead=document.createElement('h3');menuHead.textContent='Main menu';target.append(menuHead);
@@ -60,24 +64,25 @@ async function preview(){
  // The base stylesheet is generated from this artist's colours. Replace those for the preview only.
  let css=baseCSS;
  for(const [k,old]of Object.entries(initialTheme||palette))if(artist.theme?.[k])css=css.replace(new RegExp(old.replace('#','\\#')+'([a-f0-9]{2})?\\b','gi'),(_,alpha)=>artist.theme[k]+(alpha||''));
- const style=doc.createElement('style');style.textContent=css+'\nbody{overflow:auto!important} .entrance{display:none!important}';doc.head.append(style);
+ const style=doc.createElement('style');style.textContent=css+presenceCSS+'\nbody{overflow:auto!important} .entrance,.player{display:none!important}';doc.head.append(style);
+ try{mountPresence(artist,doc,Date.now(),tab!=='page');}catch{}
  doc.querySelectorAll('link[rel=stylesheet]').forEach(el=>el.remove());if(generation===previewGeneration)$('preview').srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
 }
 let initialTheme;
 $('connect-form').onsubmit=async event=>{event.preventDefault();if(busy)return;busy=true;try{
  const nextRepo=new GitHubRepository($('repository').value.trim(),$('token').value.trim());const nextBranch=$('branch').value.trim();notice('Loading your site…');
- const nextBase=await nextRepo.head(nextBranch);const [a,p,s,b]=await Promise.all(['artist.json','pages.json','index.html','builder.json'].map(path=>nextRepo.read(path,nextBase)));
+ const nextBase=await nextRepo.head(nextBranch);const [a,p,s,b,t]=await Promise.all(['artist.json','pages.json','index.html','builder.json','tracks.json'].map(path=>nextRepo.read(path,nextBase)));
  if(!a||!s)throw Error('This repository needs artist.json and index.html.');if(!b||JSON.parse(b).enabled!==true)throw Error('Enable the editor with builder.json before connecting.');
- repo=nextRepo;repository=$('repository').value.trim();branch=nextBranch;base=nextBase;artist=JSON.parse(a);pages=p?JSON.parse(p):{schemaVersion:1,pages:[]};validate(artist,pages);const tree=await nextRepo.api('/git/trees/'+nextBase+'?recursive=1');existingPages=tree.tree.filter(x=>/^[^/]+\.html$/.test(x.path)).map(x=>x.path.slice(0,-5));assetPaths=tree.tree.filter(x=>x.type==='blob'&&/^assets\/.*\.(png|jpe?g|webp|gif|svg|avif)$/i.test(x.path)).map(x=>x.path);baseCSS=await fetch('../style.css').then(r=>r.text());source=s;initialTheme=clone(artist.theme);history=[];draftBranch=null;draftHead=null;dirty=false;$('token').value='';$('connection').hidden=true;$('workspace').hidden=false;$('save').disabled=false;$('publish').disabled=false;render();await preview();notice('Connected. Edits preview immediately. Recover a local draft if you have unfinished changes.');
+ repo=nextRepo;repository=$('repository').value.trim();branch=nextBranch;base=nextBase;artist=JSON.parse(a);pages=p?JSON.parse(p):{schemaVersion:1,pages:[]};validate(artist,pages);validatePresence(artist);const tree=await nextRepo.api('/git/trees/'+nextBase+'?recursive=1');existingPages=tree.tree.filter(x=>/^[^/]+\.html$/.test(x.path)).map(x=>x.path.slice(0,-5));assetPaths=tree.tree.filter(x=>x.type==='blob'&&/^assets\/.*\.(png|jpe?g|webp|gif|svg|avif)$/i.test(x.path)).map(x=>x.path);baseCSS=await fetch('../style.css').then(r=>r.text());presenceCSS=await fetch('./presence.css').then(r=>r.text());previewTracks=t?JSON.parse(t).filter(track=>safePresenceURL(track.audio)):[];setupPreviewMusic();source=s;initialTheme=clone(artist.theme);history=[];draftBranch=null;draftHead=null;dirty=false;try{if($('remember').checked)rememberConnection(localStorage,{repository,branch,token:nextRepo.token});else forgottenConnection(localStorage);}catch{notice('Connected, but this browser could not remember the connection.',true);}$('token').value='';$('connection').hidden=true;$('workspace').hidden=false;$('save').disabled=false;$('publish').disabled=false;render();await preview();notice('Connected. Edits preview immediately. Recover a local draft if you have unfinished changes.');
  }catch(error){notice(error.message,true);}finally{busy=false;}};
 for(const b of document.querySelectorAll('[data-tab]'))b.onclick=()=>{tab=b.dataset.tab;render();preview();};
 $('add-page').onclick=()=>{checkpoint();let n=1;while(pages.pages.some(p=>p.slug==='new-page-'+n))n++;pages.pages.push({slug:'new-page-'+n,title:'New page '+n,label:'New page '+n,description:'',nav:true,blocks:[{type:'text',heading:'Your next chapter',text:'Tell your story.'}]});selected=pages.pages.length-1;tab='page';changed();render();};
 $('undo').onclick=()=>{const state=history.pop();if(!state)return;({artist,pages}=state);$('undo').disabled=!history.length;changed();render();};
 $('restore').onclick=()=>{try{const saved=JSON.parse(localStorage.getItem(key()));if(!saved)throw Error('No local draft found for this repository and branch.');validate(saved.artist,saved.pages);if(saved.base!==base)throw Error('The repository changed since this draft. Export your draft before reconnecting and reconcile it with the newer content.');checkpoint();artist=saved.artist;pages=saved.pages;changed();render();notice(saved.base!==base?'Draft recovered onto a newer repository version. Review all fields before publishing.':'Local draft recovered.');}catch(e){notice(e.message,true);}};
 $('export').onclick=()=>{if(!artist)return notice('Connect a repository first.');const url=URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='artist-studio-draft.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
-$('disconnect').onclick=()=>{polling++;repo.token='';repo=null;artist=null;pages=null;source=null;history=[];$('workspace').hidden=true;$('connection').hidden=false;$('save').disabled=$('publish').disabled=$('undo').disabled=true;$('preview').srcdoc='';notice('Disconnected. The access token has been discarded.');};
+$('disconnect').onclick=()=>{polling++;$('preview-audio').pause();$('preview-audio').removeAttribute('src');try{forgottenConnection(localStorage);}catch{}repo.token='';repo=null;artist=null;pages=null;source=null;history=[];$('workspace').hidden=true;$('connection').hidden=false;$('save').disabled=$('publish').disabled=$('undo').disabled=true;$('preview').srcdoc='';notice('Disconnected. The access token has been discarded.');};
 for(const mode of ['desktop','mobile'])$(mode).onclick=()=>{$('preview').style.maxWidth=mode==='mobile'?'390px':'100%';$('desktop').setAttribute('aria-pressed',mode==='desktop');$('mobile').setAttribute('aria-pressed',mode==='mobile');};
-function files(){validate(artist,pages);for(const page of pages.pages)if(existingPages.includes(page.slug))throw Error('Page address conflicts with existing HTML: '+page.slug);return {'artist.json':JSON.stringify(artist,null,2)+'\n','pages.json':JSON.stringify(pages,null,2)+'\n'};}
+function files(){validate(artist,pages);validatePresence(artist);for(const page of pages.pages)if(existingPages.includes(page.slug))throw Error('Page address conflicts with existing HTML: '+page.slug);return {'artist.json':JSON.stringify(artist,null,2)+'\n','pages.json':JSON.stringify(pages,null,2)+'\n'};}
 async function save(publish){if(busy)return;busy=true;$('workspace').inert=true;$('undo').disabled=true;$('save').disabled=$('publish').disabled=true;try{
  const content=files();if(publish){notice('Publishing content…');base=await repo.commit(branch,base,content,'Publish website content');dirty=false;$('dirty').textContent='Publishing';try{localStorage.removeItem(key());}catch{}notice('Committed. GitHub Pages is publishing; you can continue editing.');monitor(base);
  }else{if(!draftBranch){draftBranch='studio/draft-'+Date.now();await repo.branch(draftBranch,base);draftHead=base;}draftHead=await repo.commit(draftBranch,draftHead,content,'Save website draft');notice('Draft saved to a separate GitHub branch. The live website has not changed.');}
@@ -86,3 +91,44 @@ $('save').onclick=()=>save(false);$('publish').onclick=()=>save(true);
 let polling=0;
 async function monitor(sha){const generation=++polling;for(let i=0;i<80&&generation===polling;i++){await new Promise(resolve=>setTimeout(resolve,15000));try{const response=await fetch('../build-info.json?studio='+Date.now(),{cache:'no-store'});const info=await response.json();if(info.siteCommit===sha){if(!dirty)$('dirty').textContent='Live';notice(dirty?'Previous publication is live. You have new unpublished changes.':'Your changes are live.');return;}}catch{}}if(generation===polling)notice('Publication is taking longer than expected. Check the Pages workflow in GitHub.');}
 window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
+
+function setupPreviewMusic(){
+ const select=$('preview-track'),audio=$('preview-audio');audio.pause();audio.removeAttribute('src');select.replaceChildren();
+ for(const [i,track]of previewTracks.entries()){const option=document.createElement('option');option.value=String(i);option.textContent=track.title||'Untitled track';select.append(option);}
+ if(!previewTracks.length){const option=document.createElement('option');option.textContent='No playable tracks in this catalog';select.append(option);audio.hidden=true;select.disabled=true;$('preview-audio-status').textContent='Add a playlist and refresh the site catalog to preview music.';return;}
+ select.disabled=false;audio.hidden=false;audio.src=previewTracks[0].audio;
+ select.onchange=()=>{const wasPlaying=!audio.paused;audio.src=previewTracks[Number(select.value)].audio;if(wasPlaying)audio.play().catch(()=>{$('preview-audio-status').textContent='Press Play to start this track.';});};
+ audio.onerror=()=>{$('preview-audio-status').textContent='This audio could not load. Try another track or check the source link.';};audio.onplaying=()=>{$('preview-audio-status').textContent='Playing · your music continues while editing.';};audio.onpause=()=>{$('preview-audio-status').textContent='Paused · press Play to listen.';};
+}
+function renderEvents(target){
+ const calendar=artist.calendar||{enabled:false,heading:'Next appearances.',timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',limit:6,events:[]};
+ const apply=()=>{artist.calendar=calendar;};
+ field(target,'Homepage events',calendar.enabled?'Enabled':'Disabled',v=>{apply();calendar.enabled=v==='Enabled';},'select',['Disabled','Enabled']);
+ field(target,'Section heading',calendar.heading,v=>{apply();calendar.heading=v;});
+ const zones=['UTC',...(Intl.supportedValuesOf?Intl.supportedValuesOf('timeZone'):['Europe/Amsterdam','Europe/London','America/New_York'])];if(!zones.includes(calendar.timezone))zones.push(calendar.timezone);
+ field(target,'Public display timezone',calendar.timezone,v=>{apply();calendar.timezone=v;},'select',zones);
+ field(target,'Maximum events shown',String(calendar.limit||6),v=>{apply();calendar.limit=Number(v);},'select',['3','6','9','12']);
+ const hint=document.createElement('p');hint.className='hint';hint.textContent='Only upcoming or ongoing, non-cancelled events appear. If disabled or empty, the homepage has no events section. Enter dates in your device timezone: '+Intl.DateTimeFormat().resolvedOptions().timeZone+'.';target.append(hint);
+ calendar.events.forEach((event,i)=>{const card=document.createElement('section');card.className='block';const head=document.createElement('div');head.className='block-head';const title=document.createElement('strong');title.textContent=event.title||'New event';head.append(title);button(head,'Remove',()=>{checkpoint();apply();calendar.events.splice(i,1);changed();render();});card.append(head);
+  for(const [label,prop,type]of [['Event title','title'],['Start (device timezone)','start','datetime-local'],['End (optional, device timezone)','end','datetime-local'],['Venue','venue'],['City / online location','city'],['Description','description','textarea'],['Event / ticket URL','url'],['Link label','linkLabel']]){
+   const value=type==='datetime-local'?localDateTime(event[prop]):event[prop];field(card,label,value,v=>{apply();event[prop]=type==='datetime-local'?(v?new Date(v).toISOString():''):v;},type);
+  }
+  field(card,'Status',event.cancelled?'Cancelled':'Scheduled',v=>{apply();event.cancelled=v==='Cancelled';},'select',['Scheduled','Cancelled']);target.append(card);
+ });
+ button(target,'+ Add event',()=>{checkpoint();apply();const start=new Date(Date.now()+86400000);start.setHours(20,0,0,0);calendar.events.push({id:'event-'+(globalThis.crypto?.randomUUID?.()||Date.now()),title:'New appearance',start:start.toISOString(),end:'',venue:'',city:'',description:'',url:'',linkLabel:'Event details',cancelled:false});changed();render();});
+}
+function localDateTime(value){if(!value)return '';const date=new Date(value);if(!Number.isFinite(date.getTime()))return '';return new Date(date.getTime()-date.getTimezoneOffset()*60000).toISOString().slice(0,16);}
+function renderSocials(target){
+ const socials=artist.socials||{heading:'Available on',links:[]};const apply=()=>{artist.socials=socials;};
+ field(target,'Footer heading',socials.heading,v=>{apply();socials.heading=v;});
+ const hint=document.createElement('p');hint.className='hint';hint.textContent='Choose a service or Custom link. Only added links appear in the footer, with monochrome icons. Empty lists stay hidden. Use a full HTTPS profile URL; Email uses mailto:you@example.com.';target.append(hint);
+ socials.links.forEach((link,i)=>{const card=document.createElement('section');card.className='block';const row=document.createElement('div');row.className='block-head';const title=document.createElement('strong');title.textContent=link.label||platforms[link.platform]||'Link';row.append(title);
+  for(const delta of [-1,1])button(row,delta<0?'↑':'↓',()=>{checkpoint();apply();[socials.links[i],socials.links[i+delta]]=[socials.links[i+delta],link];changed();render();}).disabled=i+delta<0||i+delta>=socials.links.length;
+  button(row,'Remove',()=>{checkpoint();apply();socials.links.splice(i,1);changed();render();});card.append(row);
+  const platformLabel=platforms[link.platform]||'Custom link';field(card,'Platform',platformLabel,v=>{apply();link.platform=Object.keys(platforms).find(key=>platforms[key]===v)||'custom';},'select',[...new Set(Object.values(platforms))].sort((a,b)=>a.localeCompare(b)));
+  field(card,'Profile URL',link.url,v=>{apply();link.url=v;});field(card,'Display label (optional except custom)',link.label,v=>{apply();link.label=v;});target.append(card);
+ });
+ button(target,'+ Add social or music link',()=>{checkpoint();apply();socials.links.push({platform:'website',url:'https://',label:''});changed();render();});
+}
+$('forget-connection').onclick=()=>{try{forgottenConnection(localStorage);$('token').value='';$('remember').checked=false;notice('Saved connection removed from this device.');}catch{notice('Browser storage is unavailable.',true);}};
+try{const saved=rememberedConnection(localStorage);if(saved){$('repository').value=saved.repository;$('branch').value=saved.branch;$('token').value=saved.token;$('remember').checked=true;queueMicrotask(()=>$('connect-form').requestSubmit());}}catch{}

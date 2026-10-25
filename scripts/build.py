@@ -11,6 +11,8 @@ def load_config(site):
         if not re.fullmatch(r'#[0-9a-fA-F]{6}',color):raise ValueError('Theme colors must be six-digit hex values')
     portrait=config.get('entrance',{}).get('portrait','assets/mark.svg')
     if Path(portrait).is_absolute() or '..' in Path(portrait).parts or not portrait.startswith('assets/'):raise ValueError('Portrait must be inside assets/')
+    from presence import validate_presence
+    validate_presence(config)
     return config
 
 def json_script(value):return json.dumps(value,ensure_ascii=False).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
@@ -62,6 +64,7 @@ def build(site,dest):
     if builder_path.exists() and json.loads(builder_path.read_text()).get('enabled') is True:
         if (site/'admin.html').exists() or (site/'admin').exists():raise ValueError('Editor conflicts with an existing admin page')
         shutil.copytree(CORE/'editor',dest/'admin')
+        for name in ['presence.mjs','presence.css','social-icons.mjs']:shutil.copy2(CORE/'runtime'/name,dest/'admin'/name)
     os.environ['ARTIST_SITE_ROOT']=str(dest)
     import refresh_tracks,build_videos
     refresh_tracks.ROOT=dest;build_videos.ROOT=dest
@@ -102,6 +105,18 @@ def build(site,dest):
     for page in dest.rglob('*.html'):
         page.write_text(page.read_text().replace('assets/icon-180.png','assets/icon-180.png?v='+icon_version))
     if not (dest/'offline.html').exists():(dest/'offline.html').write_text('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline</title><p>You are offline. Reconnect to continue listening.</p>')
+    # Optional public features: no extra runtime or markup for consumers that do not use them.
+    if config.get('socials',{}).get('links') or config.get('calendar',{}).get('enabled'):
+        for name in ['presence.mjs','social-icons.mjs']:shutil.copy2(CORE/'runtime'/name,dest/name)
+        (dest/'style.css').write_text((dest/'style.css').read_text()+'\n'+(CORE/'runtime/presence.css').read_text())
+        presence={k:config[k] for k in ['name','calendar','socials'] if k in config}
+        payload='<script id="presence-config" type="application/json">'+json_script(presence)+'</script><script type="module" src="presence.mjs"></script>'
+        for page in dest.rglob('*.html'):
+            if 'admin' in page.relative_to(dest).parts:continue
+            text=page.read_text().replace('</body>',payload+'</body>',1)
+            version=hashlib.sha256((dest/'style.css').read_bytes()).hexdigest()[:12]
+            text=re.sub(r'href="style\.css(?:\?v=[^"]*)?"','href="style.css?v='+version+'"',text)
+            page.write_text(text)
     (dest/'.nojekyll').touch()
     (dest/'build-info.json').write_text(json.dumps({'coreVersion':(CORE/'VERSION').read_text().strip(),'artist':config['slug'],'estimatedWords':estimated,'coreCommit':os.environ.get('ARTIST_CORE_SHA','local'),'siteCommit':os.environ.get('ARTIST_SITE_SHA',os.environ.get('GITHUB_SHA','local'))}))
     print(f"Built {config['name']}: {len(playlists)} playlists, {estimated} estimated timings; no audio analysis")
