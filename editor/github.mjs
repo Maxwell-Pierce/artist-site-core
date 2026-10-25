@@ -1,5 +1,5 @@
 export class GitHubRepository {
- constructor(repository, token, request = fetch) {
+ constructor(repository, token, request = (...args) => globalThis.fetch(...args)) {
   if (!/^[a-z\d_.-]+\/[a-z\d_.-]+$/i.test(repository)) throw Error('Enter repository as owner/name.');
   this.root = `https://api.github.com/repos/${repository}`; this.token = token; this.request = request;
  }

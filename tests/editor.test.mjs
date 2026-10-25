@@ -21,3 +21,14 @@ test('stale head never writes',async()=>{
 test('GitHub errors do not leak token or remote payload',async()=>{
  const repo=new GitHubRepository('owner/site','secret',async()=>({ok:false,status:403}));await assert.rejects(repo.head('main'),error=>!error.message.includes('secret')&&error.message.includes('403'));
 });
+
+test('default browser fetch is invoked with the global receiver',async()=>{
+ const original=globalThis.fetch;
+ globalThis.fetch=async function(url,options){
+  assert.equal(this,globalThis,'browser fetch must not receive a repository instance');
+  assert.equal(url,'https://api.github.com/repos/owner/site/git/ref/heads/main');
+  return {ok:true,status:200,json:async()=>({object:{sha:'head'}})};
+ };
+ try {assert.equal(await new GitHubRepository('owner/site','token').head('main'),'head');}
+ finally {globalThis.fetch=original;}
+});
