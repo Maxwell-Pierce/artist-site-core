@@ -13,3 +13,5 @@ jobs:
       - run: python -m unittest discover -s tests
       - run: node --check runtime/app.js
       - run: python -m compileall -q scripts
+      - run: node --check editor/studio.mjs
+      - run: node --test tests/editor.test.mjs

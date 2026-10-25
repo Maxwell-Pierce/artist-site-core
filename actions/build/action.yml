@@ -12,8 +12,14 @@ runs:
     - name: Build from saved data
       shell: bash
       run: |
+        export ARTIST_SITE_SHA="$(git -C "$GITHUB_WORKSPACE" rev-parse HEAD)"
         export ARTIST_CORE_SHA="$(git -C "$GITHUB_ACTION_PATH/../.." rev-parse HEAD)"
         python "$GITHUB_ACTION_PATH/../../scripts/build.py" --site "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/_site"
     - name: Validate player JavaScript
       shell: bash
       run: node --check _site/app.js
+    - name: Validate editor JavaScript
+      shell: bash
+      run: |
+        node --check "$GITHUB_ACTION_PATH/../../editor/studio.mjs"
+        node --test "$GITHUB_ACTION_PATH/../../tests/editor.test.mjs"

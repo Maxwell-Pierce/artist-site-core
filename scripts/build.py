@@ -56,6 +56,12 @@ def build(site,dest):
         text=path.read_text();text=re.sub(r'<script id="artist-config".*?</script>','',text,flags=re.S)
         text=text.replace('</head>',marker+'</head>',1)
         path.write_text(text)
+    from pages import publish_pages
+    publish_pages(site,dest)
+    builder_path=site/'builder.json'
+    if builder_path.exists() and json.loads(builder_path.read_text()).get('enabled') is True:
+        if (site/'admin.html').exists() or (site/'admin').exists():raise ValueError('Editor conflicts with an existing admin page')
+        shutil.copytree(CORE/'editor',dest/'admin')
     os.environ['ARTIST_SITE_ROOT']=str(dest)
     import refresh_tracks,build_videos
     refresh_tracks.ROOT=dest;build_videos.ROOT=dest
@@ -97,7 +103,7 @@ def build(site,dest):
         page.write_text(page.read_text().replace('assets/icon-180.png','assets/icon-180.png?v='+icon_version))
     if not (dest/'offline.html').exists():(dest/'offline.html').write_text('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline</title><p>You are offline. Reconnect to continue listening.</p>')
     (dest/'.nojekyll').touch()
-    (dest/'build-info.json').write_text(json.dumps({'coreVersion':(CORE/'VERSION').read_text().strip(),'artist':config['slug'],'estimatedWords':estimated,'coreCommit':os.environ.get('ARTIST_CORE_SHA','local')}))
+    (dest/'build-info.json').write_text(json.dumps({'coreVersion':(CORE/'VERSION').read_text().strip(),'artist':config['slug'],'estimatedWords':estimated,'coreCommit':os.environ.get('ARTIST_CORE_SHA','local'),'siteCommit':os.environ.get('ARTIST_SITE_SHA',os.environ.get('GITHUB_SHA','local'))}))
     print(f"Built {config['name']}: {len(playlists)} playlists, {estimated} estimated timings; no audio analysis")
     return dest
 
