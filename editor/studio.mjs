@@ -27,7 +27,7 @@ function render(){
   const p=document.createElement('p');p.className='hint';p.textContent='Edits apply to configuration placeholders in your home template. Custom HTML remains owned by your site.';target.append(p);
  }else if(tab==='identity'){
   for(const [label,path,type] of [['Artist name','name'],['First part of name','nameFirst'],['Second part of name','nameLast'],['Tagline','tagline'],['Search description','description','textarea'],['Entrance eyebrow','entrance.eyebrow'],['Portrait asset path','entrance.portrait'],['Portrait description','entrance.portraitAlt'],['Entrance message','entrance.tagline'],['Enter button','entrance.button']])configField(target,label,path,type);
-  configField(target,'Portrait effect','entrance.effect','select',['fade','eyes']);
+  configField(target,'Portrait effect','entrance.effect','select',['fade','eye-glow']);
  }else if(tab==='theme'){
   for(const [prop,label] of Object.entries({bg:'Background',surface:'Panels',ink:'Primary text',muted:'Secondary text',gold:'Primary accent',pink:'Secondary accent'}))configField(target,label,'theme.'+prop,'color');
  }else if(tab==='pages'){
