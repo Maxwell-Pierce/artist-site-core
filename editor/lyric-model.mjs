@@ -1,3 +1,4 @@
+import {validLyricFont} from './lyric-fonts.mjs';
 import {FADE_CURVES} from './export-audio.mjs';
 import {validateVisualizers} from './audio-visualizer.mjs';
 export const RATIOS={'1:1':[1080,1080],'3:4':[1080,1440],'4:5':[1080,1350],'16:9':[1920,1080],'9:16':[1080,1920]};
@@ -16,7 +17,7 @@ export function validateEdit(edit){
 export function validateProject(project,duration){if(!validID(project.id)||project.schemaVersion!==1||!RATIOS[project.ratio]||![720,1080].includes(project.resolution)||project.fps!==30||!finite(project.in)||!finite(project.out)||project.in<0||project.out<=project.in||project.out>duration+.05)throw Error('Choose a valid export range within the track.');
  for(const key of ['audioFadeIn','audioFadeOut'])if(project[key]!==undefined&&(!finite(project[key])||project[key]<0||project[key]>60))throw Error('Audio fades must be between 0 and 60 seconds.');
  for(const key of ['audioFadeInCurve','audioFadeOutCurve'])if(project[key]!==undefined&&!FADE_CURVES.includes(project[key]))throw Error('Invalid audio fade curve.');
- if(!['karaoke','pop','neon','fade','typewriter'].includes(project.effect)||!['sans','serif','mono'].includes(project.font))throw Error('Invalid video style.');
+ if(!['karaoke','pop','neon','fade','typewriter'].includes(project.effect)||!validLyricFont(project.font))throw Error('Invalid video style.');
  for(const [key,min,max]of [['fontSize',3,12],['position',15,85],['overlay',0,85],['focalX',0,100],['focalY',0,100]])if(!finite(project[key])||project[key]<min||project[key]>max)throw Error('Invalid '+key+' setting.');
  for(const color of [project.color,project.accent])if(!/^#[a-f\d]{6}$/i.test(color))throw Error('Video colours must be hex values.');
  if(project.artworkData&&(!/^data:image\/(?:png|jpeg|webp);base64,[a-z\d+/=]+$/i.test(project.artworkData)||project.artworkData.length>900000))throw Error('Uploaded artwork must be an image smaller than 650 KB after compression.');

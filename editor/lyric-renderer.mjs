@@ -1,3 +1,4 @@
+import {lyricFont} from './lyric-fonts.mjs';
 import {visualizerSettings,drawAudioVisualizer} from './audio-visualizer.mjs';
 import {activeLine,RATIOS,finite} from './lyric-model.mjs';
 export function dimensions(project){const base=RATIOS[project.ratio]||RATIOS['9:16'];return base.map(n=>Math.round(n*project.resolution/1080/2)*2);}
@@ -9,17 +10,17 @@ export function drawLyricFrame(canvas,image,project,lines,time,track,{guides=fal
  ctx.fillStyle=`rgba(0,0,0,${project.overlay/100})`;ctx.fillRect(0,0,w,h);const gradient=ctx.createLinearGradient(0,0,0,h);gradient.addColorStop(0,'#0008');gradient.addColorStop(.45,'#0000');gradient.addColorStop(1,'#000b');ctx.fillStyle=gradient;ctx.fillRect(0,0,w,h);
  const visual=visualizerSettings(project),features=visual.type!=='none'?audioAnalysis?.at(time,visual):null;
  if(visual.layer==='behind')drawAudioVisualizer(ctx,w,h,visual,features);
- const family=project.font==='serif'?'Georgia,serif':project.font==='mono'?'ui-monospace,monospace':'Arial,sans-serif';
+ const typeface=lyricFont(project.font),family=typeface.family,weight=typeface.weight;
  if(project.showTitle){ctx.fillStyle=project.color;ctx.globalAlpha=.86;ctx.font=`600 ${s*.022}px ${family}`;ctx.textAlign='left';ctx.fillText((track.artist||'ARTIST').toUpperCase(),w*.09,h*.08,w*.82);ctx.font=`400 ${s*.019}px ${family}`;ctx.fillText(track.title||'',w*.09,h*.08+s*.035,w*.82);ctx.globalAlpha=1;}
  const line=activeLine(lines,time),lyricHit=line?{lineIndex:lines.indexOf(line),rects:[]}:null;
  if(line){let size=s*project.fontSize/100;const content=project.uppercase?line.text.toUpperCase():line.text;const tokens=content.split(/\s+/);let rows=[];let all=[];
-  function wrap(){ctx.font=`800 ${size}px ${family}`;rows=[];all=[];let row=[],width=0;tokens.forEach((text,i)=>{const measure=ctx.measureText(text+' ').width;if(width+measure>w*.82&&row.length){rows.push(row);row=[];width=0;}const word={text,index:i,width:measure};row.push(word);all.push(word);width+=measure;});if(row.length)rows.push(row);}
-  ctx.font=`800 ${size}px ${family}`;const longest=Math.max(...tokens.map(text=>ctx.measureText(text+' ').width));if(longest>w*.82)size*=w*.82/longest;
+  function wrap(){ctx.font=`${weight} ${size}px ${family}`;rows=[];all=[];let row=[],width=0;tokens.forEach((text,i)=>{const measure=ctx.measureText(text+' ').width;if(width+measure>w*.82&&row.length){rows.push(row);row=[];width=0;}const word={text,index:i,width:measure};row.push(word);all.push(word);width+=measure;});if(row.length)rows.push(row);}
+  ctx.font=`${weight} ${size}px ${family}`;const longest=Math.max(...tokens.map(text=>ctx.measureText(text+' ').width));if(longest>w*.82)size*=w*.82/longest;
   wrap();while(rows.length*size*1.3>h*.48&&size>s*.025){size*=.9;wrap();}
   const y=h*project.position/100-(rows.length-1)*size*.65,enter=Math.min(1,Math.max(0,(time-line.start)/.18)),leave=Math.min(1,Math.max(0,(line.end-time)/.15));ctx.textBaseline='middle';ctx.textAlign='left';ctx.lineJoin='round';ctx.globalAlpha=project.effect==='fade'?Math.min(enter,leave):1;
   const chars=Math.floor(content.length*(time-line.start)/Math.max(.05,line.end-line.start));let seen=0;
   rows.forEach((row,r)=>{let x=(w-row.reduce((n,word)=>n+word.width,0))/2;row.forEach(word=>{const timing=line.words?.[word.index],timed=timing&&finite(timing.start)&&finite(timing.end),active=timed&&time>=timing.start&&time<timing.end,past=timed&&time>=timing.end;let value=word.text;if(project.effect==='typewriter'){value=value.slice(0,Math.max(0,chars-seen));seen+=word.text.length+1;}
-    ctx.save();const cy=y+r*size*1.3;const pop=project.effect==='pop'&&active?1.1:1;if(value&&ctx.globalAlpha>0)lyricHit.rects.push({x:x-word.width*(pop-1)/2,y:cy-size*.65*pop,width:word.width*pop,height:size*1.3*pop});ctx.translate(x+word.width/2,cy);ctx.scale(pop,pop);ctx.font=`800 ${size}px ${family}`;ctx.shadowColor=project.effect==='neon'?project.accent:'#000';ctx.shadowBlur=project.effect==='neon'?size*.35:size*.12;ctx.strokeStyle='#0008';ctx.lineWidth=size*.07;ctx.strokeText(value,-word.width/2,0,w*.82);ctx.fillStyle=(project.effect==='karaoke'&&(active||past)||project.effect==='pop'&&active)?project.accent:project.color;ctx.fillText(value,-word.width/2,0,w*.82);ctx.restore();x+=word.width;});});ctx.globalAlpha=1;
+    ctx.save();const cy=y+r*size*1.3;const pop=project.effect==='pop'&&active?1.1:1;if(value&&ctx.globalAlpha>0)lyricHit.rects.push({x:x-word.width*(pop-1)/2,y:cy-size*.65*pop,width:word.width*pop,height:size*1.3*pop});ctx.translate(x+word.width/2,cy);ctx.scale(pop,pop);ctx.font=`${weight} ${size}px ${family}`;ctx.shadowColor=project.effect==='neon'?project.accent:'#000';ctx.shadowBlur=project.effect==='neon'?size*.35:size*.12;ctx.strokeStyle='#0008';ctx.lineWidth=size*.07;ctx.strokeText(value,-word.width/2,0,w*.82);ctx.fillStyle=(project.effect==='karaoke'&&(active||past)||project.effect==='pop'&&active)?project.accent:project.color;ctx.fillText(value,-word.width/2,0,w*.82);ctx.restore();x+=word.width;});});ctx.globalAlpha=1;
  }
  if(visual.layer==='front')drawAudioVisualizer(ctx,w,h,visual,features);
  if(visualizerGuides)drawVisualizerGuide();
