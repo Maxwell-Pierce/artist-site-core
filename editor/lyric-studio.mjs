@@ -11,13 +11,14 @@ import WaveSurfer from './vendor/wavesurfer.mjs';
 import Regions from './vendor/regions.mjs';
 import Timeline from './vendor/timeline.mjs';
 import {retimeWord,practiceBounds,originalTranscript,estimateMissingWords,clone,defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,timingStats,subtitles,RATIOS,finite,round} from './lyric-model.mjs';
-import {drawLyricFrame,dimensions} from './lyric-renderer.mjs';
+import {drawLyricFrame,dimensions,previewLyricHit} from './lyric-renderer.mjs';
 import {mp4Capabilities,renderMP4} from './lyric-export.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const time=value=>Number(value||0).toFixed(3);
 function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
 export function mountLyricStudio(root,{repo,getBase,tracks,lyricIDs=[],getState,onChange}){
  let playbackEnvelope=null,auditionPractice=false;
+ let previewHit=null;
  let lastClock=-1,lastPaint=0,sentenceMode=false,original=[],originalSource='unavailable',loopRange=null,loopFollows=true,loopBeforeSentence=null;
  let sourceLines=[],composer=null,composerPlayback=null;
  let audioAnalysis=null,visualizerUI=null,wordSelected=-1,selectionKind=null,pendingScroll=null;
@@ -73,6 +74,10 @@ export function mountLyricStudio(root,{repo,getBase,tracks,lyricIDs=[],getState,
   root._lvLayoutCleanup=()=>{window.removeEventListener('resize',sizeWorkspace);headerSize.disconnect();headerControls?.remove();headerControls=null;document.body.style.removeProperty('--studio-shell-top');};
  }
  arrangeWorkspace();
+ const previewCanvas=$('canvas');previewCanvas.title='Double-click lyric text to open its sentence';
+ const focusPreviewSentence=event=>{if(!model)return;const r=previewCanvas.getBoundingClientRect();if(!r.width||!r.height)return;const index=previewLyricHit(previewHit,(event.clientX-r.left)*previewCanvas.width/r.width,(event.clientY-r.top)*previewCanvas.height/r.height);if(index===null)return;event.preventDefault();event.stopPropagation();openSentence(index);wave?.setTime(model.lines[index].start);};
+ previewCanvas.addEventListener('dblclick',focusPreviewSentence);
+
  const exportRange=mountExportRange(root.querySelector('.lv-video-export'),{
   waveformRoot:$('wave'),getProject:()=>project,getDuration:()=>model?.duration||0,checkpoint,
   onFit:()=>{if(!wave||!project)return;const v=timelineViewport('sentence',{start:project.in,end:project.out},model.duration,$('wave').clientWidth,.25);if(v){pendingScroll=v.start;wave.zoom(v.zoom);$('zoom').value=String(v.zoom);wave.setScrollTime(v.start);}},
@@ -172,7 +177,7 @@ export function mountLyricStudio(root,{repo,getBase,tracks,lyricIDs=[],getState,
   const finish=cancel=>{if(!editing)return;editing=false;if(cancel||!content.textContent.trim()){if(lane==='lines')model.lines[index]=clone(original);else model.lines[lineIndex].words[index]=clone(original);if(lane==='words')model.lines[lineIndex].text=model.lines[lineIndex].words.map(w=>w.text).join(' ');changed({lyrics:true});}content.contentEditable='false';if(!cancel&&lane==='lines'){estimateMissingWords(model.lines[index]);changed({lyrics:true});}renderList();renderDetails();refreshRegions();status(cancel?'Timeline text edit cancelled.':'Timeline text updated.');};
   content.onblur=()=>finish(false);content.onkeydown=event=>{event.stopPropagation();if(event.key==='Enter'){event.preventDefault();content.blur();}else if(event.key==='Escape'){event.preventDefault();finish(true);} };
  }
- function draw(){if(!model||!project)return;const canvas=$('canvas');const full=dimensions(project),scale=Math.min(1,960/Math.max(...full)),[w,h]=full.map(n=>Math.round(n*scale));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}drawLyricFrame(canvas,image,project,model.lines,wave?.getCurrentTime()??project.in,track,{guides:$('guides').checked,audioAnalysis,visualizerGuides:visualizerUI?.isSelected()});}
+ function draw(){if(!model||!project)return;const canvas=$('canvas');const full=dimensions(project),scale=Math.min(1,960/Math.max(...full)),[w,h]=full.map(n=>Math.round(n*scale));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}previewHit=drawLyricFrame(canvas,image,project,model.lines,wave?.getCurrentTime()??project.in,track,{guides:$('guides').checked,audioAnalysis,visualizerGuides:visualizerUI?.isSelected()});}
  function enforcePlaybackBounds(){if(!wave?.isPlaying()||!model||!project)return;const now=wave.getCurrentTime(),bounds=currentLoop();if(loop&&bounds&&now>=bounds.end)wave.setTime(bounds.start);else if(!loop&&now>=(auditionPractice&&bounds?bounds.end:project.out))wave.pause();}
  function tick(){if(disposed)return;if(wave&&model){const now=wave.getCurrentTime();$('clock').textContent=time(now)+' / '+time(model.duration);enforcePlaybackBounds();if(now!==lastClock&&performance.now()-lastPaint>30){lastClock=now;lastPaint=performance.now();draw();}}raf=requestAnimationFrame(tick);}
 
@@ -229,5 +234,5 @@ export function mountLyricStudio(root,{repo,getBase,tracks,lyricIDs=[],getState,
   if(event.key==='Escape'){selectionKind=null;wordSelected=-1;updateSelection();return;}
   if(!model.lines[selected]||event.target.closest('button'))return;
   if(event.code==='Space'){event.preventDefault();$('play').click();}else if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();const delta=event.key==='ArrowLeft'?-1:1;if(event.shiftKey)nudge(delta*.01);else wave?.setTime(Math.max(0,Math.min(model.duration,(wave?.getCurrentTime()||0)+delta*.1)));}else if(event.key.toLowerCase()==='r'){event.preventDefault();replay();}else if(event.key.toLowerCase()==='l'){event.preventDefault();$('loop').click();}else if(event.key.toLowerCase()==='i')editAction(()=>retimeLine(model.lines[selected],wave?.getCurrentTime()||0,model.lines[selected].end,model.duration));else if(event.key.toLowerCase()==='o')editAction(()=>retimeLine(model.lines[selected],model.lines[selected].start,wave?.getCurrentTime()||0,model.duration));};root.addEventListener('keydown',keyboard);raf=requestAnimationFrame(tick);
- return ()=>{playbackEnvelope?.destroy();disposed=true;loadSerial++;exportAbort?.abort();waveResize?.disconnect();exportRange.destroy();wave?.destroy();visualizerUI?.destroy();composer?.destroy();audioAnalysis=null;root._lvMenuCleanup?.();root._lvLayoutCleanup?.();root.classList.remove('lv-editor-root');document.body.classList.remove('has-lyric-workspace');image?.close?.();cancelAnimationFrame(raf);clearTimeout(capabilityTimer);root.removeEventListener('keydown',keyboard);};
+ return ()=>{previewCanvas.removeEventListener('dblclick',focusPreviewSentence);playbackEnvelope?.destroy();disposed=true;loadSerial++;exportAbort?.abort();waveResize?.disconnect();exportRange.destroy();wave?.destroy();visualizerUI?.destroy();composer?.destroy();audioAnalysis=null;root._lvMenuCleanup?.();root._lvLayoutCleanup?.();root.classList.remove('lv-editor-root');document.body.classList.remove('has-lyric-workspace');image?.close?.();cancelAnimationFrame(raf);clearTimeout(capabilityTimer);root.removeEventListener('keydown',keyboard);};
 }

@@ -1,6 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {retimeWord,practiceBounds,originalSentences,insertSentence,estimateMissingWords,defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,subtitles,creativeFiles,activeLine} from '../editor/lyric-model.mjs';
-import {dimensions,drawLyricFrame} from '../editor/lyric-renderer.mjs';
+import {dimensions,drawLyricFrame,previewLyricHit} from '../editor/lyric-renderer.mjs';
 const line=()=>({text:'Find your frequency',start:1,end:4,words:[{text:'Find',start:1,end:2},{text:'your',start:2,end:3},{text:'frequency',start:3,end:4}]});
 const edit=()=>({schemaVersion:1,id:'track-one',duration:30,lines:[line()]});
 test('all five format dimensions use even pixel sizes and standard outputs',()=>{for(const ratio of ['1:1','3:4','4:5','16:9','9:16'])for(const resolution of [720,1080]){const p={ratio,resolution};for(const n of dimensions(p))assert.equal(n%2,0);}assert.deepEqual(dimensions({ratio:'9:16',resolution:1080}),[1080,1920]);assert.deepEqual(dimensions({ratio:'16:9',resolution:720}),[1280,720]);});
@@ -59,4 +59,9 @@ test('repeated word extensions and contractions never accumulate start drift',()
  const l=line(),w=l.words[1],start=w.start;
  for(let i=0;i<20;i++){retimeWord(l,1,start,l.end+1,'end');retimeWord(l,1,start,start+.08,'end');assert.equal(w.start,start);}
  retimeWord(l,1,start,start+.001,'end');assert.equal(w.start,start);assert.equal(w.end,Math.round((start+.04)*1000)/1000);
+});
+
+test('preview lyric targets use rendered word geometry and the visible overlapping sentence',()=>{
+ const ctx=new Proxy({globalAlpha:1,measureText:t=>({width:t.length*18}),createLinearGradient:()=>({addColorStop(){}})},{get:(t,k)=>k in t?t[k]:()=>{},set:(t,k,v)=>{t[k]=v;return true;}}),canvas={width:720,height:1280,getContext:()=>ctx},lines=[line(),{...line(),start:2,text:'Visible sentence'}],project=defaultProject({id:'a',duration:30});
+ const hit=drawLyricFrame(canvas,null,project,lines,2.3,{});assert.equal(hit.lineIndex,1);assert.ok(hit.rects.length);const r=hit.rects[0];assert.equal(previewLyricHit(hit,r.x+r.width/2,r.y+r.height/2),1);assert.equal(previewLyricHit(hit,0,0),null);assert.equal(previewLyricHit(drawLyricFrame(canvas,null,project,lines,10,{}),360,800),null);
 });
