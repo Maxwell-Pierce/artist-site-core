@@ -1,9 +1,10 @@
+import {validateVisualizers} from './audio-visualizer.mjs';
 export const RATIOS={'1:1':[1080,1080],'3:4':[1080,1440],'4:5':[1080,1350],'16:9':[1920,1080],'9:16':[1080,1920]};
 export const clone=value=>JSON.parse(JSON.stringify(value));
 export const finite=value=>typeof value==='number'&&Number.isFinite(value);
 export const round=value=>Math.round(value*1000)/1000;
 export const validID=id=>typeof id==='string'&&/^[a-zA-Z0-9_-]{1,160}$/.test(id);
-export function defaultProject(track){return {schemaVersion:1,id:track.id,ratio:'9:16',resolution:720,fps:30,in:0,out:Math.min(30,track.duration||30),effect:'karaoke',font:'sans',fontSize:6,position:65,accent:'#b4f2d4',color:'#ffffff',overlay:48,focalX:50,focalY:50,motion:true,showTitle:true,showProgress:true,uppercase:false,artworkData:''};}
+export function defaultProject(track){return {schemaVersion:1,id:track.id,ratio:'9:16',resolution:720,fps:30,in:0,out:Math.min(30,track.duration||30),effect:'karaoke',font:'sans',fontSize:6,position:65,accent:'#b4f2d4',color:'#ffffff',overlay:48,focalX:50,focalY:50,motion:true,showTitle:true,showProgress:true,uppercase:false,artworkData:'',visualizers:{active:'none',styles:{}}};}
 export function validateEdit(edit){
  if(edit.schemaVersion!==1||!validID(edit.id)||!finite(edit.duration)||edit.duration<=0||edit.duration>14400||!Array.isArray(edit.lines)||edit.lines.length>3000)throw Error('Invalid lyric edit document.');
  for(const line of edit.lines){if(typeof line.text!=='string'||!line.text.trim()||line.text.length>2000||!finite(line.start)||!finite(line.end)||line.start<0||line.end<=line.start||line.end>edit.duration+.05)throw Error('Each line needs text and start/end within the track.');
@@ -16,6 +17,7 @@ export function validateProject(project,duration){if(!validID(project.id)||proje
  for(const [key,min,max]of [['fontSize',3,12],['position',15,85],['overlay',0,85],['focalX',0,100],['focalY',0,100]])if(!finite(project[key])||project[key]<min||project[key]>max)throw Error('Invalid '+key+' setting.');
  for(const color of [project.color,project.accent])if(!/^#[a-f\d]{6}$/i.test(color))throw Error('Video colours must be hex values.');
  if(project.artworkData&&(!/^data:image\/(?:png|jpeg|webp);base64,[a-z\d+/=]+$/i.test(project.artworkData)||project.artworkData.length>900000))throw Error('Uploaded artwork must be an image smaller than 650 KB after compression.');
+ validateVisualizers(project.visualizers);
  return project;
 }
 export function retimeLine(line,start,end,duration){start=Math.max(0,round(start));end=Math.min(duration,round(end));if(end-start<.04)return false;const oldStart=line.start,oldSpan=line.end-line.start,scale=(end-start)/oldSpan;line.start=start;line.end=end;for(const word of line.words||[])if(finite(word.start)&&finite(word.end)){word.start=round(start+(word.start-oldStart)*scale);word.end=round(start+(word.end-oldStart)*scale);word.timingSource=word.estimated?'estimated-editor-retime':'manual';}line.timingSource='manual';return true;}

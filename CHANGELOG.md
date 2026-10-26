@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.0
+
+Add six audio-driven visualizers to the lyric video studio with a Visuals picker, independent per-style settings, direct preview dragging/resizing, colour palettes and layer placement. Use timestamp-based stereo FFT analysis for consistent preview, seeks, loops and offline MP4 frames. Legacy video projects default to no visualizer.
+
 ## 1.3.6
 
 Make Lines, Words and Sentence exclusive timeline views with automatic full-track, context and sentence zoom. Double-click a line region or transcript row to open Sentence mode. Restore the previous loop when leaving focused editing.
