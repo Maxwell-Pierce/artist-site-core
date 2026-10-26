@@ -1,5 +1,9 @@
 # Changes
 
+## 1.7.0
+
+Default new lyric videos to the full track and allow full-length exports. Add a full-track export ruler with draggable, keyboard-accessible In/Out markers, Entire track reset, range summary and contextual export button. Add saved stereo audio fades and an audible export preview using the same crop/envelope as MP4; keep practice loops independent. Existing saved clip bounds remain intact.
+
 ## 1.6.2
 
 Keep the opposite word edge anchored when resizing timeline regions. Clamp only the dragged edge at sentence boundaries; preserve duration only when moving a word. Prevent repeated end extensions from shifting the word start backward.
