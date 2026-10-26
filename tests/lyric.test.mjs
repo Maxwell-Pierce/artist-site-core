@@ -45,3 +45,18 @@ test('Original ignores saved Flight references and falls back to original alignm
  assert.deepEqual(originalSentences({lyrics:'$26',alignedLyrics:[{text:'$27'}]},{lines:[{text:'$28'}]}),[]);
  assert.deepEqual(originalSentences({lyrics:'$26 is the price\n[Chorus]\nRepeat this'},source),['$26 is the price','[Chorus]','Repeat this']);
 });
+
+test('word edge resizing anchors the opposite edge at sentence bounds',()=>{
+ const l=line(),before=structuredClone(l.words),w=l.words[1],start=w.start,end=w.end;
+ retimeWord(l,1,start,20,'end');assert.equal(w.start,start);assert.equal(w.end,l.end);
+ retimeWord(l,1,start,l.end-.1,'end');assert.equal(w.start,start);assert.equal(w.end,l.end-.1);
+ retimeWord(l,1,-20,w.end,'start');assert.equal(w.start,l.start);assert.equal(w.end,l.end-.1);
+ assert.deepEqual(l.words[0],before[0]);assert.deepEqual(l.words[2],before[2]);
+ const a=line(),original=a.words[1].start;retimeWord(a,1,original,20);assert.equal(a.words[1].start,original);assert.equal(a.words[1].end,a.end);
+ const b=line(),anchor=b.words[1].end;retimeWord(b,1,-20,anchor);assert.equal(b.words[1].start,b.start);assert.equal(b.words[1].end,anchor);
+});
+test('repeated word extensions and contractions never accumulate start drift',()=>{
+ const l=line(),w=l.words[1],start=w.start;
+ for(let i=0;i<20;i++){retimeWord(l,1,start,l.end+1,'end');retimeWord(l,1,start,start+.08,'end');assert.equal(w.start,start);}
+ retimeWord(l,1,start,start+.001,'end');assert.equal(w.start,start);assert.equal(w.end,Math.round((start+.04)*1000)/1000);
+});

@@ -1,5 +1,9 @@
 # Changes
 
+## 1.6.2
+
+Keep the opposite word edge anchored when resizing timeline regions. Clamp only the dragged edge at sentence boundaries; preserve duration only when moving a word. Prevent repeated end extensions from shifting the word start backward.
+
 ## 1.6.1
 
 Show the deployed shared core version beside the Artist Studio branding and Content & Design badge. Inject the version from VERSION during the site build so every consumer reports its actual pinned release.
