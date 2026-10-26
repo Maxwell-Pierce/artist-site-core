@@ -1,5 +1,9 @@
 # Changes
 
+## 1.13.0
+
+Compact the Artist Studio header to a 44px minimum and integrate Lyric Studio, track selection and pane controls into it. Remove the separate lyric toolbar row and routine connected banner. Keep important notices as overlays during lyric editing, adapt the workspace to the measured header height, and clean up/recreate header tools when switching editor sections.
+
 ## 1.12.1
 
 Synchronize live fade automation with actual media playing rather than the play request. Hold the envelope during buffering, seeking and pause; re-anchor on resume, seek and clock drift so fades cannot run ahead of audible audio. Avoid overlapping gain automation events at a curve start.
