@@ -163,7 +163,7 @@ export function mountLyricStudio(root,{repo,getBase,tracks,lyricIDs=[],getState,
  for(const key of ['lines','words'])$(key).onclick=()=>setView(key);
  $('audio').onchange=async()=>{const file=$('audio').files[0];if(!file||!model)return;try{await loadAudio(file);status('Local audio loaded for this session. It is not uploaded or committed.');}catch(error){errorOf(error);}};
  function editAction(fn){if(!model)return;checkpoint();if(fn()===false)return status('This edit needs a valid selected line and playhead position.',true);changed({lyrics:true});renderList();renderDetails();refreshRegions();}
- $('undo').onclick=()=>{const previous=history.pop();if(!previous)return;({model,project,selected}=previous);changed({lyrics:true,video:true});renderList();renderDetails();renderSentenceStrip();refreshRegions();if(sentenceMode)fitSentence();settings();$('undo').disabled=!history.length;};
+ $('undo').onclick=()=>{const previous=history.pop();if(!previous)return;({model,project,selected}=previous);changed({lyrics:true,video:true});renderList();renderDetails();renderSentenceStrip();refreshRegions();if(sentenceMode)fitSentence();settings();$('undo').disabled=!history.length;status('Last edit undone. Sentence text and timings restored.');};
  $('add').onclick=()=>composer.open({selected,position:'playhead'});
  $('split').onclick=()=>editAction(()=>splitLine(model.lines,selected,wave?.getCurrentTime()||0));$('merge').onclick=()=>editAction(()=>mergeLine(model.lines,selected));$('delete').onclick=()=>deleteSentence();
  function nudge(delta){editAction(()=>{const line=model.lines[selected];if(!line)return false;delta=Math.max(-line.start,Math.min(delta,model.duration-line.end));return retimeLine(line,line.start+delta,line.end+delta,model.duration);});}

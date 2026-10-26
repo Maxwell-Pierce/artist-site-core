@@ -1,5 +1,9 @@
 # Changes
 
+## 1.5.1
+
+Keep Original transcript selection controls clickable in short panes by removing the overlapping sticky toolbar. Report restored text and timings after Undo. Browser-verified multiline insertion, immediate loop review, deletion and batch undo.
+
 ## 1.5.0
 
 Add a sentence insertion composer with before/after/playhead/loop placement, multiline paste, source-timing recovery and clearly labelled audio-guided estimates. Add Original transcript selection and insertion, per-row insertion/deletion actions, overlap review, immediate Sentence loop review and reviewed markers. Keep existing timings anchored and make insertion/deletion undoable.
