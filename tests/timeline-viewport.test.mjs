@@ -7,7 +7,7 @@ test('overview zooms out from a short sentence to the complete track',()=>{
  const words=timelineViewport('words',line,300,1230);
  const sentence=timelineViewport('sentence',line,300,1230);
  assert.equal(overview.start,0);assert.equal(overview.zoom,4);
- assert.equal(words.zoom,100);assert.equal(sentence.zoom,240);
+ assert.equal(words.zoom,300);assert.equal(sentence.zoom,240);
  assert.equal(sentence.start,99.5);
 });
 test('context stays inside the recording at either edge',()=>{
@@ -19,4 +19,12 @@ test('context stays inside the recording at either edge',()=>{
  assert.equal(timelineViewport('sentence',{start:0,end:2},2,1230).start,0);
  assert.equal(timelineViewport('lines',null,0,1230),null);
  assert.equal(timelineViewport('lines',null,100,0),null);
+});
+
+
+test('Words uses a close viewport at the playhead even for long sentences',()=>{
+ const line={start:20,end:50};const v=timelineViewport('words',line,300,1230,.5,35);
+ assert.equal(v.zoom,300);assert.equal(v.start,33);
+ const sentence=timelineViewport('sentence',line,300,1230,.5,35);
+ assert.ok(sentence.zoom<40);assert.equal(sentence.start,19.5);
 });
