@@ -65,6 +65,9 @@ def build(site,dest):
         if (site/'admin.html').exists() or (site/'admin').exists():raise ValueError('Editor conflicts with an existing admin page')
         shutil.copytree(CORE/'editor',dest/'admin')
         for name in ['presence.mjs','presence.css','social-icons.mjs']:shutil.copy2(CORE/'runtime'/name,dest/'admin'/name)
+    if (dest/'admin').exists():
+        from admin_assets import version_admin
+        version_admin(dest/'admin')
     os.environ['ARTIST_SITE_ROOT']=str(dest)
     import refresh_tracks,build_videos
     refresh_tracks.ROOT=dest;build_videos.ROOT=dest

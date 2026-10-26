@@ -25,3 +25,11 @@ class EditorTests(unittest.TestCase):
     with self.assertRaises(ValueError):load_pages(site)
    self.assertEqual((site/'story.html').read_text(),'owned')
 if __name__=='__main__':unittest.main()
+
+class AdminAssetVersionTests(unittest.TestCase):
+ def test_versions_html_static_and_dynamic_imports_with_one_graph_hash(self):
+  from admin_assets import version_admin
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);(root/'index.html').write_text('<script type="module" src="studio.mjs"></script><link href="style.css">');(root/'studio.mjs').write_text("import {x} from './model.mjs'; const lazy=()=>import('./media.mjs');");(root/'model.mjs').write_text('export const x=1;');(root/'media.mjs').write_text('export const y=2;')
+   version=version_admin(root)
+   self.assertIn('studio.mjs?v='+version,(root/'index.html').read_text());self.assertIn('./model.mjs?v='+version,(root/'studio.mjs').read_text());self.assertIn('./media.mjs?v='+version,(root/'studio.mjs').read_text())
