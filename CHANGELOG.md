@@ -1,5 +1,9 @@
 # Changes
 
+## 1.7.1
+
+Add three focused, captioned video walkthroughs to the shared lyric help: timeline modes and zoom, anchored word resizing with Delete/Undo, and export markers with audio fades. Include still posters, native playback/fullscreen controls and no autoplay. Correct outdated instructions about word edits, double-click, track duration and export defaults.
+
 ## 1.7.0
 
 Default new lyric videos to the full track and allow full-length exports. Add a full-track export ruler with draggable, keyboard-accessible In/Out markers, Entire track reset, range summary and contextual export button. Add saved stereo audio fades and an audible export preview using the same crop/envelope as MP4; keep practice loops independent. Existing saved clip bounds remain intact.
