@@ -51,3 +51,14 @@ export function estimateMissingWords(line){
  }
  line.words=words;return count;
 }
+
+export function practiceBounds(line,duration,padding=.5){if(!line)return null;return {start:round(Math.max(0,line.start-padding)),end:round(Math.min(duration,line.end+padding))};}
+export function originalSentences(track,source){
+ const raw=typeof track.lyrics==='string'?track.lyrics.trim():'';
+ if(raw)return raw.split(/\r?\n/).map(text=>text.trim()).filter(Boolean);
+ return [...(source.lines||[]).map(l=>l.originalText||l.text),...(source.untimed||[]).map(l=>typeof l==='string'?l:l.originalText||l.text)].filter(Boolean);
+}
+export function insertSentence(lines,text,start,end,duration){
+ text=text.trim();if(!text||!finite(start)||!finite(end)||start<0||end<=start||end>duration)return -1;
+ const line={text,start:round(start),end:round(end),words:[],timingSource:'manual'};estimateMissingWords(line);lines.push(line);lines.sort((a,b)=>a.start-b.start);return lines.indexOf(line);
+}

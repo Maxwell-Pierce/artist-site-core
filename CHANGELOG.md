@@ -1,5 +1,10 @@
 # Changes
 
+## 1.3.3
+
+Add a separate amber A/B practice loop with lead/tail context, replay, keyboard shortcuts and new sentence insertion. Add Original/Edited transcript tabs with copy, replace and insert actions, including lyrics missed by recognition.
+
+
 ## 1.3.1
 
 Replace the scrolling lyric form layout with a viewport-bounded editor workspace: independently scrolling transcript/preview/inspector panes, resizable splitters, a pinned waveform and adjacent transport, compact clip/action bars, inspector tabs and narrow-screen pane switching. Add direct subtitle/word editing on waveform labels with Enter/Escape handling. Persist pane sizes locally.

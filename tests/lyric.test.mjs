@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {estimateMissingWords,defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,subtitles,creativeFiles,activeLine} from '../editor/lyric-model.mjs';
+import {practiceBounds,originalSentences,insertSentence,estimateMissingWords,defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,subtitles,creativeFiles,activeLine} from '../editor/lyric-model.mjs';
 import {dimensions,drawLyricFrame} from '../editor/lyric-renderer.mjs';
 const line=()=>({text:'Find your frequency',start:1,end:4,words:[{text:'Find',start:1,end:2},{text:'your',start:2,end:3},{text:'frequency',start:3,end:4}]});
 const edit=()=>({schemaVersion:1,id:'track-one',duration:30,lines:[line()]});
@@ -24,3 +24,6 @@ test('line-only lyrics receive estimates but unsafe gaps do not move anchors',()
  const l={text:'Find your frequency',start:0,end:3,words:[]};assert.equal(estimateMissingWords(l),3);assert.ok(l.words.every(w=>w.estimated&&w.end>w.start));assert.equal(l.words.at(-1).end,3);
  const tight={text:'one two three',start:0,end:1,words:[{text:'one',start:0,end:.5},{text:'two',start:null,end:null},{text:'three',start:.52,end:1}]};assert.equal(estimateMissingWords(tight),0);assert.equal(tight.words[1].start,null);
 });
+
+test('practice loop adds bounded context without changing subtitle timing',()=>{const l=line(),before=structuredClone(l);assert.deepEqual(practiceBounds(l,4,.5),{start:.5,end:4});assert.deepEqual(l,before);assert.equal(practiceBounds(null,4),null);});
+test('original transcript includes missing sentences and stays separate from manual edits',()=>{const source={lines:[{text:'Corrected words',originalText:'Original words'}],untimed:['Missing sentence']};assert.deepEqual(originalSentences({},source),['Original words','Missing sentence']);assert.deepEqual(originalSentences({lyrics:'[Verse]\nOriginal words\nMissing sentence'},source),['[Verse]','Original words','Missing sentence']);const lines=[line()];const i=insertSentence(lines,'New sentence',5,7,10);assert.equal(i,1);assert.equal(lines[i].text,'New sentence');assert.ok(lines[i].words.every(w=>w.estimated));assert.equal(insertSentence(lines,'Bad',7,5,10),-1);});
