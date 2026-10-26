@@ -1,5 +1,9 @@
 # Changes
 
+## 1.14.0
+
+Add always-visible Start of track, Previous sentence, Next sentence and End of track controls beside Play. Navigate sentences chronologically in Lines/Words, retain focused sentence navigation and loop behaviour in Sentence mode, and pause/leave looping at exact track boundaries. Preserve all lyric timing and export settings.
+
 ## 1.13.0
 
 Compact the Artist Studio header to a 44px minimum and integrate Lyric Studio, track selection and pane controls into it. Remove the separate lyric toolbar row and routine connected banner. Keep important notices as overlays during lyric editing, adapt the workspace to the measured header height, and clean up/recreate header tools when switching editor sections.
