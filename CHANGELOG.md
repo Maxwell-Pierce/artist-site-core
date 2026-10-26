@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.2
+
+Make Words a continuous cross-sentence timeline at a readable four-second zoom. Add a sentence boundary lane and clickable word chips in isolated Sentence practice. Preserve double-click targets by ignoring blur-only timing updates, capture line region double-clicks directly, and apply scroll after waveform redraw. Fix visualizer initialization after the preview canvas is attached.
+
 ## 1.4.1
 
 Resolve long source lyrics stored as Next.js Flight text references during playlist import, including UTF-8 byte lengths and split stream chunks. Stop exposing unresolved source tokens in Original transcript. Older catalogs fall back to preserved alignment text with an explicit source-availability notice.
