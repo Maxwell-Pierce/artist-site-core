@@ -1,5 +1,9 @@
 # Changes
 
+## 1.14.1
+
+Double-click rendered lyric text in the video preview to select its exact visible sentence, open Sentence mode and seek immediately to its start. Use the renderer’s word geometry for hit testing across wrapped text, ratios and preview scaling; background clicks remain unchanged.
+
 ## 1.14.0
 
 Add always-visible Start of track, Previous sentence, Next sentence and End of track controls beside Play. Navigate sentences chronologically in Lines/Words, retain focused sentence navigation and loop behaviour in Sentence mode, and pause/leave looping at exact track boundaries. Preserve all lyric timing and export settings.
