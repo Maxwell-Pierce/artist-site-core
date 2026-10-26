@@ -1,0 +1,194 @@
+[
+  {
+    "id": "orbitron",
+    "name": "Orbitron",
+    "group": "Tech",
+    "weight": 800,
+    "range": "400 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/orbitron"
+  },
+  {
+    "id": "exo2",
+    "name": "Exo 2",
+    "group": "Tech",
+    "weight": 800,
+    "range": "100 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/exo2"
+  },
+  {
+    "id": "rajdhani",
+    "name": "Rajdhani",
+    "group": "Tech",
+    "weight": 600,
+    "range": "600",
+    "source": "https://github.com/google/fonts/tree/main/ofl/rajdhani"
+  },
+  {
+    "id": "chakrapetch",
+    "name": "Chakra Petch",
+    "group": "Tech",
+    "weight": 600,
+    "range": "600",
+    "source": "https://github.com/google/fonts/tree/main/ofl/chakrapetch"
+  },
+  {
+    "id": "audiowide",
+    "name": "Audiowide",
+    "group": "Tech",
+    "weight": 400,
+    "range": "400",
+    "source": "https://github.com/google/fonts/tree/main/ofl/audiowide"
+  },
+  {
+    "id": "spacegrotesk",
+    "name": "Space Grotesk",
+    "group": "Tech",
+    "weight": 700,
+    "range": "300 700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/spacegrotesk"
+  },
+  {
+    "id": "spacemono",
+    "name": "Space Mono",
+    "group": "Tech",
+    "weight": 700,
+    "range": "700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/spacemono"
+  },
+  {
+    "id": "montserrat",
+    "name": "Montserrat",
+    "group": "Modern",
+    "weight": 800,
+    "range": "100 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/montserrat"
+  },
+  {
+    "id": "poppins",
+    "name": "Poppins",
+    "group": "Modern",
+    "weight": 800,
+    "range": "800",
+    "source": "https://github.com/google/fonts/tree/main/ofl/poppins"
+  },
+  {
+    "id": "outfit",
+    "name": "Outfit",
+    "group": "Modern",
+    "weight": 800,
+    "range": "100 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/outfit"
+  },
+  {
+    "id": "manrope",
+    "name": "Manrope",
+    "group": "Modern",
+    "weight": 800,
+    "range": "200 800",
+    "source": "https://github.com/google/fonts/tree/main/ofl/manrope"
+  },
+  {
+    "id": "sora",
+    "name": "Sora",
+    "group": "Modern",
+    "weight": 800,
+    "range": "100 800",
+    "source": "https://github.com/google/fonts/tree/main/ofl/sora"
+  },
+  {
+    "id": "bebasneue",
+    "name": "Bebas Neue",
+    "group": "Bold",
+    "weight": 400,
+    "range": "400",
+    "source": "https://github.com/google/fonts/tree/main/ofl/bebasneue"
+  },
+  {
+    "id": "anton",
+    "name": "Anton",
+    "group": "Bold",
+    "weight": 400,
+    "range": "400",
+    "source": "https://github.com/google/fonts/tree/main/ofl/anton"
+  },
+  {
+    "id": "oswald",
+    "name": "Oswald",
+    "group": "Bold",
+    "weight": 700,
+    "range": "200 700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/oswald"
+  },
+  {
+    "id": "barlowcondensed",
+    "name": "Barlow Condensed",
+    "group": "Bold",
+    "weight": 800,
+    "range": "800",
+    "source": "https://github.com/google/fonts/tree/main/ofl/barlowcondensed"
+  },
+  {
+    "id": "teko",
+    "name": "Teko",
+    "group": "Bold",
+    "weight": 700,
+    "range": "300 700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/teko"
+  },
+  {
+    "id": "playfairdisplay",
+    "name": "Playfair Display",
+    "group": "Elegant",
+    "weight": 800,
+    "range": "400 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/playfairdisplay"
+  },
+  {
+    "id": "cormorantgaramond",
+    "name": "Cormorant Garamond",
+    "group": "Elegant",
+    "weight": 700,
+    "range": "300 700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/cormorantgaramond"
+  },
+  {
+    "id": "cinzel",
+    "name": "Cinzel",
+    "group": "Elegant",
+    "weight": 800,
+    "range": "400 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/cinzel"
+  },
+  {
+    "id": "bodonimoda",
+    "name": "Bodoni Moda",
+    "group": "Elegant",
+    "weight": 800,
+    "range": "400 900",
+    "source": "https://github.com/google/fonts/tree/main/ofl/bodonimoda"
+  },
+  {
+    "id": "dancingscript",
+    "name": "Dancing Script",
+    "group": "Handwritten",
+    "weight": 700,
+    "range": "400 700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/dancingscript"
+  },
+  {
+    "id": "caveat",
+    "name": "Caveat",
+    "group": "Handwritten",
+    "weight": 700,
+    "range": "400 700",
+    "source": "https://github.com/google/fonts/tree/main/ofl/caveat"
+  },
+  {
+    "id": "kalam",
+    "name": "Kalam",
+    "group": "Handwritten",
+    "weight": 700,
+    "range": "700",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/kalam/Kalam-Bold.ttf"
+  }
+]

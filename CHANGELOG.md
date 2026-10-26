@@ -1,5 +1,9 @@
 # Changes
 
+## 1.15.0
+
+Add a visual lyric font gallery with 24 bundled Google Fonts, including Orbitron and Exo 2, alongside the existing three system presets. Include searchable specimen cards, style categories, a large lyric preview and selected-font state. Share cached local FontFace loading across cards, canvas and MP4; wait for the chosen face before export. Preserve legacy project font IDs and bundle original font licenses/provenance.
+
 ## 1.14.1
 
 Double-click rendered lyric text in the video preview to select its exact visible sentence, open Sentence mode and seek immediately to its start. Use the renderer’s word geometry for hit testing across wrapped text, ratios and preview scaling; background clicks remain unchanged.

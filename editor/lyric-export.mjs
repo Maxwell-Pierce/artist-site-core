@@ -1,3 +1,4 @@
+import {loadLyricFont} from './lyric-fonts.mjs';
 import {croppedAudio} from './export-audio.mjs';
 import {createAudioAnalysis} from './audio-visualizer.mjs';
 import {dimensions,drawLyricFrame} from './lyric-renderer.mjs';
@@ -6,6 +7,7 @@ export async function mp4Capabilities(project){const [width,height]=dimensions(p
  return {mode:null,label:'MP4 export requires HTTPS and browser H.264/AAC encoders. Use current Chrome/Edge on Windows or Safari on macOS. Timeline editing, SRT/VTT and project downloads remain available.'};}
 
 export async function renderMP4({project,edit,track,image,audioBuffer,signal,onProgress=()=>{}}){
+ await loadLyricFont(project.font);
  const capability=await mp4Capabilities(project);if(!capability.mode)throw Error(capability.label);const canvas=document.createElement('canvas');[canvas.width,canvas.height]=dimensions(project);const analysis=project.visualizers?.active&&project.visualizers.active!=='none'?createAudioAnalysis(audioBuffer):null;const buffer=croppedAudio(audioBuffer,project.in,project.out,project.audioFadeIn||0,project.audioFadeOut||0,project.audioFadeInCurve||'linear',project.audioFadeOutCurve||'linear');const length=buffer.duration;
  const {Output,Mp4OutputFormat,BufferTarget,CanvasSource,AudioBufferSource}=await import('./vendor/mediabunny.mjs');const target=new BufferTarget(),output=new Output({format:new Mp4OutputFormat({fastStart:'in-memory'}),target});const video=new CanvasSource(canvas,{codec:'avc',bitrate:project.resolution===1080?8e6:4e6,keyFrameInterval:2}),audio=new AudioBufferSource({codec:'aac',bitrate:192000});output.addVideoTrack(video,{frameRate:30});output.addAudioTrack(audio);output.setMetadataTags({title:track.title||'Lyric video',artist:track.artist||''});
  const cancel=()=>output.cancel().catch(()=>{});signal.addEventListener('abort',cancel,{once:true});
