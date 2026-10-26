@@ -10,8 +10,9 @@ class BuildTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    site=Path(tmp)/'site';site.mkdir();(site/'artist.json').write_text(json.dumps(config('A < B')));(site/'playlists.json').write_text('[]');(site/'lyrics').mkdir()
    original={'id':'sample','lines':[{'text':'hello world','start':1,'end':3,'words':[]}]}
-   (site/'lyrics/sample.json').write_text(json.dumps(original));(site/'lyrics/report.json').write_text('[]')
+   (site/'lyrics/sample.json').write_text(json.dumps(original));(site/'lyrics/report.json').write_text('[]');(site/'builder.json').write_text('{"enabled":true}')
    dest=build(site,Path(tmp)/'out');page=(dest/'index.html').read_text()
+   self.assertIn('Core '+(CORE/'VERSION').read_text().strip(),(dest/'admin/index.html').read_text())
    self.assertIn('A &lt; B',page);self.assertIn('id="artist-config"',page);self.assertNotIn('DiscoPrincess',page);self.assertNotIn('discoprincess-avatar',(dest/'app.js').read_text())
    self.assertEqual(json.loads((site/'lyrics/sample.json').read_text()),original)
    self.assertEqual(json.loads((dest/'lyrics/sample.json').read_text())['estimatedWords'],2)
