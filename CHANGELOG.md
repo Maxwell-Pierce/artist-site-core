@@ -1,5 +1,10 @@
 # Changes
 
+## 1.10.0
+
+Bundle Maxwell Pierce’s full HEAVNS - Moving Out Of Frame audio, original artwork, original transcript and editable timing data in the shared core. Default the token-free studio demo to the real music track, with local assets and isolated session edits. Retain the generated tone for tutorial exercises.
+
+
 ## 1.9.0
 
 Add graphical audio envelopes on the waveform with draggable fade-length diamonds and curve thumbnail selection (linear, slow, fast, S curve, equal power). Use the same gain functions in visual envelopes, stereo listening and MP4 exports; retain saved linear fades and optional exact values.

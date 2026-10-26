@@ -1,0 +1,495 @@
+{
+  "id": "94d913ab-b764-49e9-9e3b-145a3b1012a5",
+  "title": "HEAVNS - Moving Out Of Frame",
+  "artist": "Maxwell Pierce",
+  "audio": "./audio.ogg",
+  "artwork": "./artwork-original.png",
+  "duration": 245.7135625,
+  "tags": [],
+  "alignedLyrics": [
+    {
+      "end": 0.186,
+      "text": "[Intro]",
+      "start": 0
+    },
+    {
+      "end": 1.904,
+      "text": "i don't wanna be where you left me",
+      "start": 0.186
+    },
+    {
+      "end": 3.762,
+      "text": "i don't wanna be where you left me",
+      "start": 1.997
+    },
+    {
+      "end": 18.622,
+      "text": "[Verse1]",
+      "start": 3.762
+    },
+    {
+      "end": 21.316,
+      "text": "you keep a picture in your head",
+      "start": 18.622
+    },
+    {
+      "end": 24.427,
+      "text": "of everything i should have been",
+      "start": 22.291
+    },
+    {
+      "end": 28.514,
+      "text": "you paint the edges carefully",
+      "start": 26.006
+    },
+    {
+      "end": 31.904,
+      "text": "and leave out everything between",
+      "start": 29.722
+    },
+    {
+      "end": 36.362,
+      "text": "i used to fit inside the lines",
+      "start": 33.39
+    },
+    {
+      "end": 39.52,
+      "text": "i used to make it easy then",
+      "start": 37.105
+    },
+    {
+      "end": 43.189,
+      "text": "but every time you look at me",
+      "start": 40.774
+    },
+    {
+      "end": 46.672,
+      "text": "you're looking somewhere i have been",
+      "start": 44.443
+    },
+    {
+      "end": 48.39,
+      "text": "[PreChorus1]",
+      "start": 46.672
+    },
+    {
+      "end": 50.759,
+      "text": "i can feel it changing now",
+      "start": 48.39
+    },
+    {
+      "end": 54.381,
+      "text": "something pulling underneath",
+      "start": 51.966
+    },
+    {
+      "end": 58.561,
+      "text": "if you only want the old me",
+      "start": 55.774
+    },
+    {
+      "end": 61.533,
+      "text": "you can keep the memory",
+      "start": 59.443
+    },
+    {
+      "end": 62.09,
+      "text": "[Chorus1]",
+      "start": 61.533
+    },
+    {
+      "end": 64.319,
+      "text": "i'm moving out of frame tonight",
+      "start": 62.09
+    },
+    {
+      "end": 68.499,
+      "text": "you won't see me where i used to be",
+      "start": 65.898
+    },
+    {
+      "end": 71.61,
+      "text": "i'm stepping out into the light",
+      "start": 69.381
+    },
+    {
+      "end": 75.511,
+      "text": "somewhere you can't follow me",
+      "start": 73.607
+    },
+    {
+      "end": 79.087,
+      "text": "you can hold the picture tight",
+      "start": 76.997
+    },
+    {
+      "end": 83.035,
+      "text": "you can call it everything you need",
+      "start": 80.666
+    },
+    {
+      "end": 86.425,
+      "text": "i'm moving out of frame tonight",
+      "start": 84.242
+    },
+    {
+      "end": 90.372,
+      "text": "and finally i can breathe",
+      "start": 88.468
+    },
+    {
+      "end": 92.74,
+      "text": "[PostChorus1]",
+      "start": 90.372
+    },
+    {
+      "end": 93.623,
+      "text": "out of frame",
+      "start": 92.74
+    },
+    {
+      "end": 97.292,
+      "text": "out of frame",
+      "start": 96.409
+    },
+    {
+      "end": 100.496,
+      "text": "finally i can breathe",
+      "start": 98.685
+    },
+    {
+      "end": 107.276,
+      "text": "[Verse2]",
+      "start": 100.496
+    },
+    {
+      "end": 109.691,
+      "text": "you say you know the way i move",
+      "start": 107.276
+    },
+    {
+      "end": 113.267,
+      "text": "before i even make a sound",
+      "start": 110.899
+    },
+    {
+      "end": 117.261,
+      "text": "you think the ending stays the same",
+      "start": 114.614
+    },
+    {
+      "end": 120.604,
+      "text": "because you've seen me turn around",
+      "start": 118.329
+    },
+    {
+      "end": 124.32,
+      "text": "but i don't owe the past a thing",
+      "start": 121.998
+    },
+    {
+      "end": 127.942,
+      "text": "i don't belong to what we knew",
+      "start": 125.713
+    },
+    {
+      "end": 132.214,
+      "text": "and every door i wouldn't close",
+      "start": 129.382
+    },
+    {
+      "end": 135.326,
+      "text": "is getting easier to lose",
+      "start": 133.097
+    },
+    {
+      "end": 136.998,
+      "text": "[PreChorus2]",
+      "start": 135.326
+    },
+    {
+      "end": 141.177,
+      "text": "i can feel it opening",
+      "start": 136.998
+    },
+    {
+      "end": 142.06,
+      "text": "all the space you couldn't see",
+      "start": 140.574
+    },
+    {
+      "end": 146.982,
+      "text": "if you only know the old me",
+      "start": 142.153
+    },
+    {
+      "end": 150.14,
+      "text": "you don't really know me",
+      "start": 148.05
+    },
+    {
+      "end": 150.79,
+      "text": "[Chorus2]",
+      "start": 150.14
+    },
+    {
+      "end": 152.88,
+      "text": "i'm moving out of frame tonight",
+      "start": 150.79
+    },
+    {
+      "end": 157.013,
+      "text": "you won't find me where i used to be",
+      "start": 154.552
+    },
+    {
+      "end": 160.218,
+      "text": "i'm stepping further into light",
+      "start": 149.444
+    },
+    {
+      "end": 164.119,
+      "text": "somewhere you can't define me",
+      "start": 162.307
+    },
+    {
+      "end": 167.648,
+      "text": "you can hold the picture tight",
+      "start": 165.605
+    },
+    {
+      "end": 171.595,
+      "text": "you can make it anything you need",
+      "start": 169.32
+    },
+    {
+      "end": 175.032,
+      "text": "i'm moving out of frame tonight",
+      "start": 172.803
+    },
+    {
+      "end": 178.84,
+      "text": "and finally i feel free",
+      "start": 177.029
+    },
+    {
+      "end": 180.93,
+      "text": "[PostChorus2]",
+      "start": 180.651
+    },
+    {
+      "end": 183.205,
+      "text": "out of frame",
+      "start": 180.419
+    },
+    {
+      "end": 188.639,
+      "text": "out of frame",
+      "start": 183.205
+    },
+    {
+      "end": 187.06,
+      "text": "finally i feel free",
+      "start": 185.992
+    },
+    {
+      "end": 188.639,
+      "text": "[Breakdown]",
+      "start": 187.06
+    },
+    {
+      "end": 205.775,
+      "text": "maybe i was never lost",
+      "start": 188.639
+    },
+    {
+      "end": 220.868,
+      "text": "maybe i was standing still",
+      "start": 208.887
+    },
+    {
+      "end": 220.729,
+      "text": "waiting for somebody else",
+      "start": 212.091
+    },
+    {
+      "end": 220.729,
+      "text": "to tell me who i had to be",
+      "start": 220.729
+    },
+    {
+      "end": 220.729,
+      "text": "not anymore",
+      "start": 220.729
+    },
+    {
+      "end": 220.729,
+      "text": "[Build]",
+      "start": 220.729
+    },
+    {
+      "end": 220.822,
+      "text": "let it fall away",
+      "start": 211.998
+    },
+    {
+      "end": 220.264,
+      "text": "let it fall away",
+      "start": 142.756
+    },
+    {
+      "end": 212.973,
+      "text": "everything you thought you knew",
+      "start": 212.648
+    },
+    {
+      "end": 218.268,
+      "text": "let it fall away",
+      "start": 212.973
+    },
+    {
+      "end": 221.983,
+      "text": "let it fall away",
+      "start": 218.268
+    },
+    {
+      "end": 221.983,
+      "text": "i've got nothing left to prove",
+      "start": 221.983
+    },
+    {
+      "end": 221.983,
+      "text": "[PreChorus3]",
+      "start": 221.983
+    },
+    {
+      "end": 212.648,
+      "text": "i can feel it changing now",
+      "start": 212.602
+    },
+    {
+      "end": 214.599,
+      "text": "like the ground beneath my feet",
+      "start": 214.552
+    },
+    {
+      "end": 223.887,
+      "text": "you can keep the version of me",
+      "start": 222.54
+    },
+    {
+      "end": 223.887,
+      "text": "that you wanted me to be",
+      "start": 223.887
+    },
+    {
+      "end": 222.494,
+      "text": "[FinalChorus]",
+      "start": 219.707
+    },
+    {
+      "end": 214.552,
+      "text": "i'm moving out of frame tonight",
+      "start": 214.506
+    },
+    {
+      "end": 222.865,
+      "text": "you won't see me where i used to be",
+      "start": 214.552
+    },
+    {
+      "end": 229.831,
+      "text": "i'm stepping out into the light",
+      "start": 222.865
+    },
+    {
+      "end": 222.354,
+      "text": "and leaving nothing underneath",
+      "start": 220.172
+    },
+    {
+      "end": 222.633,
+      "text": "you can hold the picture tight",
+      "start": 214.46
+    },
+    {
+      "end": 219.521,
+      "text": "but it doesn't look like me",
+      "start": 218.732
+    },
+    {
+      "end": 230.063,
+      "text": "i'm moving out of frame tonight",
+      "start": 225.93
+    },
+    {
+      "end": 232.664,
+      "text": "finally, finally i'm free",
+      "start": 204.939
+    },
+    {
+      "end": 215.11,
+      "text": "[FinalDrop]",
+      "start": 213.02
+    },
+    {
+      "end": 229.785,
+      "text": "out of frame",
+      "start": 225.977
+    },
+    {
+      "end": 232.2,
+      "text": "out of frame",
+      "start": 229.692
+    },
+    {
+      "end": 233.035,
+      "text": "finally",
+      "start": 232.2
+    },
+    {
+      "end": 233.082,
+      "text": "out of frame",
+      "start": 233.035
+    },
+    {
+      "end": 231.921,
+      "text": "out of frame",
+      "start": 231.828
+    },
+    {
+      "end": 231.689,
+      "text": "i'm free",
+      "start": 231.642
+    },
+    {
+      "end": 231.689,
+      "text": "[Outro]",
+      "start": 231.689
+    },
+    {
+      "end": 231.689,
+      "text": "you can keep the memory",
+      "start": 231.689
+    },
+    {
+      "end": 231.689,
+      "text": "it doesn't look like me",
+      "start": 231.689
+    }
+  ],
+  "lyrics": "[Intro]\ni don't wanna be where you left me\ni don't wanna be where you left me\n\n[Verse1]\nyou keep a picture in your head\nof everything i should have been\nyou paint the edges carefully\nand leave out everything between\ni used to fit inside the lines\ni used to make it easy then\nbut every time you look at me\nyou're looking somewhere i have been\n\n[PreChorus1]\ni can feel it changing now\nsomething pulling underneath\nif you only want the old me\nyou can keep the memory\n\n[Chorus1]\ni'm moving out of frame tonight\nyou won't see me where i used to be\ni'm stepping out into the light\nsomewhere you can't follow me\nyou can hold the picture tight\nyou can call it everything you need\ni'm moving out of frame tonight\nand finally i can breathe\n\n[PostChorus1]\nout of frame\nout of frame\nfinally i can breathe\n\n[Verse2]\nyou say you know the way i move\nbefore i even make a sound\nyou think the ending stays the same\nbecause you've seen me turn around\nbut i don't owe the past a thing\ni don't belong to what we knew\nand every door i wouldn't close\nis getting easier to lose\n\n[PreChorus2]\ni can feel it opening\nall the space you couldn't see\nif you only know the old me\nyou don't really know me\n\n[Chorus2]\ni'm moving out of frame tonight\nyou won't find me where i used to be\ni'm stepping further into light\nsomewhere you can't define me\nyou can hold the picture tight\nyou can make it anything you need\ni'm moving out of frame tonight\nand finally i feel free\n\n[PostChorus2]\nout of frame\nout of frame\nfinally i feel free\n\n[Breakdown]\nmaybe i was never lost\nmaybe i was standing still\nwaiting for somebody else\nto tell me who i had to be\nnot anymore\n\n[Build]\nlet it fall away\nlet it fall away\neverything you thought you knew\nlet it fall away\nlet it fall away\ni've got nothing left to prove\n\n[PreChorus3]\ni can feel it changing now\nlike the ground beneath my feet\nyou can keep the version of me\nthat you wanted me to be\n\n[FinalChorus]\ni'm moving out of frame tonight\nyou won't see me where i used to be\ni'm stepping out into the light\nand leaving nothing underneath\nyou can hold the picture tight\nbut it doesn't look like me\ni'm moving out of frame tonight\nfinally, finally i'm free\n\n[FinalDrop]\nout of frame\nout of frame\nfinally\nout of frame\nout of frame\ni'm free\n\n[Outro]\nyou can keep the memory\nit doesn't look like me\n",
+  "likes": 23,
+  "plays": 148,
+  "comments": 4,
+  "url": "https://treblo.com/song/94d913ab-b764-49e9-9e3b-145a3b1012a5",
+  "demoProvenance": {
+    "catalogDuration": 246,
+    "sourceTrackID": "94d913ab-b764-49e9-9e3b-145a3b1012a5",
+    "sourceURL": "https://treblo.com/song/94d913ab-b764-49e9-9e3b-145a3b1012a5",
+    "audioURL": "https://cdn.treblo.com/generations3/audio_970d06a6-5d75-40ac-8a4d-13b0b7c354a9_0.ogg",
+    "artworkURL": "https://scdn.treblo.com/images/uploadart-62bee868-9798-4e2a-b358-334df2a2885a.png",
+    "audioSHA256": "2c2e752ab917e17d26c28a68fc7c5917530b1b385dc9006733bd461f32cf09a6",
+    "artworkSHA256": "b7ba1175111e48d758e1aa8576fa1ae8814a7b9a6b9e12feedcd04e2c489cb0b"
+  }
+}

@@ -1,0 +1,3544 @@
+{
+  "id": "94d913ab-b764-49e9-9e3b-145a3b1012a5",
+  "language": "en",
+  "source": "treblo",
+  "alignment": "word",
+  "lines": [
+    {
+      "text": "i don't wanna be where you left me",
+      "originalText": "i don't wanna be where you left me",
+      "start": 0.186,
+      "end": 2.252,
+      "words": [
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "don't",
+          "start": 0.28,
+          "end": 0.46,
+          "score": 0.9329270422458649,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "wanna",
+          "start": 0.46,
+          "end": 0.56,
+          "score": 0.511604905128479,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "be",
+          "start": 0.56,
+          "end": 0.78,
+          "score": 0.983319103717804,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "where",
+          "start": 0.78,
+          "end": 1.02,
+          "score": 0.37285229563713074,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "you",
+          "start": 1.02,
+          "end": 1.18,
+          "score": 0.9390244483947754,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "left",
+          "start": 1.18,
+          "end": 1.4,
+          "score": 0.9938153028488159,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 1.4,
+          "end": 1.7,
+          "score": 0.9988658428192139,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i don't wanna be where you left me",
+      "originalText": "i don't wanna be where you left me",
+      "start": 1.997,
+      "end": 3.762,
+      "words": [
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "don't",
+          "start": 2.097,
+          "end": 2.277,
+          "score": 0.8805763423442841,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "wanna",
+          "start": 2.277,
+          "end": 2.417,
+          "score": 0.4444962739944458,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "be",
+          "start": 2.417,
+          "end": 2.637,
+          "score": 0.9916563034057617,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "where",
+          "start": 2.637,
+          "end": 2.897,
+          "score": 0.9222619533538818,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "you",
+          "start": 2.897,
+          "end": 3.037,
+          "score": 0.9511452317237854,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "left",
+          "start": 3.037,
+          "end": 3.257,
+          "score": 0.9975080490112305,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 3.257,
+          "end": 3.557,
+          "score": 0.9989013671875,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you keep a picture in your head",
+      "originalText": "you keep a picture in your head",
+      "start": 18.614,
+      "end": 21.316,
+      "words": [
+        {
+          "text": "you",
+          "start": 18.614,
+          "end": 18.714,
+          "score": 0.665
+        },
+        {
+          "text": "keep",
+          "start": 18.834,
+          "end": 19.055,
+          "score": 0.979
+        },
+        {
+          "text": "a",
+          "start": 19.074,
+          "end": 19.254,
+          "score": 0.9817928671836853,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "picture",
+          "start": 19.254,
+          "end": 19.634,
+          "score": 0.9864946603775024,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "in",
+          "start": 19.634,
+          "end": 20.394,
+          "score": 0.986404538154602,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "your",
+          "start": 20.394,
+          "end": 20.694,
+          "score": 0.9919712543487549,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "head",
+          "start": 20.694,
+          "end": 21.214,
+          "score": 0.965268611907959,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "of everything i should have been",
+      "originalText": "of everything i should have been",
+      "start": 22.291,
+      "end": 24.427,
+      "words": [
+        {
+          "text": "of",
+          "start": 22.444,
+          "end": 22.504,
+          "score": 0.806
+        },
+        {
+          "text": "everything",
+          "start": 22.665,
+          "end": 23.248,
+          "score": 0.946
+        },
+        {
+          "text": "i",
+          "start": 23.469,
+          "end": 23.489,
+          "score": 0.995
+        },
+        {
+          "text": "should",
+          "start": 23.65,
+          "end": 23.911,
+          "score": 0.981
+        },
+        {
+          "text": "have",
+          "start": 23.972,
+          "end": 24.092,
+          "score": 0.594
+        },
+        {
+          "text": "been",
+          "start": 24.152,
+          "end": 24.353,
+          "score": 0.358
+        }
+      ]
+    },
+    {
+      "text": "paint the edges carefully",
+      "originalText": "you paint the edges carefully",
+      "start": 26.006,
+      "end": 28.514,
+      "words": [
+        {
+          "text": "paint",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 26.366,
+          "end": 26.706,
+          "score": 0.9714898467063904,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "edges",
+          "start": 26.706,
+          "end": 27.046,
+          "score": 0.9962989687919617,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "carefully",
+          "start": 27.046,
+          "end": 27.966,
+          "score": 0.9687169194221497,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "and leave out everything between",
+      "originalText": "and leave out everything between",
+      "start": 29.222,
+      "end": 31.904,
+      "words": [
+        {
+          "text": "and",
+          "start": 29.222,
+          "end": 29.882,
+          "score": 0.16172941029071808,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "leave",
+          "start": 29.882,
+          "end": 30.162,
+          "score": 0.9733425974845886,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": 30.162,
+          "end": 30.422,
+          "score": 0.9627235531806946,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "everything",
+          "start": 30.422,
+          "end": 31.162,
+          "score": 0.9891373515129089,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "between",
+          "start": 31.162,
+          "end": 31.582,
+          "score": 0.9778470993041992,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i used to fit inside the lines",
+      "originalText": "i used to fit inside the lines",
+      "start": 33.39,
+      "end": 36.362,
+      "words": [
+        {
+          "text": "i",
+          "start": 33.522,
+          "end": 33.542,
+          "score": 0.9
+        },
+        {
+          "text": "used",
+          "start": 33.59,
+          "end": 33.83,
+          "score": 0.9871152639389038,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "to",
+          "start": 33.83,
+          "end": 34.07,
+          "score": 0.9984545707702637,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "fit",
+          "start": 34.07,
+          "end": 34.25,
+          "score": 0.9786888957023621,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "inside",
+          "start": 34.25,
+          "end": 34.85,
+          "score": 0.9921074509620667,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 34.85,
+          "end": 35.43,
+          "score": 0.9918491840362549,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "lines",
+          "start": 35.43,
+          "end": 35.97,
+          "score": 0.8786622881889343,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i used to make it easy then",
+      "originalText": "i used to make it easy then",
+      "start": 37.105,
+      "end": 39.52,
+      "words": [
+        {
+          "text": "i",
+          "start": 37.197,
+          "end": 37.217,
+          "score": 0.998
+        },
+        {
+          "text": "used",
+          "start": 37.378,
+          "end": 37.559,
+          "score": 0.961
+        },
+        {
+          "text": "to",
+          "start": 37.599,
+          "end": 37.679,
+          "score": 1.0
+        },
+        {
+          "text": "make",
+          "start": 37.8,
+          "end": 38.001,
+          "score": 0.995
+        },
+        {
+          "text": "it",
+          "start": 38.222,
+          "end": 38.282,
+          "score": 0.533
+        },
+        {
+          "text": "easy",
+          "start": 38.704,
+          "end": 39.045,
+          "score": 0.963
+        },
+        {
+          "text": "then",
+          "start": 39.166,
+          "end": 39.427,
+          "score": 0.906
+        }
+      ]
+    },
+    {
+      "text": "but every time you look at me",
+      "originalText": "but every time you look at me",
+      "start": 40.774,
+      "end": 43.189,
+      "words": [
+        {
+          "text": "but",
+          "start": 40.786,
+          "end": 40.927,
+          "score": 0.932
+        },
+        {
+          "text": "every",
+          "start": 41.127,
+          "end": 41.368,
+          "score": 0.987
+        },
+        {
+          "text": "time",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "you",
+          "start": 41.754,
+          "end": 42.074,
+          "score": 0.9887978434562683,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "look",
+          "start": 42.074,
+          "end": 42.394,
+          "score": 0.9955484867095947,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "at",
+          "start": 42.394,
+          "end": 42.634,
+          "score": 0.9250636100769043,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 42.634,
+          "end": 42.914,
+          "score": 0.9993401169776917,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you're looking somewhere i have been",
+      "originalText": "you're looking somewhere i have been",
+      "start": 44.443,
+      "end": 46.672,
+      "words": [
+        {
+          "text": "you're",
+          "start": 44.454,
+          "end": 44.655,
+          "score": 0.429
+        },
+        {
+          "text": "looking",
+          "start": 44.683,
+          "end": 44.943,
+          "score": 0.9681582450866699,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "somewhere",
+          "start": 44.943,
+          "end": 45.523,
+          "score": 0.9807414412498474,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": 46.018,
+          "end": 46.039,
+          "score": 0.854
+        },
+        {
+          "text": "have",
+          "start": 46.139,
+          "end": 46.259,
+          "score": 0.615
+        },
+        {
+          "text": "been",
+          "start": 46.343,
+          "end": 46.603,
+          "score": 0.983020007610321,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i can feel it changing now",
+      "originalText": "i can feel it changing now",
+      "start": 48.39,
+      "end": 50.759,
+      "words": [
+        {
+          "text": "i",
+          "start": 48.501,
+          "end": 48.522,
+          "score": 0.829
+        },
+        {
+          "text": "can",
+          "start": 48.55,
+          "end": 48.75,
+          "score": 0.2900144159793854,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "feel",
+          "start": 48.75,
+          "end": 49.15,
+          "score": 0.9577202796936035,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "it",
+          "start": 49.15,
+          "end": 49.39,
+          "score": 0.9637345671653748,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "changing",
+          "start": 49.39,
+          "end": 50.03,
+          "score": 0.8685731291770935,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "now",
+          "start": 50.03,
+          "end": 50.63,
+          "score": 0.9772883057594299,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "something pulling underneath",
+      "originalText": "something pulling underneath",
+      "start": 51.966,
+      "end": 54.381,
+      "words": [
+        {
+          "text": "something",
+          "start": 52.078,
+          "end": 52.5,
+          "score": 0.823
+        },
+        {
+          "text": "pulling",
+          "start": 52.581,
+          "end": 53.163,
+          "score": 0.162
+        },
+        {
+          "text": "underneath",
+          "start": 53.484,
+          "end": 54.268,
+          "score": 0.402
+        }
+      ]
+    },
+    {
+      "text": "if you only want the old me",
+      "originalText": "if you only want the old me",
+      "start": 55.774,
+      "end": 58.561,
+      "words": [
+        {
+          "text": "if",
+          "start": 55.825,
+          "end": 55.865,
+          "score": 0.664
+        },
+        {
+          "text": "you",
+          "start": 55.994,
+          "end": 56.194,
+          "score": 0.9736303091049194,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "only",
+          "start": 56.194,
+          "end": 56.774,
+          "score": 0.9829006791114807,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "want",
+          "start": 56.774,
+          "end": 57.314,
+          "score": 0.9236260056495667,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 57.314,
+          "end": 57.654,
+          "score": 0.9236811399459839,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "old",
+          "start": 57.654,
+          "end": 57.934,
+          "score": 0.22639019787311554,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 57.934,
+          "end": 58.334,
+          "score": 0.9920964241027832,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you can keep the memory",
+      "originalText": "you can keep the memory",
+      "start": 59.443,
+      "end": 61.533,
+      "words": [
+        {
+          "text": "you",
+          "start": 59.475,
+          "end": 59.575,
+          "score": 0.99
+        },
+        {
+          "text": "can",
+          "start": 59.583,
+          "end": 59.843,
+          "score": 0.9157002568244934,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "keep",
+          "start": 59.843,
+          "end": 60.263,
+          "score": 0.9397265315055847,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 60.263,
+          "end": 60.563,
+          "score": 0.8931980729103088,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "memory",
+          "start": 60.563,
+          "end": 61.283,
+          "score": 0.894388735294342,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i'm moving out of frame tonight",
+      "originalText": "i'm moving out of frame tonight",
+      "start": 61.59,
+      "end": 64.319,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 61.59,
+          "end": 62.25,
+          "score": 0.4856786704622209,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "moving",
+          "start": 62.25,
+          "end": 62.57,
+          "score": 0.9449394941329956,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "of",
+          "start": 63.07,
+          "end": 63.41,
+          "score": 0.748891294002533,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "tonight",
+          "start": 63.61,
+          "end": 64.07,
+          "score": 0.9908503890037537,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you won't see me where i used to be",
+      "originalText": "you won't see me where i used to be",
+      "start": 65.898,
+      "end": 68.499,
+      "words": [
+        {
+          "text": "you",
+          "start": 65.931,
+          "end": 66.031,
+          "score": 0.812
+        },
+        {
+          "text": "won't",
+          "start": 66.058,
+          "end": 66.418,
+          "score": 0.9524597823619843,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "see",
+          "start": 66.418,
+          "end": 66.578,
+          "score": 0.9489270448684692,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 66.578,
+          "end": 66.758,
+          "score": 0.9971396923065186,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "where",
+          "start": 66.758,
+          "end": 67.078,
+          "score": 0.9420136213302612,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "used",
+          "start": 67.358,
+          "end": 67.658,
+          "score": 0.9839969277381897,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "to",
+          "start": 67.658,
+          "end": 68.018,
+          "score": 0.9983958601951599,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "be",
+          "start": 68.018,
+          "end": 68.418,
+          "score": 0.9987873435020447,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i'm stepping out into the light",
+      "originalText": "i'm stepping out into the light",
+      "start": 68.881,
+      "end": 71.61,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 68.881,
+          "end": 69.541,
+          "score": 0.48250760696828365,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "stepping",
+          "start": 69.541,
+          "end": 69.881,
+          "score": 0.9346657395362854,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": 69.881,
+          "end": 70.521,
+          "score": 0.9807908535003662,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "into",
+          "start": 70.521,
+          "end": 70.861,
+          "score": 0.9888737201690674,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 70.861,
+          "end": 71.121,
+          "score": 0.993482768535614,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "light",
+          "start": 71.121,
+          "end": 71.521,
+          "score": 0.940076470375061,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "somewhere you can't follow me",
+      "originalText": "somewhere you can't follow me",
+      "start": 73.607,
+      "end": 75.511,
+      "words": [
+        {
+          "text": "somewhere",
+          "start": 73.762,
+          "end": 74.205,
+          "score": 0.322
+        },
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "can't",
+          "start": 74.347,
+          "end": 74.767,
+          "score": 0.7243991643190384,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "follow",
+          "start": 74.767,
+          "end": 75.007,
+          "score": 0.9909633994102478,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 75.007,
+          "end": 75.387,
+          "score": 0.9989443421363831,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you can hold the picture tight",
+      "originalText": "you can hold the picture tight",
+      "start": 76.997,
+      "end": 79.087,
+      "words": [
+        {
+          "text": "you",
+          "start": 77.029,
+          "end": 77.109,
+          "score": 0.823
+        },
+        {
+          "text": "can",
+          "start": 77.117,
+          "end": 77.357,
+          "score": 0.22988669574260712,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "hold",
+          "start": 77.357,
+          "end": 77.877,
+          "score": 0.9652508497238159,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 77.877,
+          "end": 78.157,
+          "score": 0.8558602333068848,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "picture",
+          "start": 78.157,
+          "end": 78.437,
+          "score": 0.7446987628936768,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "tight",
+          "start": 78.437,
+          "end": 78.917,
+          "score": 0.5811382532119751,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you can call it everything you need",
+      "originalText": "you can call it everything you need",
+      "start": 80.666,
+      "end": 83.035,
+      "words": [
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "can",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "call",
+          "start": 81.026,
+          "end": 81.426,
+          "score": 0.9726889729499817,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "it",
+          "start": 81.426,
+          "end": 81.646,
+          "score": 0.8913037776947021,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "everything",
+          "start": 81.646,
+          "end": 82.166,
+          "score": 0.9473159909248352,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "you",
+          "start": 82.166,
+          "end": 82.526,
+          "score": 0.9835324287414551,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "need",
+          "start": 82.526,
+          "end": 82.846,
+          "score": 0.9948484897613525,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i'm moving out of frame tonight",
+      "originalText": "i'm moving out of frame tonight",
+      "start": 83.742,
+      "end": 86.451,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 83.742,
+          "end": 84.382,
+          "score": 0.48870901204645634,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "moving",
+          "start": 84.382,
+          "end": 84.762,
+          "score": 0.9117580652236938,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": 84.762,
+          "end": 85.202,
+          "score": 0.9824568033218384,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": 85.202,
+          "end": 85.502,
+          "score": 0.9509243965148926,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "tonight",
+          "start": 85.742,
+          "end": 86.182,
+          "score": 0.9957605004310608,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "and finally i can breathe",
+      "originalText": "and finally i can breathe",
+      "start": 88.468,
+      "end": 90.372,
+      "words": [
+        {
+          "text": "and",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "finally",
+          "start": 88.848,
+          "end": 89.148,
+          "score": 0.7561495900154114,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "can",
+          "start": 89.528,
+          "end": 89.788,
+          "score": 0.7111943364143372,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "breathe",
+          "start": 89.788,
+          "end": 90.228,
+          "score": 0.9223310947418213,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 92.74,
+      "end": 93.623,
+      "words": [
+        {
+          "text": "out",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": 92.96,
+          "end": 93.16,
+          "score": 0.8500346541404724,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 96.409,
+      "end": 97.292,
+      "words": [
+        {
+          "text": "out",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": 96.669,
+          "end": 96.809,
+          "score": 0.6946929693222046,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "finally i can breathe",
+      "originalText": "finally i can breathe",
+      "start": 98.685,
+      "end": 100.505,
+      "words": [
+        {
+          "text": "finally",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "can",
+          "start": 99.845,
+          "end": 100.105,
+          "score": 0.6781615614891052,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "breathe",
+          "start": 100.105,
+          "end": 100.505,
+          "score": 0.2128339558839798,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you say you know the way i move",
+      "originalText": "you say you know the way i move",
+      "start": 107.276,
+      "end": 109.691,
+      "words": [
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "say",
+          "start": 107.469,
+          "end": 107.71,
+          "score": 0.907
+        },
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "know",
+          "start": 107.936,
+          "end": 108.236,
+          "score": 0.9469614624977112,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 108.236,
+          "end": 108.536,
+          "score": 0.9027495384216309,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "way",
+          "start": 108.536,
+          "end": 108.916,
+          "score": 0.9969479441642761,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "move",
+          "start": 109.116,
+          "end": 109.556,
+          "score": 0.8080556988716125,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "before i even make a sound",
+      "originalText": "before i even make a sound",
+      "start": 110.399,
+      "end": 113.267,
+      "words": [
+        {
+          "text": "before",
+          "start": 110.399,
+          "end": 111.199,
+          "score": 0.33525213599205017,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "even",
+          "start": 111.619,
+          "end": 111.999,
+          "score": 0.95502769947052,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "make",
+          "start": 111.999,
+          "end": 112.579,
+          "score": 0.9740395545959473,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "a",
+          "start": 112.579,
+          "end": 112.719,
+          "score": 0.9798243045806885,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "sound",
+          "start": 112.794,
+          "end": 113.195,
+          "score": 0.379
+        }
+      ]
+    },
+    {
+      "text": "you think the ending stays the same",
+      "originalText": "you think the ending stays the same",
+      "start": 114.614,
+      "end": 117.261,
+      "words": [
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "think",
+          "start": 114.734,
+          "end": 114.994,
+          "score": 0.8791778087615967,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 114.994,
+          "end": 115.314,
+          "score": 0.9860675930976868,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "ending",
+          "start": 115.314,
+          "end": 115.614,
+          "score": 0.8117406368255615,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "stays",
+          "start": 116.027,
+          "end": 116.468,
+          "score": 0.493
+        },
+        {
+          "text": "the",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "same",
+          "start": 116.694,
+          "end": 117.114,
+          "score": 0.9986392855644226,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "because you've seen me turn around",
+      "originalText": "because you've seen me turn around",
+      "start": 118.329,
+      "end": 120.604,
+      "words": [
+        {
+          "text": "because",
+          "start": 118.341,
+          "end": 118.743,
+          "score": 0.583
+        },
+        {
+          "text": "you've",
+          "start": 118.803,
+          "end": 118.984,
+          "score": 0.495
+        },
+        {
+          "text": "seen",
+          "start": 119.024,
+          "end": 119.225,
+          "score": 0.494
+        },
+        {
+          "text": "me",
+          "start": 119.346,
+          "end": 119.466,
+          "score": 0.996
+        },
+        {
+          "text": "turn",
+          "start": 119.707,
+          "end": 119.968,
+          "score": 0.324
+        },
+        {
+          "text": "around",
+          "start": 120.049,
+          "end": 120.491,
+          "score": 0.272
+        }
+      ]
+    },
+    {
+      "text": "but i don't owe the past a thing",
+      "originalText": "but i don't owe the past a thing",
+      "start": 121.998,
+      "end": 124.32,
+      "words": [
+        {
+          "text": "but",
+          "start": 122.051,
+          "end": 122.152,
+          "score": 0.891
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "don't",
+          "start": 122.418,
+          "end": 122.718,
+          "score": 0.893310546875,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "owe",
+          "start": 122.718,
+          "end": 122.998,
+          "score": 0.545598030090332,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 122.998,
+          "end": 123.258,
+          "score": 0.9863440990447998,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "past",
+          "start": 123.258,
+          "end": 123.738,
+          "score": 0.9364386200904846,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "a",
+          "start": 123.738,
+          "end": 123.918,
+          "score": 0.9776752591133118,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "thing",
+          "start": 123.918,
+          "end": 124.218,
+          "score": 0.9930070638656616,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i don't belong to what we knew",
+      "originalText": "i don't belong to what we knew",
+      "start": 125.713,
+      "end": 127.942,
+      "words": [
+        {
+          "text": "i",
+          "start": 125.784,
+          "end": 125.804,
+          "score": 0.246
+        },
+        {
+          "text": "don't",
+          "start": 125.813,
+          "end": 126.173,
+          "score": 0.9355525374412537,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "belong",
+          "start": 126.173,
+          "end": 126.573,
+          "score": 0.9963016510009766,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "to",
+          "start": 126.573,
+          "end": 126.993,
+          "score": 0.9926486611366272,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "what",
+          "start": 126.993,
+          "end": 127.293,
+          "score": 0.7763321995735168,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "we",
+          "start": 127.293,
+          "end": 127.493,
+          "score": 0.9730353951454163,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "knew",
+          "start": 127.493,
+          "end": 127.853,
+          "score": 0.9484219551086426,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "and every door i wouldn't close",
+      "originalText": "and every door i wouldn't close",
+      "start": 129.382,
+      "end": 132.214,
+      "words": [
+        {
+          "text": "and",
+          "start": 129.474,
+          "end": 129.534,
+          "score": 0.967
+        },
+        {
+          "text": "every",
+          "start": 129.734,
+          "end": 129.995,
+          "score": 0.97
+        },
+        {
+          "text": "door",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "wouldn't",
+          "start": 130.722,
+          "end": 131.162,
+          "score": 0.5418452881276608,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "close",
+          "start": 131.162,
+          "end": 131.562,
+          "score": 0.9962132573127747,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "is getting easier to lose",
+      "originalText": "is getting easier to lose",
+      "start": 133.097,
+      "end": 135.326,
+      "words": [
+        {
+          "text": "is",
+          "start": 133.128,
+          "end": 133.249,
+          "score": 0.753
+        },
+        {
+          "text": "getting",
+          "start": 133.257,
+          "end": 133.577,
+          "score": 0.9388039708137512,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "easier",
+          "start": 133.577,
+          "end": 134.477,
+          "score": 0.9814690351486206,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "to",
+          "start": 134.477,
+          "end": 134.837,
+          "score": 0.9651409983634949,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "lose",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "i can feel it opening",
+      "originalText": "i can feel it opening",
+      "start": 136.998,
+      "end": 141.177,
+      "words": [
+        {
+          "text": "i",
+          "start": 137.09,
+          "end": 137.11,
+          "score": 0.313
+        },
+        {
+          "text": "can",
+          "start": 137.138,
+          "end": 137.378,
+          "score": 0.9173657298088074,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "feel",
+          "start": 137.378,
+          "end": 137.738,
+          "score": 0.9666941165924072,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "it",
+          "start": 137.738,
+          "end": 137.998,
+          "score": 0.967066764831543,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "opening",
+          "start": 140.783,
+          "end": 141.104,
+          "score": 0.678
+        }
+      ]
+    },
+    {
+      "text": "all the space you couldn't see",
+      "originalText": "all the space you couldn't see",
+      "start": 140.574,
+      "end": 142.914,
+      "words": [
+        {
+          "text": "all",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "the",
+          "start": 140.926,
+          "end": 141.026,
+          "score": 0.589
+        },
+        {
+          "text": "space",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "couldn't",
+          "start": 142.074,
+          "end": 142.914,
+          "score": 0.500212520477362,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "see",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "if you only know the old me",
+      "originalText": "if you only know the old me",
+      "start": 142.153,
+      "end": 146.982,
+      "words": [
+        {
+          "text": "if",
+          "start": 142.424,
+          "end": 144.487,
+          "score": 0.314
+        },
+        {
+          "text": "you",
+          "start": 144.607,
+          "end": 144.748,
+          "score": 0.414
+        },
+        {
+          "text": "only",
+          "start": 145.008,
+          "end": 145.148,
+          "score": 0.205
+        },
+        {
+          "text": "know",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "the",
+          "start": 146.03,
+          "end": 146.13,
+          "score": 0.529
+        },
+        {
+          "text": "old",
+          "start": 146.41,
+          "end": 146.55,
+          "score": 0.734
+        },
+        {
+          "text": "me",
+          "start": 146.731,
+          "end": 146.951,
+          "score": 0.777
+        }
+      ]
+    },
+    {
+      "text": "you don't really know me",
+      "originalText": "you don't really know me",
+      "start": 147.55,
+      "end": 150.14,
+      "words": [
+        {
+          "text": "you",
+          "start": 147.55,
+          "end": 148.21,
+          "score": 0.2576140761375427,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "don't",
+          "start": 148.21,
+          "end": 148.57,
+          "score": 0.49856252403697,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "really",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "know",
+          "start": 148.81,
+          "end": 149.07,
+          "score": 0.26532697677612305,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 149.747,
+          "end": 149.987,
+          "score": 0.165
+        }
+      ]
+    },
+    {
+      "text": "i'm stepping further into light",
+      "originalText": "i'm stepping further into light",
+      "start": 149.444,
+      "end": 160.227,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 149.915,
+          "end": 150.876,
+          "score": 0.394
+        },
+        {
+          "text": "stepping",
+          "start": 151.537,
+          "end": 155.281,
+          "score": 0.302
+        },
+        {
+          "text": "further",
+          "start": 156.663,
+          "end": 158.405,
+          "score": 0.197
+        },
+        {
+          "text": "into",
+          "start": 158.625,
+          "end": 159.546,
+          "score": 0.384
+        },
+        {
+          "text": "light",
+          "start": 159.807,
+          "end": 160.227,
+          "score": 0.248
+        }
+      ]
+    },
+    {
+      "text": "i'm moving out of frame tonight",
+      "originalText": "i'm moving out of frame tonight",
+      "start": 150.29,
+      "end": 152.88,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 150.29,
+          "end": 150.81,
+          "score": 0.4801470898091793,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "moving",
+          "start": 150.81,
+          "end": 151.19,
+          "score": 0.7714390158653259,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": 151.19,
+          "end": 151.67,
+          "score": 0.6240734457969666,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": 151.67,
+          "end": 151.99,
+          "score": 0.9418360590934753,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": 151.99,
+          "end": 152.21,
+          "score": 0.8419853448867798,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "tonight",
+          "start": 152.21,
+          "end": 152.51,
+          "score": 0.9206721782684326,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you won't find me where i used to be",
+      "originalText": "you won't find me where i used to be",
+      "start": 154.545,
+      "end": 157.013,
+      "words": [
+        {
+          "text": "you",
+          "start": 154.545,
+          "end": 154.645,
+          "score": 0.875
+        },
+        {
+          "text": "won't",
+          "start": 154.665,
+          "end": 155.045,
+          "score": 0.927121639251709,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "find",
+          "start": 155.048,
+          "end": 155.269,
+          "score": 0.449
+        },
+        {
+          "text": "me",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "where",
+          "start": 155.365,
+          "end": 155.685,
+          "score": 0.8803746104240417,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "used",
+          "start": 155.945,
+          "end": 156.345,
+          "score": 0.9718403220176697,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "to",
+          "start": 156.345,
+          "end": 156.585,
+          "score": 0.9977887868881226,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "be",
+          "start": 156.585,
+          "end": 156.905,
+          "score": 0.9822037220001221,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "somewhere you can't define me",
+      "originalText": "somewhere you can't define me",
+      "start": 162.307,
+      "end": 164.119,
+      "words": [
+        {
+          "text": "somewhere",
+          "start": 162.379,
+          "end": 162.861,
+          "score": 0.488
+        },
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "can't",
+          "start": 162.967,
+          "end": 163.387,
+          "score": 0.8486648201942444,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "define",
+          "start": 163.624,
+          "end": 163.966,
+          "score": 0.185
+        },
+        {
+          "text": "me",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you can hold the picture tight",
+      "originalText": "you can hold the picture tight",
+      "start": 165.605,
+      "end": 167.648,
+      "words": [
+        {
+          "text": "you",
+          "start": 165.639,
+          "end": 165.719,
+          "score": 0.482
+        },
+        {
+          "text": "can",
+          "start": 165.745,
+          "end": 165.965,
+          "score": 0.48425376415252686,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "hold",
+          "start": 165.965,
+          "end": 166.405,
+          "score": 0.9314843416213989,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 166.405,
+          "end": 166.745,
+          "score": 0.8881678581237793,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "picture",
+          "start": 166.745,
+          "end": 167.085,
+          "score": 0.9686628580093384,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "tight",
+          "start": 167.085,
+          "end": 167.505,
+          "score": 0.81825190782547,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "you can make it anything you need",
+      "originalText": "you can make it anything you need",
+      "start": 168.82,
+      "end": 171.595,
+      "words": [
+        {
+          "text": "you",
+          "start": 168.82,
+          "end": 169.44,
+          "score": 0.15353518724441528,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "can",
+          "start": 169.44,
+          "end": 169.66,
+          "score": 0.899109423160553,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "make",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "it",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "anything",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "you",
+          "start": 170.76,
+          "end": 171.18,
+          "score": 0.8107948303222656,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "need",
+          "start": 171.18,
+          "end": 171.52,
+          "score": 0.8755955100059509,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i'm moving out of frame tonight",
+      "originalText": "i'm moving out of frame tonight",
+      "start": 172.303,
+      "end": 175.032,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 172.303,
+          "end": 172.963,
+          "score": 0.4877157914452255,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "moving",
+          "start": 172.963,
+          "end": 173.383,
+          "score": 0.9441954493522644,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": 173.383,
+          "end": 173.803,
+          "score": 0.961884617805481,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": 173.803,
+          "end": 174.163,
+          "score": 0.8796159625053406,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "tonight",
+          "start": 174.363,
+          "end": 174.863,
+          "score": 0.9937752485275269,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "and finally i feel free",
+      "originalText": "and finally i feel free",
+      "start": 177.029,
+      "end": 178.869,
+      "words": [
+        {
+          "text": "and",
+          "start": 177.342,
+          "end": 177.402,
+          "score": 0.166
+        },
+        {
+          "text": "finally",
+          "start": 177.429,
+          "end": 177.689,
+          "score": 0.904513955116272,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "feel",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "free",
+          "start": 178.469,
+          "end": 178.869,
+          "score": 0.9037932753562927,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 180.419,
+      "end": 183.205,
+      "words": [
+        {
+          "text": "out",
+          "start": 180.45,
+          "end": 180.55,
+          "score": 0.377
+        },
+        {
+          "text": "of",
+          "start": 182.419,
+          "end": 182.579,
+          "score": 0.9541046023368835,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": 182.579,
+          "end": 182.839,
+          "score": 0.8621333837509155,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 183.205,
+      "end": 188.908,
+      "words": [
+        {
+          "text": "out",
+          "start": 186.102,
+          "end": 187.024,
+          "score": 0.235
+        },
+        {
+          "text": "of",
+          "start": 188.267,
+          "end": 188.507,
+          "score": 0.293
+        },
+        {
+          "text": "frame",
+          "start": 188.628,
+          "end": 188.908,
+          "score": 0.412
+        }
+      ]
+    },
+    {
+      "text": "finally i feel free",
+      "originalText": "finally i feel free",
+      "start": 185.992,
+      "end": 187.06,
+      "words": [
+        {
+          "text": "finally",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "i",
+          "start": 186.305,
+          "end": 186.325,
+          "score": 0.4
+        },
+        {
+          "text": "feel",
+          "start": 186.445,
+          "end": 186.626,
+          "score": 0.185
+        },
+        {
+          "text": "free",
+          "start": 186.726,
+          "end": 186.947,
+          "score": 0.506
+        }
+      ]
+    },
+    {
+      "text": "maybe i was never lost",
+      "originalText": "maybe i was never lost",
+      "start": 188.609,
+      "end": 205.775,
+      "words": [
+        {
+          "text": "maybe",
+          "start": 188.609,
+          "end": 190.151,
+          "score": 0.216
+        },
+        {
+          "text": "i",
+          "start": 190.751,
+          "end": 190.771,
+          "score": 0.194
+        },
+        {
+          "text": "was",
+          "start": 193.794,
+          "end": 200.98,
+          "score": 0.337
+        },
+        {
+          "text": "never",
+          "start": 201.361,
+          "end": 204.603,
+          "score": 0.286
+        },
+        {
+          "text": "lost",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "finally, finally i'm free",
+      "originalText": "finally, finally i'm free",
+      "start": 204.769,
+      "end": 232.664,
+      "words": [
+        {
+          "text": "finally,",
+          "start": 204.769,
+          "end": 212.61,
+          "score": 0.347
+        },
+        {
+          "text": "finally",
+          "start": 214.751,
+          "end": 221.952,
+          "score": 0.676
+        },
+        {
+          "text": "i'm",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "free",
+          "start": 226.093,
+          "end": 230.113,
+          "score": 0.498
+        }
+      ]
+    },
+    {
+      "text": "maybe i was standing still",
+      "originalText": "maybe i was standing still",
+      "start": 208.577,
+      "end": 220.868,
+      "words": [
+        {
+          "text": "maybe",
+          "start": 208.577,
+          "end": 208.998,
+          "score": 0.356
+        },
+        {
+          "text": "i",
+          "start": 210.961,
+          "end": 210.981,
+          "score": 0.264
+        },
+        {
+          "text": "was",
+          "start": 211.322,
+          "end": 212.023,
+          "score": 0.16
+        },
+        {
+          "text": "standing",
+          "start": 214.527,
+          "end": 215.568,
+          "score": 0.497
+        },
+        {
+          "text": "still",
+          "start": 216.129,
+          "end": 219.214,
+          "score": 0.694
+        }
+      ]
+    },
+    {
+      "text": "let it fall away",
+      "originalText": "let it fall away",
+      "start": 211.628,
+      "end": 220.822,
+      "words": [
+        {
+          "text": "let",
+          "start": 211.628,
+          "end": 214.796,
+          "score": 0.954
+        },
+        {
+          "text": "it",
+          "start": 216.259,
+          "end": 216.38,
+          "score": 0.513
+        },
+        {
+          "text": "fall",
+          "start": 218.324,
+          "end": 219.126,
+          "score": 0.594
+        },
+        {
+          "text": "away",
+          "start": 219.267,
+          "end": 220.069,
+          "score": 0.602
+        }
+      ]
+    },
+    {
+      "text": "waiting for somebody else",
+      "originalText": "waiting for somebody else",
+      "start": 212.002,
+      "end": 220.798,
+      "words": [
+        {
+          "text": "waiting",
+          "start": 212.002,
+          "end": 214.947,
+          "score": 0.66
+        },
+        {
+          "text": "for",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "somebody",
+          "start": 216.129,
+          "end": 219.315,
+          "score": 0.312
+        },
+        {
+          "text": "else",
+          "start": 219.996,
+          "end": 220.798,
+          "score": 0.343
+        }
+      ]
+    },
+    {
+      "text": "i can feel it changing now",
+      "originalText": "i can feel it changing now",
+      "start": 212.522,
+      "end": 213.122,
+      "words": [
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "can",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "feel",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "it",
+          "start": 212.522,
+          "end": 212.602,
+          "score": 0.21431964635849,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "changing",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "now",
+          "start": 212.602,
+          "end": 213.122,
+          "score": 0.9238820672035217,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "everything you thought you knew",
+      "originalText": "everything you thought you knew",
+      "start": 212.648,
+      "end": 213.081,
+      "words": [
+        {
+          "text": "everything",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "thought",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "you",
+          "start": 212.941,
+          "end": 213.081,
+          "score": 0.191
+        },
+        {
+          "text": "knew",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "let it fall away",
+      "originalText": "let it fall away",
+      "start": 212.973,
+      "end": 218.858,
+      "words": [
+        {
+          "text": "let",
+          "start": 214.628,
+          "end": 214.788,
+          "score": 0.619
+        },
+        {
+          "text": "it",
+          "start": 214.848,
+          "end": 214.889,
+          "score": 0.493
+        },
+        {
+          "text": "fall",
+          "start": 215.029,
+          "end": 216.172,
+          "score": 0.392
+        },
+        {
+          "text": "away",
+          "start": 218.297,
+          "end": 218.858,
+          "score": 0.218
+        }
+      ]
+    },
+    {
+      "text": "you can hold the picture tight",
+      "originalText": "you can hold the picture tight",
+      "start": 214.46,
+      "end": 222.943,
+      "words": [
+        {
+          "text": "you",
+          "start": 214.531,
+          "end": 214.671,
+          "score": 0.33
+        },
+        {
+          "text": "can",
+          "start": 214.771,
+          "end": 214.891,
+          "score": 0.332
+        },
+        {
+          "text": "hold",
+          "start": 215.031,
+          "end": 216.153,
+          "score": 0.206
+        },
+        {
+          "text": "the",
+          "start": 216.353,
+          "end": 216.534,
+          "score": 0.979
+        },
+        {
+          "text": "picture",
+          "start": 216.774,
+          "end": 220.8,
+          "score": 0.347
+        },
+        {
+          "text": "tight",
+          "start": 222.161,
+          "end": 222.943,
+          "score": 0.191
+        }
+      ]
+    },
+    {
+      "text": "i'm moving out of frame tonight",
+      "originalText": "i'm moving out of frame tonight",
+      "start": 214.506,
+      "end": 215.446,
+      "words": [
+        {
+          "text": "i'm",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "moving",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "out",
+          "start": 214.619,
+          "end": 214.719,
+          "score": 0.331
+        },
+        {
+          "text": "of",
+          "start": 215.306,
+          "end": 215.446,
+          "score": 0.45836591720581055,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "tonight",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "you won't see me where i used to be",
+      "originalText": "you won't see me where i used to be",
+      "start": 214.523,
+      "end": 223.435,
+      "words": [
+        {
+          "text": "you",
+          "start": 214.523,
+          "end": 214.663,
+          "score": 0.327
+        },
+        {
+          "text": "won't",
+          "start": 214.763,
+          "end": 215.043,
+          "score": 0.383
+        },
+        {
+          "text": "see",
+          "start": 216.145,
+          "end": 216.525,
+          "score": 0.607
+        },
+        {
+          "text": "me",
+          "start": 219.169,
+          "end": 219.289,
+          "score": 0.565
+        },
+        {
+          "text": "where",
+          "start": 219.389,
+          "end": 220.391,
+          "score": 0.289
+        },
+        {
+          "text": "i",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "used",
+          "start": 222.013,
+          "end": 222.794,
+          "score": 0.496
+        },
+        {
+          "text": "to",
+          "start": 222.914,
+          "end": 223.034,
+          "score": 0.475
+        },
+        {
+          "text": "be",
+          "start": 223.355,
+          "end": 223.435,
+          "score": 0.553
+        }
+      ]
+    },
+    {
+      "text": "like the ground beneath my feet",
+      "originalText": "like the ground beneath my feet",
+      "start": 214.552,
+      "end": 214.726,
+      "words": [
+        {
+          "text": "like",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "the",
+          "start": 214.645,
+          "end": 214.726,
+          "score": 0.229
+        },
+        {
+          "text": "ground",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "beneath",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "my",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "feet",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "let it fall away",
+      "originalText": "let it fall away",
+      "start": 218.268,
+      "end": 221.983,
+      "words": [
+        {
+          "text": "let",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "it",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "fall",
+          "start": 219.403,
+          "end": 219.704,
+          "score": 0.158
+        },
+        {
+          "text": "away",
+          "start": 220.005,
+          "end": 221.951,
+          "score": 0.49
+        }
+      ]
+    },
+    {
+      "text": "but it doesn't look like me",
+      "originalText": "but it doesn't look like me",
+      "start": 218.352,
+      "end": 220.01,
+      "words": [
+        {
+          "text": "but",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "it",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "doesn't",
+          "start": 218.352,
+          "end": 218.832,
+          "score": 0.5057979235425591,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "look",
+          "start": 219.407,
+          "end": 219.628,
+          "score": 0.171
+        },
+        {
+          "text": "like",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": 219.87,
+          "end": 220.01,
+          "score": 0.375
+        }
+      ]
+    },
+    {
+      "text": "and leaving nothing underneath",
+      "originalText": "and leaving nothing underneath",
+      "start": 220.172,
+      "end": 222.944,
+      "words": [
+        {
+          "text": "and",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "leaving",
+          "start": 220.568,
+          "end": 221.051,
+          "score": 0.162
+        },
+        {
+          "text": "nothing",
+          "start": 221.957,
+          "end": 222.319,
+          "score": 0.283
+        },
+        {
+          "text": "underneath",
+          "start": 222.38,
+          "end": 222.944,
+          "score": 0.19
+        }
+      ]
+    },
+    {
+      "text": "you can keep the version of me",
+      "originalText": "you can keep the version of me",
+      "start": 222.051,
+      "end": 223.887,
+      "words": [
+        {
+          "text": "you",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "can",
+          "start": 222.051,
+          "end": 222.311,
+          "score": 0.9916395545005798,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "keep",
+          "start": 222.311,
+          "end": 222.711,
+          "score": 0.8777453303337097,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 222.711,
+          "end": 223.031,
+          "score": 0.971969485282898,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "version",
+          "start": 223.153,
+          "end": 223.875,
+          "score": 0.362
+        },
+        {
+          "text": "of",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "me",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "i'm stepping out into the light",
+      "originalText": "i'm stepping out into the light",
+      "start": 222.865,
+      "end": 230.225,
+      "words": [
+        {
+          "text": "i'm",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "stepping",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": 226.465,
+          "end": 227.405,
+          "score": 0.15125571191310883,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "into",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "the",
+          "start": 229.865,
+          "end": 230.225,
+          "score": 0.4067174792289734,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "light",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "i'm moving out of frame tonight",
+      "originalText": "i'm moving out of frame tonight",
+      "start": 225.43,
+      "end": 230.063,
+      "words": [
+        {
+          "text": "i'm",
+          "start": 225.43,
+          "end": 225.95,
+          "score": 0.1800705724162981,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "moving",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "out",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": 226.07,
+          "end": 226.53,
+          "score": 0.46395227313041687,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "tonight",
+          "start": null,
+          "end": null,
+          "score": 0,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 225.477,
+      "end": 229.785,
+      "words": [
+        {
+          "text": "out",
+          "start": 225.477,
+          "end": 225.897,
+          "score": 0.17388615012168884,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "of",
+          "start": 225.897,
+          "end": 226.077,
+          "score": 0.9641103148460388,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": 226.077,
+          "end": 226.557,
+          "score": 0.8679036498069763,
+          "engine": "whisper-vocals"
+        }
+      ]
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 229.592,
+      "end": 232.63,
+      "words": [
+        {
+          "text": "out",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "of",
+          "start": 229.592,
+          "end": 229.792,
+          "score": 0.9645073413848877,
+          "engine": "whisper-vocals"
+        },
+        {
+          "text": "frame",
+          "start": 231.627,
+          "end": 232.63,
+          "score": 0.277
+        }
+      ]
+    },
+    {
+      "text": "i'm free",
+      "originalText": "i'm free",
+      "start": 231.642,
+      "end": 231.689,
+      "words": []
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 231.742,
+      "end": 231.921,
+      "words": [
+        {
+          "text": "out",
+          "start": 231.742,
+          "end": 231.884,
+          "score": 0.376
+        },
+        {
+          "text": "of",
+          "start": null,
+          "end": null,
+          "score": 0
+        },
+        {
+          "text": "frame",
+          "start": null,
+          "end": null,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "text": "finally",
+      "originalText": "finally",
+      "start": 232.2,
+      "end": 233.035,
+      "words": []
+    },
+    {
+      "text": "out of frame",
+      "originalText": "out of frame",
+      "start": 233.035,
+      "end": 233.082,
+      "words": []
+    }
+  ],
+  "untimed": [
+    "i don't wanna be where you left me",
+    "you keep a picture in your head",
+    "of everything i should have been",
+    "you paint the edges carefully",
+    "and leave out everything between",
+    "i used to fit inside the lines",
+    "i used to make it easy then",
+    "but every time you look at me",
+    "you're looking somewhere i have been",
+    "i can feel it changing now",
+    "something pulling underneath",
+    "if you only want the old me",
+    "you can keep the memory",
+    "i'm moving out of frame tonight",
+    "you won't see me where i used to be",
+    "i'm stepping out into the light",
+    "somewhere you can't follow me",
+    "you can hold the picture tight",
+    "you can call it everything you need",
+    "and finally i can breathe",
+    "out of frame",
+    "finally i can breathe",
+    "you say you know the way i move",
+    "before i even make a sound",
+    "you think the ending stays the same",
+    "because you've seen me turn around",
+    "but i don't owe the past a thing",
+    "i don't belong to what we knew",
+    "and every door i wouldn't close",
+    "is getting easier to lose",
+    "i can feel it opening",
+    "all the space you couldn't see",
+    "if you only know the old me",
+    "you don't really know me",
+    "you won't find me where i used to be",
+    "i'm stepping further into light",
+    "somewhere you can't define me",
+    "you can make it anything you need",
+    "and finally i feel free",
+    "finally i feel free",
+    "maybe i was never lost",
+    "maybe i was standing still",
+    "waiting for somebody else",
+    "to tell me who i had to be",
+    "not anymore",
+    "let it fall away",
+    "everything you thought you knew",
+    "i've got nothing left to prove",
+    "like the ground beneath my feet",
+    "you can keep the version of me",
+    "that you wanted me to be",
+    "and leaving nothing underneath",
+    "but it doesn't look like me",
+    "finally, finally i'm free",
+    "finally",
+    "i'm free",
+    "it doesn't look like me"
+  ],
+  "pipelineVersion": 4,
+  "baselineWords": 222,
+  "warnings": [],
+  "corrections": [
+    {
+      "original": "you paint the edges carefully",
+      "replacement": "paint the edges carefully",
+      "source": "two-model-agreement",
+      "start": 26.006
+    }
+  ],
+  "review": [
+    {
+      "original": "i don't wanna be where you left me",
+      "suggestion": "don't wanna be where you left me I don't",
+      "start": 0.186,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you keep a picture in your head",
+      "suggestion": "a picture in your head",
+      "start": 18.614,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "of everything i should have been",
+      "suggestion": "everything I should have been",
+      "start": 22.291,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "and leave out everything between",
+      "suggestion": "Leave out everything between",
+      "start": 29.722,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i used to fit inside the lines",
+      "suggestion": "used to fit inside the lines",
+      "start": 33.39,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i used to make it easy then",
+      "suggestion": "used to make it easy then",
+      "start": 37.105,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "but every time you look at me",
+      "suggestion": "every time you look at me",
+      "start": 40.774,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you're looking somewhere i have been",
+      "suggestion": "looking somewhere I have been",
+      "start": 44.443,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i can feel it changing now",
+      "suggestion": "can feel it changing now",
+      "start": 48.39,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "if you only want the old me",
+      "suggestion": "you only want the old me,",
+      "start": 55.774,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you can keep the memory",
+      "suggestion": "can keep the memory.",
+      "start": 59.443,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm moving out of frame tonight",
+      "suggestion": "I'm moving out of prison life.",
+      "start": 62.09,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm moving out of frame tonight",
+      "suggestion": "I'm moving out of breath tonight",
+      "start": 84.242,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "and finally i can breathe",
+      "suggestion": "I can breathe",
+      "start": 88.468,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "out of frame",
+      "suggestion": "was for you",
+      "start": 92.74,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "out of frame",
+      "suggestion": "was for you",
+      "start": 96.409,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you say you know the way i move",
+      "suggestion": "say you know the way I move",
+      "start": 107.276,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "before i even make a sound",
+      "suggestion": "Before I even make a song",
+      "start": 110.899,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you think the ending stays the same",
+      "suggestion": "think the ending stays the same",
+      "start": 114.614,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "because you've seen me turn around",
+      "suggestion": "you've seen me turn around",
+      "start": 118.329,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "but i don't owe the past a thing",
+      "suggestion": "I don't owe the past a thing",
+      "start": 121.998,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i don't belong to what we knew",
+      "suggestion": "don't belong to what we knew",
+      "start": 125.713,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "and every door i wouldn't close",
+      "suggestion": "every door I would close",
+      "start": 129.382,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "is getting easier to lose",
+      "suggestion": "getting easier to look",
+      "start": 133.097,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i can feel it opening",
+      "suggestion": "can feel it changing now Something",
+      "start": 136.998,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "all the space you couldn't see",
+      "suggestion": "pulling me easy then",
+      "start": 140.574,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "if you only know the old me",
+      "suggestion": "easy then If you only want me",
+      "start": 142.153,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you don't really know me",
+      "suggestion": "can keep the memory",
+      "start": 148.05,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm stepping further into light",
+      "suggestion": "memory I'm moving out of frame tonight You won't see me where I used to be I'm stepping out into the light",
+      "start": 149.444,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm moving out of frame tonight",
+      "suggestion": "moving out of frame tonight",
+      "start": 150.79,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you won't find me where i used to be",
+      "suggestion": "won't see me where I used to be",
+      "start": 154.545,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "somewhere you can't define me",
+      "suggestion": "you can't follow me",
+      "start": 162.307,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you can hold the picture tight",
+      "suggestion": "can hold the picture tight",
+      "start": 165.605,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you can make it anything you need",
+      "suggestion": "can call it everything you need",
+      "start": 169.32,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm moving out of frame tonight",
+      "suggestion": "moving out of frame tonight",
+      "start": 172.803,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "and finally i feel free",
+      "suggestion": "Finally I'm free",
+      "start": 177.029,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "out of frame",
+      "suggestion": "don't wanna be out of frame",
+      "start": 180.419,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "out of frame",
+      "suggestion": "I don't wanna be afraid Out of",
+      "start": 183.205,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "finally i feel free",
+      "suggestion": "don't wanna be afraid",
+      "start": 185.992,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "maybe i was never lost",
+      "suggestion": "frame Out of frame Out of wanna be afraid I don't wanna be out Out of frame, out of frame I don't wanna be afraid Out of frame, out of frame,",
+      "start": 188.609,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "finally, finally i'm free",
+      "suggestion": "out of frame, out of I don't wanna be afraid I can feel it changing now Something pulling easy then If you only want the old me You can keep the memory Out of frame, out of frame Finally I",
+      "start": 204.769,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "maybe i was standing still",
+      "suggestion": "be afraid I can feel it changing now Something pulling easy then If you only want the old me",
+      "start": 208.577,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "let it fall away",
+      "suggestion": "it changing now Something pulling easy then If you only want the old me",
+      "start": 211.628,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "waiting for somebody else",
+      "suggestion": "changing now Something pulling easy then If you only want the old me",
+      "start": 212.002,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "everything you thought you knew",
+      "suggestion": "now",
+      "start": 212.648,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "let it fall away",
+      "suggestion": "Something pulling easy then If you",
+      "start": 212.973,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you can hold the picture tight",
+      "suggestion": "Something pulling easy then If you only want the old me You can keep the",
+      "start": 214.46,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm moving out of frame tonight",
+      "suggestion": "Something",
+      "start": 214.506,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "like the ground beneath my feet",
+      "suggestion": "Something",
+      "start": 214.552,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you won't see me where i used to be",
+      "suggestion": "Something pulling easy then If you only want the old me You can keep the memory",
+      "start": 214.523,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "let it fall away",
+      "suggestion": "you only want the old me You",
+      "start": 218.268,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "but it doesn't look like me",
+      "suggestion": "only want the",
+      "start": 218.732,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "and leaving nothing underneath",
+      "suggestion": "old me You can keep the",
+      "start": 220.172,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "you can keep the version of me",
+      "suggestion": "keep the memory",
+      "start": 222.391,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm stepping out into the light",
+      "suggestion": "the memory Out of frame, out of",
+      "start": 222.865,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "i'm moving out of frame tonight",
+      "suggestion": "of frame, out of frame",
+      "start": 225.93,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "out of frame",
+      "suggestion": "of frame, out of",
+      "start": 225.977,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "out of frame",
+      "suggestion": "frame Finally I",
+      "start": 229.692,
+      "reason": "recognition-disagreement"
+    },
+    {
+      "original": "finally",
+      "suggestion": "I can",
+      "start": 232.2,
+      "reason": "recognition-disagreement"
+    }
+  ],
+  "engines": [
+    "wav2vec2-mix",
+    "demucs-htdemucs",
+    "whisper-base-mix",
+    "whisper-small-vocals"
+  ]
+}
