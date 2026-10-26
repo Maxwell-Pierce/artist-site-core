@@ -1,5 +1,10 @@
 # Changes
 
+## 1.11.0
+
+Remove the demo notice and timeline export/numeric/help rows. Move export controls into Video, merge preview ratio/guide controls and compact sentence chips, restoring vertical room to the artwork and waveform. Apply audio fade envelopes to normal Play with marked-range boundaries and practice-aware audition.
+
+
 ## 1.10.0
 
 Bundle Maxwell Pierce’s full HEAVNS - Moving Out Of Frame audio, original artwork, original transcript and editable timing data in the shared core. Default the token-free studio demo to the real music track, with local assets and isolated session edits. Retain the generated tone for tutorial exercises.

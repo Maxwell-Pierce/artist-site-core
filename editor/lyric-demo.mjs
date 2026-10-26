@@ -20,4 +20,4 @@ async function startDemo(){
  const select=document.getElementById('lv-track');select.value=track.id;select.dispatchEvent(new Event('change'));
  window.addEventListener('pagehide',()=>{dispose();URL.revokeObjectURL(tone.track.audio);},{once:true});
 }
-startDemo().catch(error=>{document.getElementById('notice').textContent='Could not load the bundled demo. '+error.message;});
+startDemo().catch(error=>{document.getElementById('notice').hidden=false;document.getElementById('notice').textContent='Could not load the bundled demo. '+error.message;});
