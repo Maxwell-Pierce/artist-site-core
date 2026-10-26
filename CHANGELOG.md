@@ -1,5 +1,9 @@
 # Changes
 
+## 1.6.0
+
+Add explicit timeline selection with a high-contrast region outline, selected-word chips and inspector highlighting, and a visible selection label. Delete/Backspace and the contextual delete button remove the selected word or sentence without shifting other timings. Preserve selection in Undo, ignore held-key repeats, and protect text-entry fields. Escape clears selection.
+
 ## 1.5.1
 
 Keep Original transcript selection controls clickable in short panes by removing the overlapping sticky toolbar. Report restored text and timings after Undo. Browser-verified multiline insertion, immediate loop review, deletion and batch undo.
