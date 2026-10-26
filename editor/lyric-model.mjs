@@ -1,10 +1,11 @@
+import {FADE_CURVES} from './export-audio.mjs';
 import {validateVisualizers} from './audio-visualizer.mjs';
 export const RATIOS={'1:1':[1080,1080],'3:4':[1080,1440],'4:5':[1080,1350],'16:9':[1920,1080],'9:16':[1080,1920]};
 export const clone=value=>JSON.parse(JSON.stringify(value));
 export const finite=value=>typeof value==='number'&&Number.isFinite(value);
 export const round=value=>Math.round(value*1000)/1000;
 export const validID=id=>typeof id==='string'&&/^[a-zA-Z0-9_-]{1,160}$/.test(id);
-export function defaultProject(track){return {schemaVersion:1,id:track.id,ratio:'9:16',resolution:720,fps:30,in:0,out:track.duration||30,audioFadeIn:0,audioFadeOut:0,effect:'karaoke',font:'sans',fontSize:6,position:65,accent:'#b4f2d4',color:'#ffffff',overlay:48,focalX:50,focalY:50,motion:true,showTitle:true,showProgress:true,uppercase:false,artworkData:'',visualizers:{active:'none',styles:{}}};}
+export function defaultProject(track){return {schemaVersion:1,id:track.id,ratio:'9:16',resolution:720,fps:30,in:0,out:track.duration||30,audioFadeIn:0,audioFadeOut:0,audioFadeInCurve:'linear',audioFadeOutCurve:'linear',effect:'karaoke',font:'sans',fontSize:6,position:65,accent:'#b4f2d4',color:'#ffffff',overlay:48,focalX:50,focalY:50,motion:true,showTitle:true,showProgress:true,uppercase:false,artworkData:'',visualizers:{active:'none',styles:{}}};}
 export function validateEdit(edit){
  if(edit.schemaVersion!==1||!validID(edit.id)||!finite(edit.duration)||edit.duration<=0||edit.duration>14400||!Array.isArray(edit.lines)||edit.lines.length>3000)throw Error('Invalid lyric edit document.');
  for(const line of edit.lines){if(typeof line.text!=='string'||!line.text.trim()||line.text.length>2000||!finite(line.start)||!finite(line.end)||line.start<0||line.end<=line.start||line.end>edit.duration+.05)throw Error('Each line needs text and start/end within the track.');
@@ -14,6 +15,7 @@ export function validateEdit(edit){
 }
 export function validateProject(project,duration){if(!validID(project.id)||project.schemaVersion!==1||!RATIOS[project.ratio]||![720,1080].includes(project.resolution)||project.fps!==30||!finite(project.in)||!finite(project.out)||project.in<0||project.out<=project.in||project.out>duration+.05)throw Error('Choose a valid export range within the track.');
  for(const key of ['audioFadeIn','audioFadeOut'])if(project[key]!==undefined&&(!finite(project[key])||project[key]<0||project[key]>60))throw Error('Audio fades must be between 0 and 60 seconds.');
+ for(const key of ['audioFadeInCurve','audioFadeOutCurve'])if(project[key]!==undefined&&!FADE_CURVES.includes(project[key]))throw Error('Invalid audio fade curve.');
  if(!['karaoke','pop','neon','fade','typewriter'].includes(project.effect)||!['sans','serif','mono'].includes(project.font))throw Error('Invalid video style.');
  for(const [key,min,max]of [['fontSize',3,12],['position',15,85],['overlay',0,85],['focalX',0,100],['focalY',0,100]])if(!finite(project[key])||project[key]<min||project[key]>max)throw Error('Invalid '+key+' setting.');
  for(const color of [project.color,project.accent])if(!/^#[a-f\d]{6}$/i.test(color))throw Error('Video colours must be hex values.');

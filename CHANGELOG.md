@@ -1,5 +1,10 @@
 # Changes
 
+## 1.9.0
+
+Add graphical audio envelopes on the waveform with draggable fade-length diamonds and curve thumbnail selection (linear, slow, fast, S curve, equal power). Use the same gain functions in visual envelopes, stereo listening and MP4 exports; retain saved linear fades and optional exact values.
+
+
 ## 1.8.0
 
 Move export In/Out flags onto the waveform with shared zoom/scroll geometry, vertical boundary lines, outside shading, edge auto-pan, offscreen indicators and Fit export. Keep audio fades, exact values and independent practice looping. Refresh the export walkthrough for integrated markers.
