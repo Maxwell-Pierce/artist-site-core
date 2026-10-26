@@ -86,6 +86,8 @@ def build(site,dest):
         if track['id'] not in known:
             report.append({'id':track['id'],'title':track['title'],'status':'awaiting-analysis' if lines else 'no-timed-lines','alignedWords':0,'totalWords':sum(len(line['text'].split()) for line in lines),'lines':len(lines)})
     report_path.write_text(json.dumps(report,indent=2))
+    from manual_lyrics import apply_editor_edits
+    apply_editor_edits(site,dest)
     from estimate_lyrics import build_estimates
     estimated=build_estimates(dest/'lyrics')
     if not playlists:

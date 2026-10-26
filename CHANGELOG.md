@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3.0
+
+Add a shared lyric timeline and video studio: WaveSurfer line/word regions, precise fields, loop/split/merge/nudge/offset/undo, SRT/VTT and project downloads. Preserve manual edits separately from analysis and apply them during build. Add artwork upload/crop, five aspect-ratio icons, five lyric effects, safe areas and H.264/AAC MP4 export with codec checks, cancellation and a real-time native MP4 fallback. Include a generated-tone interactive demo and complete help chapter.
+
 ## 1.2.0
 
 Add opt-in remembered Studio connections with explicit forget/disconnect, persistent saved-catalog music preview, optional DJ events with timezone-aware upcoming/ongoing filtering and ICS downloads, and configurable monochrome social/music footer links. Bundle 45 Simple Icons brand SVGs plus generic support for other/custom services. Update the manual and regression tests. Legacy sites without events/links load no extra public runtime.

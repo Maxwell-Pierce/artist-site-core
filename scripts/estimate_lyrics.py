@@ -64,17 +64,20 @@ def build_estimates(root):
         for line in data.get('lines', []):
             estimate_line(line)
         words = [w for line in data.get('lines', []) for w in line.get('words', [])]
-        recognized = sum(finite(w.get('start')) and finite(w.get('end')) and not w.get('estimated', False) for w in words)
+        recognized = sum(finite(w.get('start')) and finite(w.get('end')) and not w.get('estimated', False) and not str(w.get('timingSource','')).startswith('manual') for w in words)
         estimated = sum(bool(w.get('estimated')) for w in words)
         total = sum(len(line.get('text', '').split()) for line in data.get('lines', []))
+        manual = sum(finite(w.get('start')) and finite(w.get('end')) and not w.get('estimated',False) and str(w.get('timingSource','')).startswith('manual') for w in words)
+        if manual or data.get('timingSource')=='manual-editor':data['manualWords']=manual
         data['estimatedWords'] = estimated
         data['recognizedWords'] = recognized
-        if recognized + estimated:
+        if recognized + estimated + manual:
             data['alignment'] = 'word'
         path.write_text(json.dumps(data, ensure_ascii=False))
         if data.get('id') in rows:
             rows[data['id']].update(estimatedWords=estimated, recognizedWords=recognized,
-                                  playbackCoverage=round((recognized + estimated) / max(total, 1), 3))
+                                  playbackCoverage=round((recognized + estimated + manual) / max(total, 1), 3))
+        if data.get('id') in rows and (manual or data.get('timingSource')=='manual-editor'):rows[data['id']]['manualWords']=manual
         estimated_total += estimated
     report_path.write_text(json.dumps(report, indent=2))
     return estimated_total
