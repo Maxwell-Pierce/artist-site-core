@@ -24,7 +24,7 @@ function render(){
  const target=$('fields');target.replaceChildren();
  const titles={home:'Home page',pages:'Pages & navigation',identity:'Identity & entrance',theme:'Colours & appearance',events:'DJ events & calendar',socials:'Social & music links',lyrics:'Lyrics & video studio'};
  $('panel-title').textContent=tab==='page'?(pages.pages[selected]?.title||'New page'):titles[tab];
- document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('selected',b.dataset.tab===tab));
+ document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('selected',b.dataset.tab===tab);b.title=b.textContent.trim();b.setAttribute('aria-label',b.textContent.trim());});
  const list=$('page-list');list.replaceChildren();pages.pages.forEach((p,i)=>button(list,`${p.nav===false?'○':'▤'} ${p.label||p.title}`,()=>{tab='page';selected=i;render();preview();}));
  if(tab==='lyrics'){target.textContent='Loading lyric timeline…';import('./lyric-studio.mjs').then(({mountLyricStudio})=>{if(mount!==lyricMount||tab!=='lyrics')return;lyricDispose=mountLyricStudio(target,{repo,getBase:()=>base,tracks:previewTracks,lyricIDs,getState:()=>creative,onChange:changed});}).catch(error=>{target.textContent='Could not load the timeline: '+error.message;});
  }else if(tab==='home'){
