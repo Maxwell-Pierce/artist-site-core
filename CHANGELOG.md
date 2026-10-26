@@ -1,5 +1,10 @@
 # Changes
 
+## 1.8.0
+
+Move export In/Out flags onto the waveform with shared zoom/scroll geometry, vertical boundary lines, outside shading, edge auto-pan, offscreen indicators and Fit export. Keep audio fades, exact values and independent practice looping. Refresh the export walkthrough for integrated markers.
+
+
 ## 1.7.1
 
 Add three focused, captioned video walkthroughs to the shared lyric help: timeline modes and zoom, anchored word resizing with Delete/Undo, and export markers with audio fades. Include still posters, native playback/fullscreen controls and no autoplay. Correct outdated instructions about word edits, double-click, track duration and export defaults.

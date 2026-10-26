@@ -1,6 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {defaultProject,validateProject} from '../editor/lyric-model.mjs';
-import {setExportEdge} from '../editor/export-range.mjs';
+import {exportMarkerPosition,exportMarkerTime,setExportEdge} from '../editor/export-range.mjs';
 import {audioFadeGain,croppedAudio} from '../editor/export-audio.mjs';
 test('new exports cover the whole track including tracks longer than ten minutes',()=>{
  const p=defaultProject({id:'long-track',duration:901});assert.equal(p.in,0);assert.equal(p.out,901);assert.equal(p.audioFadeIn,0);validateProject(p,901);
@@ -26,3 +26,5 @@ test('stereo crop and fades preserve channel separation and leave source samples
  const dry=croppedAudio(source,2,7);assert.equal(dry.getChannelData(0)[0],Math.fround(.8));
  }finally{globalThis.AudioBuffer=previous;}
 });
+
+test('waveform export markers follow zoom and scroll and map pointer position back to time',()=>{for(const width of [320,1600,8000])for(const offset of [0,-200,-1200])for(const time of [0,2,8,16]){const x=exportMarkerPosition(time,16,width,offset);assert.ok(Math.abs(exportMarkerTime(100+x,100+offset,width,16)-time)<1e-9);}assert.equal(exportMarkerPosition(8,16,1600,-600),200);assert.equal(exportMarkerPosition(0,0,0),0);assert.equal(exportMarkerTime(10,0,0,16),0);});
