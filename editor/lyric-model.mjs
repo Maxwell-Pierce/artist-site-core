@@ -92,3 +92,5 @@ export function insertSentence(lines,text,start,end,duration){
  text=text.trim();if(!text||!finite(start)||!finite(end)||start<0||end<=start||end>duration)return -1;
  const line={text,start:round(start),end:round(end),words:[],timingSource:'manual'};estimateMissingWords(line);lines.push(line);lines.sort((a,b)=>a.start-b.start);return lines.indexOf(line);
 }
+
+export function retimeWord(line,index,start,end){const word=line?.words?.[index];if(!word||!finite(start)||!finite(end)||end<=start)return false;const span=Math.min(line.end-line.start,Math.max(.04,end-start));word.start=round(Math.max(line.start,Math.min(line.end-span,start)));word.end=round(Math.min(line.end,word.start+span));word.timingSource='manual';delete word.estimated;return true;}

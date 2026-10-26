@@ -1,5 +1,10 @@
 # Changes
 
+## 1.3.5
+
+Add Sentence mode: auto-fit the selected sentence, enable looping, display all word regions in alternating lanes with larger handles, and navigate previous/next sentences without entering timestamps.
+
+
 ## 1.3.4
 
 Preserve unchanged word timings through lyric text corrections using sequence alignment. Estimate only changed spans, borrowing adjacent timing locally when insertions have no gap. Use edit-session baselines to prevent timing drift while typing.
