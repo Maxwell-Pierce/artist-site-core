@@ -101,4 +101,14 @@ export function insertSentence(lines,text,start,end,duration){
  const line={text,start:round(start),end:round(end),words:[],timingSource:'manual'};estimateMissingWords(line);lines.push(line);lines.sort((a,b)=>a.start-b.start);return lines.indexOf(line);
 }
 
-export function retimeWord(line,index,start,end){const word=line?.words?.[index];if(!word||!finite(start)||!finite(end)||end<=start)return false;const span=Math.min(line.end-line.start,Math.max(.04,end-start));word.start=round(Math.max(line.start,Math.min(line.end-span,start)));word.end=round(Math.min(line.end,word.start+span));word.timingSource='manual';delete word.estimated;return true;}
+export function retimeWord(line,index,start,end,edge){
+ const word=line?.words?.[index];if(!word||!finite(start)||!finite(end)||end<=start)return false;
+ // Resizing anchors the opposite edge; only moving the body preserves duration.
+ // Infer single-edge edits for callers without a waveform gesture type.
+ if(edge===undefined){if(Math.abs(start-word.start)<1e-6)edge='end';else if(Math.abs(end-word.end)<1e-6)edge='start';}
+ const minimum=Math.min(.04,word.end-word.start);
+ if(edge==='end')word.end=round(Math.max(word.start+minimum,Math.min(line.end,end)));
+ else if(edge==='start')word.start=round(Math.min(word.end-minimum,Math.max(line.start,start)));
+ else{const span=Math.min(line.end-line.start,Math.max(.04,end-start));word.start=round(Math.max(line.start,Math.min(line.end-span,start)));word.end=round(Math.min(line.end,word.start+span));}
+ word.timingSource='manual';delete word.estimated;return true;
+}
