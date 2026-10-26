@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.3
+
+Expand the timeline automatically during Sentence practice so the sentence boundary and both word lanes remain visible. Restore the earlier height on exit unless the user resized it manually. Browser-verified the 1.4.2 mode transitions, line-region double-click and word-chip zoom.
+
 ## 1.4.2
 
 Make Words a continuous cross-sentence timeline at a readable four-second zoom. Add a sentence boundary lane and clickable word chips in isolated Sentence practice. Preserve double-click targets by ignoring blur-only timing updates, capture line region double-clicks directly, and apply scroll after waveform redraw. Fix visualizer initialization after the preview canvas is attached.
