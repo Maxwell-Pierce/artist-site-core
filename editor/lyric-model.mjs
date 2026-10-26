@@ -31,3 +31,23 @@ export function timingStats(lines){const words=lines.flatMap(l=>l.words||[]);ret
 const stamp=(seconds,separator=',')=>{const ms=Math.max(0,Math.round(seconds*1000));return `${String(Math.floor(ms/3600000)).padStart(2,'0')}:${String(Math.floor(ms/60000)%60).padStart(2,'0')}:${String(Math.floor(ms/1000)%60).padStart(2,'0')}${separator}${String(ms%1000).padStart(3,'0')}`;};
 export function subtitles(lines,format='srt'){return (format==='vtt'?'WEBVTT\n\n':'')+lines.map((l,i)=>`${format==='srt'?i+1+'\n':''}${stamp(l.start,format==='vtt'?'.':',')} --> ${stamp(l.end,format==='vtt'?'.':',')}\n${l.text}`).join('\n\n')+'\n';}
 export function creativeFiles(state){const files={};for(const [id,edit]of Object.entries(state.edits||{})){if(id!==edit.id)throw Error('Lyric identifier mismatch.');validateEdit(edit);files['lyric-edits/'+id+'.json']=JSON.stringify(edit,null,2)+'\n';}for(const [id,project]of Object.entries(state.projects||{})){if(id!==project.id)throw Error('Video identifier mismatch.');validateProject(project,state.edits[id]?.duration||project.trackDuration);files['video-projects/'+id+'.json']=JSON.stringify(project,null,2)+'\n';}return files;}
+
+// Match the static build's gap filling without moving recognized/manual anchors.
+export function estimateMissingWords(line){
+ const tokens=line.text?.trim().split(/\s+/).filter(Boolean)||[],{start,end}=line;
+ if(!tokens.length||!finite(start)||!finite(end)||start<0||end<=start||end-start>35)return 0;
+ const words=line.words?.length?line.words:tokens.map(text=>({text,start:null,end:null,score:0}));
+ if(words.length!==tokens.length||words.some((w,i)=>w.text?.trim()!==tokens[i]))return 0;
+ const anchors=[];let previous=-1;
+ for(const [i,w]of words.entries())if(finite(w.start)&&finite(w.end)){if(w.start<0||w.end<=w.start||w.start<previous)return 0;anchors.push(i);previous=w.end;}
+ let count=0;
+ for(let gap=0;gap<=anchors.length;gap++){
+  const left=gap?anchors[gap-1]:-1,right=gap<anchors.length?anchors[gap]:words.length,first=left+1;
+  if(first===right)continue;
+  const a=left>=0?words[left].end:start,b=right<words.length?words[right].start:end;
+  if(b-a<(right-first)*.055)continue;
+  const weights=tokens.slice(first,right).map(text=>Math.max(1,(text.toLowerCase().match(/[aeiouyà-ÿ]+/g)||[]).length,text.replace(/^[.,!?;:]+|[.,!?;:]+$/g,'').length/5)),total=weights.reduce((a,b)=>a+b,0);let cursor=a;
+  for(let i=first;i<right;i++){const until=i===right-1?b:cursor+(b-a)*weights[i-first]/total;words[i]={...words[i],start:cursor,end:until,score:0,estimated:true,timingSource:anchors.length?'estimated-between-anchors':'estimated-line-rhythm'};cursor=until;count++;}
+ }
+ line.words=words;return count;
+}

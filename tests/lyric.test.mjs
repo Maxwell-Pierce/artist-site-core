@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,subtitles,creativeFiles,activeLine} from '../editor/lyric-model.mjs';
+import {estimateMissingWords,defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,subtitles,creativeFiles,activeLine} from '../editor/lyric-model.mjs';
 import {dimensions,drawLyricFrame} from '../editor/lyric-renderer.mjs';
 const line=()=>({text:'Find your frequency',start:1,end:4,words:[{text:'Find',start:1,end:2},{text:'your',start:2,end:3},{text:'frequency',start:3,end:4}]});
 const edit=()=>({schemaVersion:1,id:'track-one',duration:30,lines:[line()]});
@@ -13,3 +13,14 @@ test('video project validates ranges, artwork and allowed styling',()=>{const p=
 test('saved creative files are separate from analysis results and bound to their IDs',()=>{const e=edit(),p={...defaultProject({id:e.id,duration:30}),trackDuration:30};const files=creativeFiles({edits:{[e.id]:e},projects:{[e.id]:p}});assert.deepEqual(Object.keys(files),['lyric-edits/track-one.json','video-projects/track-one.json']);assert.throws(()=>creativeFiles({edits:{wrong:e},projects:{}}));});
 test('subtitle export formats and overlapping line selection are deterministic',()=>{const s=subtitles([line()]);assert.match(s,/00:00:01,000 --> 00:00:04,000/);assert.match(subtitles([line()],'vtt'),/^WEBVTT/);assert.equal(activeLine([{...line(),text:'first'},{...line(),start:2,text:'second'}],2.5).text,'second');});
 test('renderer uses the same deterministic canvas path for every effect',()=>{const calls=[];const ctx=new Proxy({measureText:text=>({width:text.length*18}),createLinearGradient:()=>({addColorStop(){}})},{get:(target,key)=>key in target?target[key]:(...args)=>{calls.push([key,...args]);},set:(target,key,value)=>{target[key]=value;return true;}});const canvas={width:720,height:1280,getContext:()=>ctx};for(const effect of ['karaoke','pop','neon','fade','typewriter'])drawLyricFrame(canvas,null,{...defaultProject({id:'a',duration:30}),effect},[line()],2.3,{title:'Track',artist:'Artist'});assert.ok(calls.some(c=>c[0]==='fillText'&&c[1]==='your'));});
+
+test('editor fills recognition gaps and preserves existing estimated/manual anchors',()=>{
+ const l={text:'Find your own frequency',start:1,end:5,words:[{text:'Find',start:1,end:2,timingSource:'manual'},{text:'your',start:null,end:null},{text:'own',start:null,end:null},{text:'frequency',start:4,end:5,estimated:true,timingSource:'estimated-line-rhythm'}]};
+ const first=structuredClone(l.words[0]),last=structuredClone(l.words[3]);assert.equal(estimateMissingWords(l),2);assert.deepEqual(l.words[0],first);assert.deepEqual(l.words[3],last);assert.equal(l.words[1].start,2);assert.equal(l.words[2].end,4);assert.ok(l.words.slice(1,3).every(w=>w.estimated));assert.equal(estimateMissingWords(l),0);
+ const calls=[];const ctx=new Proxy({measureText:text=>({width:text.length*18}),createLinearGradient:()=>({addColorStop(){}})},{get:(t,k)=>k in t?t[k]:(...args)=>{if(k==='fillText')calls.push([args[0],t.fillStyle]);},set:(t,k,v)=>{t[k]=v;return true;}});
+ const project=defaultProject({id:'a',duration:5});drawLyricFrame({width:720,height:1280,getContext:()=>ctx},null,project,[l],(l.words[1].start+l.words[1].end)/2,{});assert.ok(calls.some(([text,color])=>text.trim()==='your'&&color===project.accent));
+});
+test('line-only lyrics receive estimates but unsafe gaps do not move anchors',()=>{
+ const l={text:'Find your frequency',start:0,end:3,words:[]};assert.equal(estimateMissingWords(l),3);assert.ok(l.words.every(w=>w.estimated&&w.end>w.start));assert.equal(l.words.at(-1).end,3);
+ const tight={text:'one two three',start:0,end:1,words:[{text:'one',start:0,end:.5},{text:'two',start:null,end:null},{text:'three',start:.52,end:1}]};assert.equal(estimateMissingWords(tight),0);assert.equal(tight.words[1].start,null);
+});
