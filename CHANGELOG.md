@@ -1,5 +1,9 @@
 # Changes
 
+## 1.5.0
+
+Add a sentence insertion composer with before/after/playhead/loop placement, multiline paste, source-timing recovery and clearly labelled audio-guided estimates. Add Original transcript selection and insertion, per-row insertion/deletion actions, overlap review, immediate Sentence loop review and reviewed markers. Keep existing timings anchored and make insertion/deletion undoable.
+
 ## 1.4.3
 
 Expand the timeline automatically during Sentence practice so the sentence boundary and both word lanes remain visible. Restore the earlier height on exit unless the user resized it manually. Browser-verified the 1.4.2 mode transitions, line-region double-click and word-chip zoom.
