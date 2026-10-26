@@ -11,7 +11,7 @@ import json,math,subprocess,sys,tempfile
 from pathlib import Path
 from PIL import Image,ImageDraw,ImageFont
 spec=json.loads(Path(sys.argv[1]).read_text());dest=Path(__file__).resolve().parents[1]/'editor/help/media'
-W,H,FPS,SECONDS=1364,570,12,3
+W,H,FPS,SECONDS=1364,spec.get('outputHeight',570),12,3
 fontroot=Path('/usr/share/fonts/truetype/dejavu')
 font=lambda size,bold=False:ImageFont.truetype(str(fontroot/('DejaVuSans-Bold.ttf' if bold else 'DejaVuSans.ttf')),size)
 scenes=spec['scenes'];cx,cy,cw,ch=spec['crop'];scale=min(W/cw,(H-112)/ch);sw,sh=round(cw*scale),round(ch*scale);ox=(W-sw)//2;oy=112
