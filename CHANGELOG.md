@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.1
+
+Resolve long source lyrics stored as Next.js Flight text references during playlist import, including UTF-8 byte lengths and split stream chunks. Stop exposing unresolved source tokens in Original transcript. Older catalogs fall back to preserved alignment text with an explicit source-availability notice.
+
 ## 1.4.0
 
 Add six audio-driven visualizers to the lyric video studio with a Visuals picker, independent per-style settings, direct preview dragging/resizing, colour palettes and layer placement. Use timestamp-based stereo FFT analysis for consistent preview, seeks, loops and offline MP4 frames. Legacy video projects default to no visualizer.

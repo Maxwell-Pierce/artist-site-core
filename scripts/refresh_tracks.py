@@ -5,13 +5,68 @@ from pathlib import Path
 from datetime import datetime,timezone
 ROOT=Path(os.environ.get('ARTIST_SITE_ROOT',Path(__file__).resolve().parents[1]))
 UUID=re.compile(r'^[0-9a-f-]{36}$')
-def objects(page):
-    decoder=json.JSONDecoder()
+def flight_models(page):
+    """Read JSON rows and byte-length-prefixed text from Next.js Flight data.
+
+    Long lyrics arrive as $<hex> references to T rows. Text can contain newlines,
+    braces and non-ASCII characters, so neither line splitting nor scanning every
+    opening brace is safe inside those rows.
+    """
     text=''.join(json.loads(x) for x in re.findall(r'self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)',page))
-    for m in re.finditer(r'\{',text):
-        try: obj,_=decoder.raw_decode(text[m.start():])
-        except ValueError: continue
-        if isinstance(obj,dict): yield obj
+    data=text.encode('utf-8');cursor=0;chunks={};models=[]
+    while cursor<len(data):
+        if data[cursor:cursor+1] in (b'\n',b'\r'):
+            cursor+=1;continue
+        header=re.match(rb'([0-9a-fA-F]+):',data[cursor:])
+        if not header:
+            end=data.find(b'\n',cursor)
+            if end<0:break
+            cursor=end+1;continue
+        key=header.group(1).decode().lower();cursor+=header.end()
+        if cursor>=len(data):break
+        tag=data[cursor:cursor+1]
+        if data[cursor] in b'TAOobUSsLlGgMmV':
+            length=re.match(rb'[A-Za-z]([0-9a-fA-F]+),',data[cursor:])
+            if length:
+                start=cursor+length.end();end=start+int(length.group(1),16)
+                if end>len(data):break
+                if tag==b'T':
+                    try:chunks[key]=(data[start:end].decode('utf-8'),True)
+                    except UnicodeDecodeError:pass
+                cursor=end;continue
+        end=data.find(b'\n',cursor)
+        if end<0:end=len(data)
+        row=data[cursor:end];cursor=end+1
+        # Non-model rows use a one-letter tag before their JSON payload.
+        if row[:1] and 65<=row[0]<=90:row=row[1:]
+        try:value=json.loads(row)
+        except (ValueError,UnicodeDecodeError):continue
+        chunks[key]=(value,False);models.append(value)
+    def lyric(value):
+        seen=set()
+        while isinstance(value,str):
+            if value.startswith('$$'):return value[1:]
+            match=re.fullmatch(r'\$([a-fA-F0-9]+)',value)
+            if not match:return '' if value=='$undefined' else value
+            key=match.group(1).lower()
+            if key in seen or key not in chunks:return ''
+            seen.add(key);value,is_text=chunks[key]
+            if is_text:return value
+        return ''
+    def resolve(value):
+        if isinstance(value,dict):return {k:lyric(v) if k=='lyrics' else resolve(v) for k,v in value.items()}
+        if isinstance(value,list):return [resolve(v) for v in value]
+        return value
+    return [resolve(value) for value in models]
+
+def objects(page):
+    def walk(value):
+        if isinstance(value,dict):
+            yield value
+            for child in value.values():yield from walk(child)
+        elif isinstance(value,list):
+            for child in value:yield from walk(child)
+    for value in flight_models(page):yield from walk(value)
 
 def image(value):
     if not value or value=='$undefined':return 'assets/mark.svg'

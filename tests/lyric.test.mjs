@@ -35,3 +35,13 @@ test('correction keeps remote anchors and repeated typing is based on the origin
 test('multiple edits, prefix/suffix inserts and complete replacement stay inside the line',()=>{for(const text of ['Please Find your frequency now','Find my own frequency please','Entirely different sentence','Find your own special frequency']){const l=line();replaceLineText(l,text);validateEdit({schemaVersion:1,id:'x',duration:10,lines:[l]});for(let i=1;i<l.words.length;i++)assert.ok(l.words[i].start>=l.words[i-1].end);}});
 
 test('visual word dragging stays inside sentence and preserves other word timings',()=>{const l=line(),before=structuredClone(l.words);l.words[1].estimated=true;assert.ok(retimeWord(l,1,-5,-4));assert.equal(l.words[1].start,1);assert.equal(l.words[1].end,2);assert.equal(l.words[1].estimated,undefined);assert.equal(l.words[1].timingSource,'manual');assert.deepEqual(l.words[0],before[0]);assert.deepEqual(l.words[2],before[2]);retimeWord(l,1,8,9);assert.equal(l.words[1].start,3);assert.equal(l.words[1].end,4);assert.equal(retimeWord(l,1,3,2),false);});
+
+
+test('Original ignores saved Flight references and falls back to original alignment, including missing lines',()=>{
+ const source={lines:[{text:'Corrected words',originalText:'Original line'},{text:'Second line'}],untimed:['Missing from recognition']};
+ for(const lyrics of ['$26','$aF','$undefined',''])assert.deepEqual(originalSentences({lyrics},source),['Original line','Second line','Missing from recognition']);
+ assert.deepEqual(originalSentences({lyrics:'$26',alignedLyrics:[{text:'Catalog alignment'}]},{}),['Catalog alignment']);
+ assert.deepEqual(originalSentences({lyrics:'$26'},{}),[]);
+ assert.deepEqual(originalSentences({lyrics:'$26',alignedLyrics:[{text:'$27'}]},{lines:[{text:'$28'}]}),[]);
+ assert.deepEqual(originalSentences({lyrics:'$26 is the price\n[Chorus]\nRepeat this'},source),['$26 is the price','[Chorus]','Repeat this']);
+});

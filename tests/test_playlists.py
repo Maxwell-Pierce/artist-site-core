@@ -27,6 +27,27 @@ class ParserTests(unittest.TestCase):
     def test_missing_lyrics_are_valid_instrumentals(self):
         result=m.extract_playlist(page(playlist([{**song('a'),'alignedLyrics':None,'lyrics':''}])),PID)
         self.assertEqual(result['trackCount'],1);self.assertEqual(result['tracks'][0]['alignedLyrics'],[])
+    def test_long_lyrics_reference_resolves_utf8_text_split_across_pushes(self):
+        lyrics='[Verse]\nBésame 🌙\n'+('Original chorus\n'*100)+'{"id":"not-a-song"}'
+        model={**song('a'),'lyrics':'$26'}
+        stream='1:'+json.dumps(playlist([model]))+'\n26:T'+format(len(lyrics.encode('utf-8')),'x')+','+lyrics+'2:'+json.dumps({'ignored':True})+'\n'
+        chunks=[stream[:19],stream[19:82],stream[82:200],stream[200:]]
+        html=''.join('<script>self.__next_f.push([1,'+json.dumps(chunk)+'])</script>' for chunk in chunks)
+        result=m.extract_playlist(html,PID)
+        self.assertEqual(result['tracks'][0]['lyrics'],lyrics)
+        self.assertFalse(any(o.get('id')=='not-a-song' for o in m.objects(html)))
+    def test_json_string_references_aliases_and_escaped_dollars(self):
+        models=[{**song('a'),'lyrics':'$26'},{**song('b'),'lyrics':'$$100 is the price'}]
+        stream='1:'+json.dumps(playlist(models))+'\n26:'+json.dumps('$27')+'\n27:'+json.dumps('[Intro]\nActual source lyrics')+'\n'
+        html='<script>self.__next_f.push([1,'+json.dumps(stream)+'])</script>'
+        songs=m.extract_playlist(html,PID)['tracks']
+        self.assertEqual(songs[0]['lyrics'],'[Intro]\nActual source lyrics')
+        self.assertEqual(songs[1]['lyrics'],'$100 is the price')
+    def test_unresolved_and_circular_references_never_become_lyrics(self):
+        for extra in ['', '26:'+json.dumps('$26')+'\n']:
+            stream='1:'+json.dumps(playlist([{**song('a'),'lyrics':'$26'}]))+'\n'+extra
+            html='<script>self.__next_f.push([1,'+json.dumps(stream)+'])</script>'
+            self.assertEqual(m.extract_playlist(html,PID)['tracks'][0]['lyrics'],'')
     def test_removals_are_reflected(self):
         self.assertEqual(m.extract_playlist(page(playlist([song('a')])),PID)['trackCount'],1)
     def test_malformed_or_partial_payload_rejected(self):
