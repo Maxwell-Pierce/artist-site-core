@@ -5,7 +5,7 @@ import {GitHubRepository} from './github.mjs';
 import {clone,escapeHTML as esc,validate,blocksHTML} from './model.mjs';
 const $=id=>document.getElementById(id);
 let repo,artist,pages,source,base,branch,repository,tab='home',selected=0,dirty=false,busy=false,history=[],previewTimer,draftBranch,draftHead,existingPages=[],assetPaths=[],previewGeneration=0,baseCSS='',presenceCSS='',previewTracks=[],creative={edits:{},projects:{}},lyricIDs=[],lyricDispose=null,lyricMount=0;
-const notice=(message,error=false)=>{$('notice').textContent=message;$('notice').classList.toggle('error',error);};
+const notice=(message,error=false)=>{$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=!error&&message.startsWith('Connected. Edits preview immediately.');};
 const key=()=>`artist-studio:${repository}:${branch}`;
 function snapshot(){return {artist:clone(artist),pages:clone(pages),creative:clone(creative)};}
 function checkpoint(){history.push(snapshot());if(history.length>50)history.shift();$('undo').disabled=false;}
