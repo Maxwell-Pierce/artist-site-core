@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3.6
+
+Make Lines, Words and Sentence exclusive timeline views with automatic full-track, context and sentence zoom. Double-click a line region or transcript row to open Sentence mode. Restore the previous loop when leaving focused editing.
+
 ## 1.3.5
 
 Add Sentence mode: auto-fit the selected sentence, enable looping, display all word regions in alternating lanes with larger handles, and navigate previous/next sentences without entering timestamps.
