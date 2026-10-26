@@ -20,7 +20,37 @@ export function validateProject(project,duration){if(!validID(project.id)||proje
 }
 export function retimeLine(line,start,end,duration){start=Math.max(0,round(start));end=Math.min(duration,round(end));if(end-start<.04)return false;const oldStart=line.start,oldSpan=line.end-line.start,scale=(end-start)/oldSpan;line.start=start;line.end=end;for(const word of line.words||[])if(finite(word.start)&&finite(word.end)){word.start=round(start+(word.start-oldStart)*scale);word.end=round(start+(word.end-oldStart)*scale);word.timingSource=word.estimated?'estimated-editor-retime':'manual';}line.timingSource='manual';return true;}
 export function shiftAll(lines,delta,duration){if(!lines.length)return 0;const actual=Math.max(-Math.min(...lines.map(l=>l.start)),Math.min(delta,duration-Math.max(...lines.map(l=>l.end))));for(const line of lines)retimeLine(line,line.start+actual,line.end+actual,duration);return round(actual);}
-export function replaceLineText(line,text){const tokens=text.trim().split(/\s+/);line.text=text;const previous=line.words||[];line.words=tokens.map((word,i)=>({...(tokens.length===previous.length?previous[i]:{}),text:word,...(tokens.length===previous.length?{}:{start:null,end:null}),timingSource:tokens.length===previous.length?(previous[i]?.text!==word?'manual-text':previous[i]?.timingSource||'source'):'untimed-edited-text'}));}
+// Align unchanged tokens first; estimate only the edited neighbourhood.
+const wordKey=text=>text.normalize('NFKC').toLowerCase().replace(/[’‘]/g,"'").replace(/[^\p{L}\p{N}']/gu,'');
+const speechWeight=text=>Math.max(1,(text.toLowerCase().match(/[aeiouyà-ÿ]+/g)||[]).length,text.replace(/^[.,!?;:]+|[.,!?;:]+$/g,'').length/5);
+export function replaceLineText(line,text,baseline=line){
+ const previous=clone(baseline.words||[]),tokens=text.trim().split(/\s+/).filter(Boolean),n=previous.length,m=tokens.length;
+ line.text=text;if(!m){line.words=[];return;}
+ const oldKeys=previous.map(w=>wordKey(w.text)),keys=tokens.map(wordKey),width=m+1,dp=new Uint16Array((n+1)*width);
+ for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i*width+j]=oldKeys[i]===keys[j]?1+dp[(i+1)*width+j+1]:Math.max(dp[(i+1)*width+j],dp[i*width+j+1]);
+ const matched=new Map();let i=0,j=0;
+ while(i<n&&j<m){if(oldKeys[i]===keys[j]){matched.set(j,previous[i]);i++;j++;}else if(dp[(i+1)*width+j]>dp[i*width+j+1])i++;else j++;}
+ const words=tokens.map((text,index)=>matched.has(index)?{...matched.get(index),text}:{text,start:null,end:null});
+ // Invalid or overlapping source timings cannot serve as hard anchors.
+ let last=line.start;const anchors=[];
+ words.forEach((w,k)=>{if(finite(w.start)&&finite(w.end)&&w.start>=last&&w.end>w.start&&w.end<=line.end+.00001){anchors.push(k);last=w.end;}else{w.start=null;w.end=null;}});
+ const spans=[];
+ for(let k=0;k<=anchors.length;k++){
+  const left=k?anchors[k-1]:-1,right=k<anchors.length?anchors[k]:m;
+  if(right===left+1)continue;
+  let first=left+1,stop=right,a=left>=0?words[left].end:line.start,b=right<m?words[right].start:line.end;
+  // When insertion has no silence to occupy, borrow only adjacent word spans.
+  if(b-a<(stop-first)*.07){if(left>=0){first=left;a=words[left].start;}if(right<m){stop=right+1;b=words[right].end;}}
+  spans.push({first,stop,a,b});
+ }
+ // Edited blocks can share a borrowed neighbour: distribute their union once.
+ const merged=[];for(const span of spans){const tail=merged.at(-1);if(tail&&span.first<tail.stop){tail.stop=Math.max(tail.stop,span.stop);tail.b=Math.max(tail.b,span.b);}else merged.push({...span});}
+ for(const {first,stop,a,b}of merged){const weights=words.slice(first,stop).map(w=>speechWeight(w.text)),total=weights.reduce((a,b)=>a+b,0);let cursor=a;
+  for(let k=first;k<stop;k++){const end=k===stop-1?b:cursor+(b-a)*weights[k-first]/total;words[k]={...words[k],start:cursor,end,estimated:true,score:0,timingSource:'estimated-text-edit'};cursor=end;}
+ }
+ line.words=words;
+}
+
 export function distributeWords(line){const words=line.text.trim().split(/\s+/),total=words.reduce((n,w)=>n+Math.max(1,w.length),0);let cursor=line.start;line.words=words.map((text,i)=>{const end=i===words.length-1?line.end:cursor+(line.end-line.start)*Math.max(1,text.length)/total;const word={text,start:round(cursor),end:round(end),estimated:true,score:0,timingSource:'estimated-editor-distribution'};cursor=end;return word;});}
 export function splitLine(lines,index,time){const line=lines[index];if(!line||time<=line.start+.05||time>=line.end-.05)return false;const words=line.words?.length?line.words:line.text.split(/\s+/).map(text=>({text,start:null,end:null}));let split=words.findIndex(w=>finite(w.start)&&w.start>=time);if(split<=0)split=Math.max(1,Math.min(words.length-1,Math.round(words.length*(time-line.start)/(line.end-line.start))));if(words.length<2)return false;
  const first=clone(line),last=clone(line);first.end=round(time);last.start=round(time);first.words=clone(words.slice(0,split));last.words=clone(words.slice(split));first.text=first.words.map(w=>w.text).join(' ');last.text=last.words.map(w=>w.text).join(' ');for(const l of [first,last]){l.timingSource='manual';for(const w of l.words)if(finite(w.start)&&finite(w.end)){w.start=Math.max(l.start,w.start);w.end=Math.min(l.end,w.end);if(w.end<=w.start){w.start=null;w.end=null;}}}lines.splice(index,1,first,last);return true;

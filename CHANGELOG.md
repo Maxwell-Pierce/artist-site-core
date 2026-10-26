@@ -1,5 +1,10 @@
 # Changes
 
+## 1.3.4
+
+Preserve unchanged word timings through lyric text corrections using sequence alignment. Estimate only changed spans, borrowing adjacent timing locally when insertions have no gap. Use edit-session baselines to prevent timing drift while typing.
+
+
 ## 1.3.3
 
 Add a separate amber A/B practice loop with lead/tail context, replay, keyboard shortcuts and new sentence insertion. Add Original/Edited transcript tabs with copy, replace and insert actions, including lyrics missed by recognition.
