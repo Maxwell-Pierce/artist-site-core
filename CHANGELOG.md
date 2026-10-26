@@ -1,5 +1,9 @@
 # Changes
 
+## 1.12.1
+
+Synchronize live fade automation with actual media playing rather than the play request. Hold the envelope during buffering, seeking and pause; re-anchor on resume, seek and clock drift so fades cannot run ahead of audible audio. Avoid overlapping gain automation events at a curve start.
+
 ## 1.12.0
 
 Put video formats and safe guides in the preview header. Replace permanent bottom editing actions and loop settings rows with contextual menus, keep word chips/navigation compact, and remove forced Sentence-mode pane expansion. Reset legacy timeline sizing to a balanced default while preserving side-pane widths.
