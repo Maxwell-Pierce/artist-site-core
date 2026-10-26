@@ -1,5 +1,9 @@
 # Changes
 
+## 1.6.1
+
+Show the deployed shared core version beside the Artist Studio branding and Content & Design badge. Inject the version from VERSION during the site build so every consumer reports its actual pinned release.
+
 ## 1.6.0
 
 Add explicit timeline selection with a high-contrast region outline, selected-word chips and inspector highlighting, and a visible selection label. Delete/Backspace and the contextual delete button remove the selected word or sentence without shifting other timings. Preserve selection in Undo, ignore held-key repeats, and protect text-entry fields. Escape clears selection.
