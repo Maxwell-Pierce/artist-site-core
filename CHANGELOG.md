@@ -1,5 +1,10 @@
 # Changes
 
+## 1.12.0
+
+Put video formats and safe guides in the preview header. Replace permanent bottom editing actions and loop settings rows with contextual menus, keep word chips/navigation compact, and remove forced Sentence-mode pane expansion. Reset legacy timeline sizing to a balanced default while preserving side-pane widths.
+
+
 ## 1.11.0
 
 Remove the demo notice and timeline export/numeric/help rows. Move export controls into Video, merge preview ratio/guide controls and compact sentence chips, restoring vertical room to the artwork and waveform. Apply audio fade envelopes to normal Play with marked-range boundaries and practice-aware audition.
