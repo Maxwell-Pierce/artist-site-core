@@ -1,5 +1,9 @@
 # Changes
 
+## 1.18.0
+
+Remove the redundant content inspector pane from the inline page canvas. Place image and section settings beside their target, with existing-image thumbnails, local upload preparation and immediate image preview. Stage uploaded image assets with draft/recovery/Undo state and commit binaries atomically with content on Save/Publish. Keep page metadata in a compact Page settings action and save state in the app header. Stop bookmark clicks from scrolling in Edit mode while preserving hash navigation in Preview.
+
 ## 1.17.0
 
 Replace the fixed content formatting bar with a selection-anchored bubble menu. Preserve page spacing with contextual section tools. Bind static template copy, media and links beyond hero/about; retain guarded edits without rewriting artist HTML or scripts. Render published collections and live muted video, load website fonts, edit collection copy/artwork, social labels and event text in place, and provide a clean Preview toggle. Use the real artist template in the token-free demo.
