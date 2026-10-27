@@ -8,3 +8,12 @@
 
 /* One compact application header; dialog headers retain their own sizing. */
 body>header{height:auto;min-height:44px;padding:5px 12px;gap:10px;flex-wrap:wrap}body>header .brand{font-size:14px;gap:7px;white-space:nowrap}body>header .brand span{font-size:11px;letter-spacing:1.3px}body>header .studio-meta{gap:6px}body>header .badge{font-size:9px;letter-spacing:1px;padding:3px 6px}body>header .core-version{font-size:10px;padding:3px 6px}body>header .actions{gap:5px;align-items:center}body>header .actions button,body>header .help-link{font-size:12px;padding:5px 8px}body>header .help-link{white-space:nowrap}body.has-lyric-workspace>header .studio-meta>.badge,body.has-lyric-workspace>header>.badge{display:none}body.has-lyric-workspace>#notice:not([hidden]){position:fixed;right:12px;top:calc(var(--studio-shell-top,44px) + 8px);z-index:100;max-width:min(620px,calc(100vw - 24px));padding:9px 14px;border:1px solid #536579;border-radius:8px;box-shadow:0 6px 25px #0008;font-size:13px}
+
+/* The website is the primary content editor; settings remain in a narrow inspector. */
+#workspace.canvas-mode{grid-template-columns:190px 245px minmax(360px,1fr);height:calc(100vh - 44px);min-height:0}
+.canvas-mode>main{padding:16px;max-height:none;overflow:auto}.canvas-mode .panel-heading{display:block;margin-bottom:12px}.canvas-mode h2{font-size:20px}
+.canvas-mode .preview{padding:10px;min-height:0;overflow:hidden}.canvas-mode .preview iframe{flex:1;min-height:260px;height:auto;border-radius:6px}.canvas-mode .preview-toolbar{min-height:34px}
+.canvas-mode .preview-music{margin:0 0 8px;gap:6px}.canvas-mode .preview-music>label,.canvas-mode .preview-music>p,.canvas-mode .preview>.hint{display:none}.canvas-mode .preview-music audio{height:28px}.canvas-mode .preview-music select{padding:4px}
+.canvas-mode #section-settings{padding:12px}.canvas-mode #section-settings h3{font-size:14px;margin:0 0 12px}
+@media(max-width:1050px){#workspace.canvas-mode{grid-template-columns:160px minmax(250px,1fr);height:auto}.canvas-mode .preview{grid-column:1/-1;height:85vh}.canvas-mode>main{max-height:300px}}
+@media(max-width:650px){#workspace.canvas-mode{display:block}.canvas-mode>main{max-height:260px}.canvas-mode .preview{height:85vh}}

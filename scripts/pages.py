@@ -1,5 +1,6 @@
 """Optional structured pages. Existing HTML templates remain the default."""
 import html,json,re
+from html.parser import HTMLParser
 from pathlib import Path
 
 def esc(value):return html.escape(str(value or ''),quote=True)
@@ -28,17 +29,37 @@ def load_pages(site):
             if kind not in ['text','image','link']:raise ValueError('Unknown page section')
             if kind=='image' and not safe_url(block.get('src'),True):raise ValueError('Invalid image URL')
             if kind=='link' and not safe_url(block.get('href')):raise ValueError('Invalid link URL')
+    if 'home' in data:
+        if not isinstance(data['home'],dict) or not isinstance(data['home'].get('blocks'),list):raise ValueError('Invalid home sections')
+        for block in data['home']['blocks']:
+            if block.get('type') not in ['text','image','link']:raise ValueError('Unknown home section')
+            if block['type']=='image' and not safe_url(block.get('src'),True):raise ValueError('Invalid image URL')
+            if block['type']=='link' and not safe_url(block.get('href')):raise ValueError('Invalid link URL')
     return data['pages']
+class RichContent(HTMLParser):
+    allowed={'strong','b','em','i','u','br','p','div','ul','ol','li'}
+    def __init__(self):super().__init__(convert_charrefs=True);self.parts=[]
+    def handle_starttag(self,tag,attrs):
+        if tag in self.allowed:self.parts.append('<'+tag+'>')
+    def handle_endtag(self,tag):
+        if tag in self.allowed:self.parts.append('</'+tag+'>')
+    def handle_data(self,data):self.parts.append(esc(data))
+def rich_html(value):
+    parser=RichContent();parser.feed(str(value or ''));return ''.join(parser.parts)
+def section_html(b):
+    if b['type']=='image':return '<figure><img style="max-width:100%;border-radius:16px" src="'+esc(b['src'])+'" alt="'+esc(b.get('alt'))+'"><figcaption>'+esc(b.get('caption'))+'</figcaption></figure>'
+    if b['type']=='link':return '<p><a class="text-link" href="'+esc(b['href'])+'">'+esc(b.get('text'))+' ↗</a></p>'
+    return ('<h2>'+esc(b['heading'])+'</h2>' if b.get('heading') else '')+('<div style="white-space:pre-wrap">'+rich_html(b['richText'])+'</div>' if 'richText' in b else '<p style="white-space:pre-wrap">'+esc(b.get('text'))+'</p>')
 def blocks_html(page):
-    parts=['<section class="section"><p class="eyebrow">'+esc(page.get('label') or page['title'])+'</p><h1>'+esc(page['title'])+'</h1>']
-    for b in page['blocks']:
-        if b['type']=='image':parts.append('<figure><img style="max-width:100%;border-radius:16px" src="'+esc(b['src'])+'" alt="'+esc(b.get('alt'))+'"><figcaption>'+esc(b.get('caption'))+'</figcaption></figure>')
-        elif b['type']=='link':parts.append('<p><a class="text-link" href="'+esc(b['href'])+'">'+esc(b.get('text'))+' ↗</a></p>')
-        else:parts.append(('<h2>'+esc(b['heading'])+'</h2>' if b.get('heading') else '')+'<p style="white-space:pre-wrap">'+esc(b.get('text'))+'</p>')
-    return ''.join(parts)+'</section>'
+    return '<section class="section"><p class="eyebrow">'+esc(page.get('label') or page['title'])+'</p><h1>'+esc(page['title'])+'</h1>'+''.join(section_html(b) for b in page['blocks'])+'</section>'
 def publish_pages(site,dest):
     pages=load_pages(site)
-    shell=(dest/'index.html').read_text()
+    home_path=site/'pages.json'
+    home=json.loads(home_path.read_text()).get('home',{}) if home_path.exists() else {}
+    index=dest/'index.html'
+    if home.get('blocks'):
+        text=index.read_text();text=re.sub(r'</main>',lambda _: '<section class="section">'+''.join(section_html(b) for b in home['blocks'])+'</section></main>',text,count=1);index.write_text(text)
+    shell=index.read_text()
     if pages and not re.search(r'<main\b[^>]*>.*?</main>',shell,re.S):raise ValueError('Page editor needs a main element in index.html')
     for page in pages:
         text=re.sub(r'<main\b[^>]*>.*?</main>',lambda _: '<main>'+blocks_html(page)+'</main>',shell,count=1,flags=re.S)

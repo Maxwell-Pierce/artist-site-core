@@ -33,3 +33,21 @@ class AdminAssetVersionTests(unittest.TestCase):
    root=Path(tmp);(root/'index.html').write_text('<script type="module" src="studio.mjs"></script><link href="style.css">');(root/'studio.mjs').write_text("import {x} from './model.mjs'; const lazy=()=>import('./media.mjs');");(root/'model.mjs').write_text('export const x=1;');(root/'media.mjs').write_text('export const y=2;')
    version=version_admin(root)
    self.assertIn('studio.mjs?v='+version,(root/'index.html').read_text());self.assertIn('./model.mjs?v='+version,(root/'studio.mjs').read_text());self.assertIn('./media.mjs?v='+version,(root/'studio.mjs').read_text())
+
+class VisualContentTests(unittest.TestCase):
+ def test_home_and_page_sections_publish_without_mutating_templates(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);site=root/'site';site.mkdir();(site/'artist.json').write_text(json.dumps(config()))
+   blocks=[{'type':'text','heading':'A story','text':'legacy fallback','richText':'<b onclick="bad()">Bold &amp; safe</b><img src=x onerror=bad()><ul><li>One</li></ul>'},{'type':'image','src':'assets/mark.svg','alt':'Artwork','caption':'Caption'},{'type':'link','href':'https://example.com','text':'Listen'}]
+   data={'schemaVersion':1,'pages':[{'slug':'story','title':'Story','blocks':blocks}], 'home':{'blocks':blocks}}
+   (site/'pages.json').write_text(json.dumps(data));out=build(site,root/'out')
+   for name in ['index.html','story.html']:
+    text=(out/name).read_text();self.assertIn('<b>Bold &amp; safe</b>',text);self.assertIn('<ul><li>One</li></ul>',text);self.assertIn('alt="Artwork"',text);self.assertIn('>Listen ↗',text);self.assertNotIn('onclick="bad()',text);self.assertNotIn('onerror=bad()',text)
+    self.assertEqual(text.count('<b>Bold &amp; safe</b>'),1)
+   self.assertEqual(json.loads((site/'pages.json').read_text()),data)
+ def test_invalid_home_sections_rejected(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   site=Path(tmp)
+   for home in [{}, {'blocks':[{'type':'image','src':'javascript:x'}]}, {'blocks':[{'type':'link','href':'//bad.test'}]}, {'blocks':[{'type':'unknown'}]}]:
+    (site/'pages.json').write_text(json.dumps({'schemaVersion':1,'pages':[],'home':home}))
+    with self.assertRaises(ValueError):load_pages(site)

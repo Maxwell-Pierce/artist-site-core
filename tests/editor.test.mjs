@@ -32,3 +32,23 @@ test('default browser fetch is invoked with the global receiver',async()=>{
  try {assert.equal(await new GitHubRepository('owner/site','token').head('main'),'head');}
  finally {globalThis.fetch=original;}
 });
+
+test('rich text keeps formatting but removes attributes and executable elements',async()=>{
+ const {richHTML}=await import('../editor/model.mjs');
+ const result=richHTML('<b onclick="evil()">Hello &amp; goodbye</b><img src=x onerror=evil()><a href="javascript:x">link</a><ul><li>One</li></ul>');
+ assert.equal(result,'<b>Hello &amp; goodbye</b>link<ul><li>One</li></ul>');
+ assert.equal(richHTML('&lt;img&gt; &#65; &nbsp;'),'&lt;img&gt; A \u00a0');
+});
+test('all supported sections validate on home and extra pages',async()=>{
+ const {newSection,sectionTypes}=await import('../editor/page-canvas.mjs');
+ const blocks=sectionTypes.map(newSection);const pages={schemaVersion:1,pages:[{slug:'story',title:'Story',blocks}],home:{blocks:structuredClone(blocks)}};
+ validate(artist,pages);assert.match(blocksHTML(pages.pages[0]),/<figure>/);assert.match(blocksHTML(pages.pages[0]),/class="text-link"/);
+ pages.home.blocks[0]={type:'image',src:'javascript:evil'};assert.throws(()=>validate(artist,pages));
+ pages.home={};assert.throws(()=>validate(artist,pages));
+ assert.throws(()=>newSection('script'));
+});
+test('legacy plain text remains escaped and rich body is opt-in',()=>{
+ const page={title:'Story',blocks:[{type:'text',text:'<b>literal</b>'}]};
+ assert.match(blocksHTML(page),/<p style="white-space:pre-wrap">&lt;b&gt;literal&lt;\/b&gt;<\/p>/);
+ page.blocks[0].richText='<b>Formatted</b>';assert.match(blocksHTML(page),/<div style="white-space:pre-wrap"><b>Formatted<\/b><\/div>/);
+});

@@ -1,3 +1,4 @@
+import {markHome,mountPageCanvas} from './page-canvas.mjs';
 import {rememberConnection, rememberedConnection, forgottenConnection} from './connection.mjs';
 import {validatePresence, mountPresence, platforms, safePresenceURL} from './presence.mjs';
 import {creativeFiles} from './lyric-model.mjs';
@@ -9,7 +10,7 @@ const notice=(message,error=false)=>{$('notice').textContent=message;$('notice')
 const key=()=>`artist-studio:${repository}:${branch}`;
 function snapshot(){return {artist:clone(artist),pages:clone(pages),creative:clone(creative)};}
 function checkpoint(){history.push(snapshot());if(history.length>50)history.shift();$('undo').disabled=false;}
-function changed(){dirty=true;$('dirty').textContent='Unpublished changes';try{localStorage.setItem(key(),JSON.stringify({...snapshot(),base,savedAt:new Date().toISOString()}));}catch{notice('Changes are in memory; browser storage is unavailable. Export a backup before closing.');}clearTimeout(previewTimer);previewTimer=setTimeout(preview,150);}
+function changed(refresh=true){dirty=true;$('dirty').textContent='Unpublished changes';try{localStorage.setItem(key(),JSON.stringify({...snapshot(),base,savedAt:new Date().toISOString()}));}catch{notice('Changes are in memory; browser storage is unavailable. Export a backup before closing.');}clearTimeout(previewTimer);if(refresh)previewTimer=setTimeout(preview,150);}
 function field(parent,label,value,update,type='text',options){
  const wrap=document.createElement('label');wrap.textContent=label;
  const input=document.createElement(type==='textarea'?'textarea':type==='select'?'select':'input');
@@ -21,15 +22,14 @@ function configField(parent,label,path,type,options){const keys=path.split('.');
 function button(parent,text,fn,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.onclick=fn;parent.append(b);return b;}
 function render(){
  lyricDispose?.();lyricDispose=null;const mount=++lyricMount;$('workspace').classList.toggle('lyric-mode',tab==='lyrics');if(tab==='lyrics')$('preview-audio').pause();
- const target=$('fields');target.replaceChildren();
+ const target=$('fields');target.replaceChildren();$('workspace').classList.toggle('canvas-mode',tab==='home'||tab==='page');
  const titles={home:'Home page',pages:'Pages & navigation',identity:'Identity & entrance',theme:'Colours & appearance',events:'DJ events & calendar',socials:'Social & music links',lyrics:'Lyrics & video studio'};
  $('panel-title').textContent=tab==='page'?(pages.pages[selected]?.title||'New page'):titles[tab];
  document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('selected',b.dataset.tab===tab);b.title=b.textContent.trim();b.setAttribute('aria-label',b.textContent.trim());});
  const list=$('page-list');list.replaceChildren();pages.pages.forEach((p,i)=>button(list,`${p.nav===false?'○':'▤'} ${p.label||p.title}`,()=>{tab='page';selected=i;render();preview();}));
  if(tab==='lyrics'){target.textContent='Loading lyric timeline…';import('./lyric-studio.mjs').then(({mountLyricStudio})=>{if(mount!==lyricMount||tab!=='lyrics')return;lyricDispose=mountLyricStudio(target,{repo,getBase:()=>base,tracks:previewTracks,lyricIDs,getState:()=>creative,onChange:changed});}).catch(error=>{target.textContent='Could not load the timeline: '+error.message;});
  }else if(tab==='home'){
-  for(const [label,path,type] of [['Eyebrow','hero.eyebrow'],['Headline','hero.title'],['Accent line','hero.accent'],['Introduction','hero.description','textarea'],['Image caption','hero.caption'],['About heading','about.title'],['About text','about.text','textarea']])configField(target,label,path,type);
-  const p=document.createElement('p');p.className='hint';p.textContent='Edits apply to configuration placeholders in your home template. Custom HTML remains owned by your site.';target.append(p);
+  renderCanvasSettings(target);
  }else if(tab==='identity'){
   for(const [label,path,type] of [['Artist name','name'],['First part of name','nameFirst'],['Second part of name','nameLast'],['Tagline','tagline'],['Search description','description','textarea'],['Entrance eyebrow','entrance.eyebrow'],['Portrait asset path','entrance.portrait'],['Portrait description','entrance.portraitAlt'],['Entrance message','entrance.tagline'],['Enter button','entrance.button']])configField(target,label,path,type);
   configField(target,'Portrait effect','entrance.effect','select',['fade','eye-glow']);
@@ -44,22 +44,34 @@ function render(){
   pages.pages.forEach((page,i)=>{const card=document.createElement('div');card.className='block';const row=document.createElement('div');row.className='block-head';const title=document.createElement('strong');title.textContent=page.title;row.append(title);button(row,'↑',()=>movePage(i,-1)).disabled=i===0;button(row,'↓',()=>movePage(i,1)).disabled=i===pages.pages.length-1;button(row,'Edit',()=>{tab='page';selected=i;render();preview();});card.append(row);target.append(card);});
  }else{
   const page=pages.pages[selected];if(!page){tab='pages';return render();}
-  field(target,'Page title',page.title,v=>{page.title=v;});field(target,'Menu label',page.label,v=>page.label=v);field(target,'Page address (.html is added)',page.slug,v=>page.slug=v);field(target,'Search description',page.description,v=>page.description=v,'textarea');
-  field(target,'Show in navigation',page.nav===false?'Hidden':'Visible',v=>page.nav=v==='Visible','select',['Visible','Hidden']);
-  page.blocks.forEach((block,i)=>{const card=document.createElement('section');card.className='block';const head=document.createElement('div');head.className='block-head';const strong=document.createElement('strong');strong.textContent=block.type+' section';head.append(strong);button(head,'↑',()=>moveBlock(i,-1)).disabled=i===0;button(head,'↓',()=>moveBlock(i,1)).disabled=i===page.blocks.length-1;button(head,'Remove',()=>{checkpoint();page.blocks.splice(i,1);changed();render();});card.append(head);
-   const fields=block.type==='text'?[['Heading','heading'],['Text','text','textarea']]:block.type==='image'?[['Image asset path or HTTPS URL','src'],['Alternative text','alt'],['Caption','caption']]:[['Button label','text'],['Destination','href']];
-   for(const [label,prop,type]of fields)field(card,label,block[prop],v=>block[prop]=v,type);target.append(card);
-  });const row=document.createElement('div');row.className='row';for(const type of ['text','image','link'])button(row,'+ '+type,()=>{checkpoint();page.blocks.push(type==='text'?{type,heading:'New section',text:'Tell your story.'}:type==='image'?{type,src:'assets/mark.svg',alt:'',caption:''}:{type,text:'Explore',href:'index.html#music'});changed();render();});target.append(row);
+  renderCanvasSettings(target);
   button(target,'Delete page',()=>{if(!confirm('Remove this page on the next publish?'))return;checkpoint();pages.pages.splice(selected,1);tab='pages';changed();render();},'danger');
  }
+}
+function renderCanvasSettings(target){
+ const hint=document.createElement('p');hint.className='hint';hint.textContent='Edit directly in the page: click a heading, paragraph, caption or link label. Use the inline toolbar for text formatting. Add sections between existing sections.';target.append(hint);
+ if(tab==='page'){
+  const page=pages.pages[selected];field(target,'Page address (.html is added)',page.slug,v=>page.slug=v);field(target,'Search description',page.description,v=>page.description=v,'textarea');
+  field(target,'Show in navigation',page.nav===false?'Hidden':'Visible',v=>page.nav=v==='Visible','select',['Visible','Hidden']);
+ }
+ const settings=document.createElement('div');settings.id='section-settings';settings.className='block';settings.textContent='Select a section’s Settings to change its image or destination.';target.append(settings);
+}
+function selectCanvasSection(block,index){
+ const target=$('section-settings');if(!target)return;target.replaceChildren();const heading=document.createElement('h3');heading.textContent=`Section ${index+1} · ${block.type}`;target.append(heading);
+ if(block.type==='image'){field(target,'Image asset path or HTTPS URL',block.src,v=>block.src=v);field(target,'Alternative text',block.alt,v=>block.alt=v);}
+ else if(block.type==='link')field(target,'Destination',block.href,v=>block.href=v);
+ else {const hint=document.createElement('p');hint.className='hint';hint.textContent='Click the heading or body on the page to edit. Select body text to apply formatting above the canvas.';target.append(hint);}
 }
 function movePage(i,d){checkpoint();[pages.pages[i],pages.pages[i+d]]=[pages.pages[i+d],pages.pages[i]];changed();render();}
 function moveBlock(i,d){checkpoint();const b=pages.pages[selected].blocks;[b[i],b[i+d]]=[b[i+d],b[i]];changed();render();}
 async function preview(){
  if(!source||tab==='lyrics')return;
  const generation=++previewGeneration;
- let text=source.replace(/\{\{([a-zA-Z0-9_.]+)\}\}/g,(_,path)=>esc(path.split('.').reduce((o,k)=>o?.[k],artist)??''));
- const doc=new DOMParser().parseFromString(text,'text/html');doc.querySelectorAll('script,iframe,object,embed,base').forEach(el=>el.remove());doc.querySelectorAll('*').forEach(el=>{for(const a of [...el.attributes])if(a.name.startsWith('on'))el.removeAttribute(a.name);});
+ const scroll=['home','page'].includes(tab)?($('preview').contentDocument?.documentElement.scrollTop||0):0;
+ let template=source;
+ if(tab==='home'){const marked=new DOMParser().parseFromString(source,'text/html');if(marked.querySelector('main'))markHome(marked);template=marked.documentElement.outerHTML;}
+ let text=template.replace(/\{\{([a-zA-Z0-9_.]+)\}\}/g,(_,path)=>esc(path.split('.').reduce((o,k)=>o?.[k],artist)??''));
+ const doc=new DOMParser().parseFromString(text,'text/html');doc.querySelectorAll('script,iframe,object,embed,base,meta[http-equiv]').forEach(el=>el.remove());doc.querySelectorAll('*').forEach(el=>{for(const a of [...el.attributes])if(a.name.toLowerCase().startsWith('on')||(/^(?:href|src|action|formaction)$/i.test(a.name)&&/^\s*(?:javascript|data|vbscript):/i.test(a.value)))el.removeAttribute(a.name);});
  const baseEl=doc.createElement('base');baseEl.href=new URL('../',location.href).href;doc.head.prepend(baseEl);
  if(tab==='page'&&pages.pages[selected])doc.querySelector('main').innerHTML=blocksHTML(pages.pages[selected]);
  const nav=doc.querySelector('header nav');if(nav&&pages.navigation){nav.replaceChildren();for(const item of pages.navigation){const a=doc.createElement('a');a.textContent=item.label;a.href=item.href;nav.append(a);}}if(nav)for(const p of pages.pages.filter(p=>p.nav!==false)){const a=doc.createElement('a');a.textContent=p.label||p.title;a.href=p.slug+'.html';nav.append(a);}
@@ -69,7 +81,13 @@ async function preview(){
  for(const [k,old]of Object.entries(initialTheme||palette))if(artist.theme?.[k])css=css.replace(new RegExp(old.replace('#','\\#')+'([a-f0-9]{2})?\\b','gi'),(_,alpha)=>artist.theme[k]+(alpha||''));
  const style=doc.createElement('style');style.textContent=css+presenceCSS+'\nbody{overflow:auto!important} .entrance,.player{display:none!important}';doc.head.append(style);
  try{mountPresence(artist,doc,Date.now(),tab!=='page');}catch{}
- doc.querySelectorAll('link[rel=stylesheet]').forEach(el=>el.remove());if(generation===previewGeneration)$('preview').srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
+ doc.querySelectorAll('link[rel=stylesheet]').forEach(el=>el.remove());if(generation===previewGeneration){
+  const frame=$('preview');frame.onload=()=>{
+   if(generation!==previewGeneration||!['home','page'].includes(tab))return;
+   const home=tab==='home';const page=home?(pages.home??={blocks:[]}):pages.pages[selected];
+   mountPageCanvas(frame.contentDocument,{page,artist,home,checkpoint,onChange:()=>{changed(false);if(!home){$('panel-title').textContent=page.title;const entry=$('page-list').children[selected];if(entry)entry.textContent=`${page.nav===false?'○':'▤'} ${page.label||page.title}`;}},onStructure:()=>{clearTimeout(previewTimer);changed(false);preview();},onSelect:selectCanvasSection});frame.contentWindow.scrollTo(0,scroll);
+  };frame.srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
+ }
 }
 let initialTheme;
 $('connect-form').onsubmit=async event=>{event.preventDefault();if(busy)return;busy=true;try{
@@ -134,4 +152,17 @@ function renderSocials(target){
  button(target,'+ Add social or music link',()=>{checkpoint();apply();socials.links.push({platform:'website',url:'https://',label:''});changed();render();});
 }
 $('forget-connection').onclick=()=>{try{forgottenConnection(localStorage);$('token').value='';$('remember').checked=false;notice('Saved connection removed from this device.');}catch{notice('Browser storage is unavailable.',true);}};
-try{const saved=rememberedConnection(localStorage);if(saved){$('repository').value=saved.repository;$('branch').value=saved.branch;$('token').value=saved.token;$('remember').checked=true;queueMicrotask(()=>$('connect-form').requestSubmit());}}catch{}
+try{const saved=document.body.dataset.contentDemo==='true'?null:rememberedConnection(localStorage);if(saved){$('repository').value=saved.repository;$('branch').value=saved.branch;$('token').value=saved.token;$('remember').checked=true;queueMicrotask(()=>$('connect-form').requestSubmit());}}catch{}
+
+async function startContentDemo(){
+ repository='demo/content';branch='session';base='demo';
+ artist={name:'Your Artist',slug:'your-artist',theme:{bg:'#100d1b',surface:'#1c1429',ink:'#f3ebdd',muted:'#b8abc6',gold:'#eac584',pink:'#f163bd'},hero:{eyebrow:'INDEPENDENT ARTIST',title:'Your music.',accent:'Your world.',description:'Click this introduction to make it your own.',caption:'New sounds, new stories.'},about:{title:'Behind the music',text:'Tell your story directly on the page.'}};
+ pages={schemaVersion:1,pages:[{slug:'story',title:'The story so far',label:'My story',description:'',blocks:[{type:'text',heading:'Made to be heard',text:'Select these words and try Bold or Italic. Add another section below.'},{type:'image',src:'https://maxwellpierce.mixunity.com/admin/demo/heavns-moving-out-of-frame/artwork-original.png',alt:'HEAVNS artwork',caption:'Click this caption to edit it.'},{type:'link',text:'Explore the music',href:'index.html#music'}]}]};
+ source='<!doctype html><html><head><title>Content demo</title></head><body><header><nav><a href="index.html">Home</a></nav></header><main><section class="section"><p class="eyebrow">{{hero.eyebrow}}</p><h1>{{hero.title}} <em>{{hero.accent}}</em></h1><p>{{hero.description}}</p><p>{{hero.caption}}</p></section><section class="section"><h2>{{about.title}}</h2><p>{{about.text}}</p></section></main></body></html>';
+ baseCSS=await fetch('../style.css').then(r=>r.text());initialTheme=clone(artist.theme);presenceCSS='';creative={edits:{},projects:{}};
+ assetPaths=['https://maxwellpierce.mixunity.com/admin/demo/heavns-moving-out-of-frame/artwork-original.png'];
+ $('connection').hidden=true;$('workspace').hidden=false;for(const id of ['save','publish','disconnect','restore'])$(id).hidden=true;
+ document.querySelector('[data-tab="lyrics"]').hidden=true;$('notice').hidden=false;$('notice').textContent='Content editing demo · changes stay in this browser session. No GitHub connection or publishing.';
+ tab='page';selected=0;render();await preview();
+}
+if(document.body.dataset.contentDemo==='true')startContentDemo().catch(error=>notice(error.message,true));

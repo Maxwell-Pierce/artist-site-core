@@ -1,5 +1,9 @@
 # Changes
 
+## 1.16.0
+
+Edit home copy and structured pages directly on a sandboxed visual canvas. Support all existing text, image and link section types, insertion between sections, reorder, duplicate, remove and Undo. Add optional home sections, sanitized rich text formatting and contextual asset/link settings. Preserve old plain text and handcrafted HTML; include a token-free content editing demo and updated manual.
+
 ## 1.15.0
 
 Add a visual lyric font gallery with 24 bundled Google Fonts, including Orbitron and Exo 2, alongside the existing three system presets. Include searchable specimen cards, style categories, a large lyric preview and selected-font state. Share cached local FontFace loading across cards, canvas and MP4; wait for the chosen face before export. Preserve legacy project font IDs and bundle original font licenses/provenance.
