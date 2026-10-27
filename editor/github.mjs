@@ -19,7 +19,12 @@ export class GitHubRepository {
  async commit(branch, expected, files, message) {
   if (await this.head(branch) !== expected) throw Error('This branch changed. Reconnect before saving; your local draft is preserved.');
   const parent = await this.api('/git/commits/' + expected);
-  const tree = await this.api('/git/trees', 'POST', {base_tree:parent.tree.sha, tree:Object.entries(files).map(([path, content]) => ({path, mode:'100644', type:'blob', content}))});
+  const entries=await Promise.all(Object.entries(files).map(async([path,content])=>{
+   if(typeof content==='string')return {path,mode:'100644',type:'blob',content};
+   if(content?.encoding!=='base64'||typeof content.content!=='string'||!/^[A-Za-z0-9+/]+={0,2}$/.test(content.content))throw Error('Invalid binary file.');
+   const blob=await this.api('/git/blobs','POST',{encoding:'base64',content:content.content});return {path,mode:'100644',type:'blob',sha:blob.sha};
+  }));
+  const tree = await this.api('/git/trees', 'POST', {base_tree:parent.tree.sha, tree:entries});
   const commit = await this.api('/git/commits', 'POST', {message, tree:tree.sha, parents:[expected]});
   await this.api('/git/refs/heads/' + encodeURIComponent(branch), 'PATCH', {sha:commit.sha, force:false});
   return commit.sha;

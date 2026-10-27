@@ -17,3 +17,6 @@ body>header{height:auto;min-height:44px;padding:5px 12px;gap:10px;flex-wrap:wrap
 .canvas-mode #section-settings{padding:12px}.canvas-mode #section-settings h3{font-size:14px;margin:0 0 12px}
 @media(max-width:1050px){#workspace.canvas-mode{grid-template-columns:160px minmax(250px,1fr);height:auto}.canvas-mode .preview{grid-column:1/-1;height:85vh}.canvas-mode>main{max-height:300px}}
 @media(max-width:650px){#workspace.canvas-mode{display:block}.canvas-mode>main{max-height:260px}.canvas-mode .preview{height:85vh}}
+
+/* Content is edited on the page; media/settings live beside their target. */
+#workspace.canvas-mode{grid-template-columns:190px minmax(0,1fr)}#workspace.canvas-mode>main{display:none}#workspace.canvas-mode>.preview{grid-column:2;grid-row:1;min-width:0;height:auto}.actions>#dirty{font-size:11px;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis;padding:0 4px}@media(max-width:1050px){#workspace.canvas-mode{grid-template-columns:160px minmax(0,1fr);height:calc(100dvh - var(--content-shell-top,44px))}#workspace.canvas-mode>.preview{grid-column:2;grid-row:1}}@media(max-width:650px){#workspace.canvas-mode{display:block;height:auto}#workspace.canvas-mode>.preview{height:85vh}}
