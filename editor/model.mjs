@@ -1,3 +1,4 @@
+import {validOverrides} from './template-content.mjs';
 export const clone = value => JSON.parse(JSON.stringify(value));
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function validate(artist, pages) {
@@ -14,7 +15,9 @@ export function validate(artist, pages) {
   if (!page.title?.trim()) throw Error('Each page needs a title.');
   validateBlocks(page.blocks);
  }
- if(pages.home!==undefined)validateBlocks(pages.home?.blocks);
+ if(pages.home!==undefined){validateBlocks(pages.home?.blocks);validOverrides(pages.home?.overrides);
+  if(pages.home.collections!==undefined){if(!pages.home.collections||typeof pages.home.collections!=='object'||Array.isArray(pages.home.collections))throw Error('Invalid collection edits.');for(const [id,item]of Object.entries(pages.home.collections)){if(!/^[a-zA-Z0-9_-]+$/.test(id)||!item||typeof item!=='object')throw Error('Invalid collection edit.');for(const [key,value]of Object.entries(item))if(!['title','description','artwork'].includes(key)||typeof value!=='string'||(key==='artwork'&&!safeURL(value,true)))throw Error('Invalid collection field.');}}
+ }
 }
 function validateBlocks(blocks){
  if(!Array.isArray(blocks))throw Error('Page sections are invalid.');

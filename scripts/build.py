@@ -34,10 +34,12 @@ def build(site,dest):
     for name in ['artist.json','playlists.json','tracks.json']:
         if (site/name).exists():shutil.copy2(site/name,dest/name)
         elif name.endswith('.json'):(dest/name).write_text('[]\n')
+    edits=json.loads((site/'pages.json').read_text()).get('home',{}).get('overrides',{}) if (site/'pages.json').exists() else {}
+    from template_content import apply_template_content
     for path in site.glob('*.html'):
-        (dest/path.name).write_text(render(path.read_text(),config))
+        (dest/path.name).write_text(render(apply_template_content(path.read_text(),edits) if path.name=='index.html' else path.read_text(),config))
     if not (dest/'index.html').exists():
-        (dest/'index.html').write_text(render((CORE/'templates/index.html').read_text(),config))
+        (dest/'index.html').write_text(render(apply_template_content((CORE/'templates/index.html').read_text(),edits),config))
     for name in ['app.js','style.css','sw.js']:
         shutil.copy2(CORE/'runtime'/name,dest/name)
     worker=(dest/'sw.js').read_text().replace('__ARTIST_CACHE__','artist-'+config['slug']+'-shell-')
@@ -64,6 +66,8 @@ def build(site,dest):
     if builder_path.exists() and json.loads(builder_path.read_text()).get('enabled') is True:
         if (site/'admin.html').exists() or (site/'admin').exists():raise ValueError('Editor conflicts with an existing admin page')
         shutil.copytree(CORE/'editor',dest/'admin')
+        template_source=(site/'index.html').read_text() if (site/'index.html').exists() else (CORE/'templates/index.html').read_text()
+        (dest/'admin/content-template.txt').write_text(template_source)
         for studio in (dest/'admin').glob('*.html'):
             studio.write_text(studio.read_text().replace('Core dev','Core '+html.escape((CORE/'VERSION').read_text().strip())))
         for name in ['presence.mjs','presence.css','social-icons.mjs']:shutil.copy2(CORE/'runtime'/name,dest/'admin'/name)
@@ -75,7 +79,7 @@ def build(site,dest):
     refresh_tracks.ROOT=dest;build_videos.ROOT=dest
     build_videos.main()
     playlists=json.loads((dest/'playlists.json').read_text())
-    for name,content in refresh_tracks.build(playlists).items():
+    for name,content in refresh_tracks.build(playlists,collection_edits=json.loads((site/'pages.json').read_text()).get('home',{}).get('collections',{}) if (site/'pages.json').exists() else {}).items():
         target=dest/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(content)
     # New tracks can display supplied line timings while expensive recognition queues.
     from lyrics_common import clean_lines

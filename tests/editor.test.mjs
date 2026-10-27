@@ -52,3 +52,10 @@ test('legacy plain text remains escaped and rich body is opt-in',()=>{
  assert.match(blocksHTML(page),/<p style="white-space:pre-wrap">&lt;b&gt;literal&lt;\/b&gt;<\/p>/);
  page.blocks[0].richText='<b>Formatted</b>';assert.match(blocksHTML(page),/<div style="white-space:pre-wrap"><b>Formatted<\/b><\/div>/);
 });
+
+test('template edits validate exact field names and media destinations',async()=>{
+ const {validOverrides,inlineHTML}=await import('../editor/template-content.mjs');
+ validOverrides({'t:1':{original:'Old',html:'<b>New</b>'},'a:0':{original:'',attrs:{src:'assets/video.mp4',poster:''}}});
+ for(const attrs of [{onclick:'x'},{src:'javascript:evil()'},{href:'//evil.test'}])assert.throws(()=>validOverrides({'a:0':{original:'',attrs}}));
+ assert.equal(inlineHTML('<div>Hello</div><b onclick="bad()">world</b>'), 'Hello<br><b>world</b>');
+});

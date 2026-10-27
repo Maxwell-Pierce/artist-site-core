@@ -133,9 +133,12 @@ def embed(h,tracks):
     if n!=1:raise ValueError('Catalog marker missing')
     return h
 
-def build(playlists):
+def build(playlists,collection_edits=None):
     artist=json.loads((ROOT/'artist.json').read_text()) if (ROOT/'artist.json').exists() else {'name':'Artist'}
     name=artist['name'];name_upper=name.upper()
+    content_path=ROOT/'pages.json'
+    edits=collection_edits if collection_edits is not None else (json.loads(content_path.read_text()).get('home',{}).get('collections',{}) if content_path.exists() else {})
+    playlists=[dict(p,**edits.get(p['id'],{})) for p in playlists]
     home=(ROOT/'index.html').read_text()
     version=hashlib.sha256((ROOT/'style.css').read_bytes()).hexdigest()[:12]
     script_version=hashlib.sha256((ROOT/'app.js').read_bytes()).hexdigest()[:12]

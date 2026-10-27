@@ -91,7 +91,7 @@ if(!siteEntered){
 const heroVideo=document.getElementById('hero-video');
 const heroVideoData=document.getElementById('hero-video-data');
 if(heroVideo&&heroVideoData){
- const sources=JSON.parse(heroVideoData.textContent);
+ const sources=heroVideo.getAttribute('src')?[heroVideo.getAttribute('src')]:JSON.parse(heroVideoData.textContent);
  let queue=[],last=null,failed=new Set();
  function refill(){
   queue=sources.filter(src=>!failed.has(src));

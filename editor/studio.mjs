@@ -1,11 +1,12 @@
-import {markHome,mountPageCanvas} from './page-canvas.mjs';
+import {mountPageCanvas} from './page-canvas.mjs';
+import {markTemplate,mergePublished,mountCanvasMedia} from './template-content.mjs';
 import {rememberConnection, rememberedConnection, forgottenConnection} from './connection.mjs';
 import {validatePresence, mountPresence, platforms, safePresenceURL} from './presence.mjs';
 import {creativeFiles} from './lyric-model.mjs';
 import {GitHubRepository} from './github.mjs';
 import {clone,escapeHTML as esc,validate,blocksHTML} from './model.mjs';
 const $=id=>document.getElementById(id);
-let repo,artist,pages,source,base,branch,repository,tab='home',selected=0,dirty=false,busy=false,history=[],previewTimer,draftBranch,draftHead,existingPages=[],assetPaths=[],previewGeneration=0,baseCSS='',presenceCSS='',previewTracks=[],creative={edits:{},projects:{}},lyricIDs=[],lyricDispose=null,lyricMount=0;
+let publishedHTML='',videoPaths=[],repo,artist,pages,source,base,branch,repository,tab='home',selected=0,dirty=false,busy=false,history=[],previewTimer,draftBranch,draftHead,existingPages=[],assetPaths=[],previewGeneration=0,baseCSS='',presenceCSS='',previewTracks=[],creative={edits:{},projects:{}},lyricIDs=[],lyricDispose=null,lyricMount=0;
 const notice=(message,error=false)=>{$('notice').textContent=message;$('notice').classList.toggle('error',error);$('notice').hidden=!error&&message.startsWith('Connected. Edits preview immediately.');};
 const key=()=>`artist-studio:${repository}:${branch}`;
 function snapshot(){return {artist:clone(artist),pages:clone(pages),creative:clone(creative)};}
@@ -16,7 +17,7 @@ function field(parent,label,value,update,type='text',options){
  const input=document.createElement(type==='textarea'?'textarea':type==='select'?'select':'input');
  if(type==='select')for(const option of options){const el=document.createElement('option');el.value=option;el.textContent=option;input.append(el);}else if(type!=='textarea')input.type=type;
  input.value=value??'';input.addEventListener('focus',()=>checkpoint(),{once:true});
- input.addEventListener(type==='select'?'change':'input',()=>{update(input.value);changed();});wrap.append(input);parent.append(wrap);if(label==='Portrait asset path'||label==='Image asset path or HTTPS URL'){const select=document.createElement('select');select.setAttribute('aria-label','Choose an existing image');const empty=document.createElement('option');empty.value='';empty.textContent='Choose an existing image…';select.append(empty);for(const path of assetPaths){const option=document.createElement('option');option.value=path;option.textContent=path;select.append(option);}select.onchange=()=>{if(!select.value)return;checkpoint();input.value=select.value;update(select.value);changed();};wrap.append(select);}return input;
+ input.addEventListener(type==='select'?'change':'input',()=>{update(input.value);changed();});wrap.append(input);parent.append(wrap);if(label==='Portrait asset path'||label==='Image asset path or HTTPS URL'||label==='Video asset path or HTTPS URL'){const select=document.createElement('select');select.setAttribute('aria-label','Choose an existing image');const empty=document.createElement('option');empty.value='';empty.textContent='Choose an existing image…';select.append(empty);for(const path of (label==='Video asset path or HTTPS URL'?videoPaths:assetPaths)){const option=document.createElement('option');option.value=path;option.textContent=path;select.append(option);}select.onchange=()=>{if(!select.value)return;checkpoint();input.value=select.value;update(select.value);changed();};wrap.append(select);}return input;
 }
 function configField(parent,label,path,type,options){const keys=path.split('.');let obj=artist;for(const k of keys.slice(0,-1))obj=obj[k]??=( {} );const prop=keys.at(-1);field(parent,label,obj[prop],v=>obj[prop]=v,type,options);}
 function button(parent,text,fn,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.onclick=fn;parent.append(b);return b;}
@@ -48,23 +49,34 @@ function render(){
   button(target,'Delete page',()=>{if(!confirm('Remove this page on the next publish?'))return;checkpoint();pages.pages.splice(selected,1);tab='pages';changed();render();},'danger');
  }
 }
+const previewToggle=document.createElement('button');previewToggle.id='canvas-view-mode';previewToggle.textContent='Preview';previewToggle.setAttribute('aria-pressed','false');previewToggle.onclick=()=>{const doc=$('preview').contentDocument;if(!doc)return;const active=doc.body.classList.toggle('studio-preview-only');previewToggle.setAttribute('aria-pressed',String(active));previewToggle.textContent=active?'Resume editing':'Preview';for(const el of doc.querySelectorAll('[contenteditable]')){if(active&&el.contentEditable==='true'){el.dataset.studioResume='';el.contentEditable='false';}else if(!active&&el.hasAttribute('data-studio-resume')){el.contentEditable='true';delete el.dataset.studioResume;}}};document.querySelector('.preview-toolbar>div').prepend(previewToggle);
 function measureContentShell(){
  if(!$('workspace').hidden)$('workspace').style.setProperty('--content-shell-top',Math.max(44,$('workspace').getBoundingClientRect().top)+'px');
 }
 const contentShellObserver=new ResizeObserver(measureContentShell);contentShellObserver.observe(document.querySelector('body>header'));contentShellObserver.observe($('notice'));window.addEventListener('resize',measureContentShell);
 function renderCanvasSettings(target){
- const hint=document.createElement('p');hint.className='hint';hint.textContent='Edit directly in the page: click a heading, paragraph, caption or link label. Use the inline toolbar for text formatting. Add sections between existing sections.';target.append(hint);
+ const hint=document.createElement('p');hint.className='hint';hint.textContent='Edit directly in the page: click a heading, paragraph, caption or link label. Select text for its nearby formatting menu. Preview hides editing controls. Add sections between existing sections.';target.append(hint);
  if(tab==='page'){
   const page=pages.pages[selected];field(target,'Page address (.html is added)',page.slug,v=>page.slug=v);field(target,'Search description',page.description,v=>page.description=v,'textarea');
   field(target,'Show in navigation',page.nav===false?'Hidden':'Visible',v=>page.nav=v==='Visible','select',['Visible','Hidden']);
  }
  const settings=document.createElement('div');settings.id='section-settings';settings.className='block';settings.textContent='Select a section’s Settings to change its image or destination.';target.append(settings);
 }
+function renderMediaShortcuts(doc){
+ const target=$('fields');target.querySelector('#canvas-media')?.remove();const list=document.createElement('div');list.id='canvas-media';
+ for(const el of doc.querySelectorAll('img[data-studio-asset],video[data-studio-asset]')){const label=el.tagName==='VIDEO'?'▸ Video':('▧ '+(el.alt||'Image'));button(list,label,()=>{el.scrollIntoView({block:'center',behavior:'smooth'});selectCanvasSection({type:'template',element:el,key:el.dataset.studioAsset,original:el.dataset.studioAssetOriginal,edits:pages.home.overrides},0);});}if(list.children.length){const title=document.createElement('h3');title.textContent='Media on this page';list.prepend(title);target.append(list);}
+}
 function selectCanvasSection(block,index){
  const target=$('section-settings');if(!target)return;target.replaceChildren();const heading=document.createElement('h3');heading.textContent=`Section ${index+1} · ${block.type}`;target.append(heading);
- if(block.type==='image'){field(target,'Image asset path or HTTPS URL',block.src,v=>block.src=v);field(target,'Alternative text',block.alt,v=>block.alt=v);}
+ if(block.type==='collection'){heading.textContent='Collection settings';for(const [label,name]of [['Collection title','title'],['Collection description','description'],['Image asset path or HTTPS URL','artwork']])field(target,label,block.collections[block.id]?.[name]??block[name]??'',v=>(block.collections[block.id]??={})[name]=v,name==='description'?'textarea':'text');
+ }else if(block.type==='social'){heading.textContent='Social link';field(target,'Display label',block.link.label,v=>block.link.label=v);field(target,'Profile URL',block.link.url,v=>block.link.url=v);
+ }else if(block.type==='event'){heading.textContent='Event location';field(target,'Venue',block.event.venue,v=>block.event.venue=v);field(target,'City / online location',block.event.city,v=>block.event.city=v);
+ }else if(block.type==='template'){
+  const el=block.element,attrs=el.tagName==='A'?['href']:el.tagName==='VIDEO'?['src','poster']:['src','alt'];heading.textContent=el.tagName==='VIDEO'?'Video media':el.tagName==='A'?'Link destination':'Image settings';
+  for(const name of attrs){const labels={href:'Destination',src:el.tagName==='VIDEO'?'Video asset path or HTTPS URL':'Image asset path or HTTPS URL',poster:'Video poster image',alt:'Alternative text'};field(target,labels[name],el.getAttribute(name)||'',v=>{const entry=block.edits[block.key]??={original:block.original,attrs:{}};entry.attrs[name]=v;});}
+ }else if(block.type==='image'){field(target,'Image asset path or HTTPS URL',block.src,v=>block.src=v);field(target,'Alternative text',block.alt,v=>block.alt=v);}
  else if(block.type==='link')field(target,'Destination',block.href,v=>block.href=v);
- else {const hint=document.createElement('p');hint.className='hint';hint.textContent='Click the heading or body on the page to edit. Select body text to apply formatting above the canvas.';target.append(hint);}
+ else {field(target,'Section heading',block.heading,v=>block.heading=v);const hint=document.createElement('p');hint.className='hint';hint.textContent='Click the heading or body on the page to edit. Formatting appears beside the selected text.';target.append(hint);}
 }
 function movePage(i,d){checkpoint();[pages.pages[i],pages.pages[i+d]]=[pages.pages[i+d],pages.pages[i]];changed();render();}
 function moveBlock(i,d){checkpoint();const b=pages.pages[selected].blocks;[b[i],b[i+d]]=[b[i+d],b[i]];changed();render();}
@@ -73,23 +85,24 @@ async function preview(){
  const generation=++previewGeneration;
  const scroll=['home','page'].includes(tab)?($('preview').contentDocument?.documentElement.scrollTop||0):0;
  let template=source;
- if(tab==='home'){const marked=new DOMParser().parseFromString(source,'text/html');if(marked.querySelector('main'))markHome(marked);template=marked.documentElement.outerHTML;}
- let text=template.replace(/\{\{([a-zA-Z0-9_.]+)\}\}/g,(_,path)=>esc(path.split('.').reduce((o,k)=>o?.[k],artist)??''));
- const doc=new DOMParser().parseFromString(text,'text/html');doc.querySelectorAll('script,iframe,object,embed,base,meta[http-equiv]').forEach(el=>el.remove());doc.querySelectorAll('*').forEach(el=>{for(const a of [...el.attributes])if(a.name.toLowerCase().startsWith('on')||(/^(?:href|src|action|formaction)$/i.test(a.name)&&/^\s*(?:javascript|data|vbscript):/i.test(a.value)))el.removeAttribute(a.name);});
+ const marked=new DOMParser().parseFromString(source,'text/html');if(marked.body)markTemplate(marked,artist,pages.home?.overrides||{});template=marked.documentElement.outerHTML;
+ let text=template;
+ const doc=new DOMParser().parseFromString(text,'text/html');doc.querySelectorAll('script:not([type="application/json"]),iframe,object,embed,base,meta[http-equiv]').forEach(el=>el.remove());doc.querySelectorAll('*').forEach(el=>{for(const a of [...el.attributes])if(a.name.toLowerCase().startsWith('on')||(/^(?:href|src|action|formaction)$/i.test(a.name)&&/^\s*(?:javascript|data|vbscript):/i.test(a.value)))el.removeAttribute(a.name);});
  const baseEl=doc.createElement('base');baseEl.href=new URL('../',location.href).href;doc.head.prepend(baseEl);
+ if(tab!=='page')mergePublished(doc,publishedHTML);
  if(tab==='page'&&pages.pages[selected])doc.querySelector('main').innerHTML=blocksHTML(pages.pages[selected]);
- const nav=doc.querySelector('header nav');if(nav&&pages.navigation){nav.replaceChildren();for(const item of pages.navigation){const a=doc.createElement('a');a.textContent=item.label;a.href=item.href;nav.append(a);}}if(nav)for(const p of pages.pages.filter(p=>p.nav!==false)){const a=doc.createElement('a');a.textContent=p.label||p.title;a.href=p.slug+'.html';nav.append(a);}
+ const nav=doc.querySelector('header nav');if(nav&&pages.navigation){nav.replaceChildren();for(const [i,item] of pages.navigation.entries()){const a=doc.createElement('a');a.textContent=item.label;a.href=item.href;a.dataset.studioNavigation=i;nav.append(a);}}if(nav)for(const p of pages.pages.filter(p=>p.nav!==false)){const a=doc.createElement('a');a.textContent=p.label||p.title;a.href=p.slug+'.html';nav.append(a);}
  const palette={bg:'#100d1b',surface:'#1c1429',ink:'#f3ebdd',muted:'#b8abc6',gold:'#eac584',pink:'#f163bd'};
  // The base stylesheet is generated from this artist's colours. Replace those for the preview only.
  let css=baseCSS;
  for(const [k,old]of Object.entries(initialTheme||palette))if(artist.theme?.[k])css=css.replace(new RegExp(old.replace('#','\\#')+'([a-f0-9]{2})?\\b','gi'),(_,alpha)=>artist.theme[k]+(alpha||''));
- const style=doc.createElement('style');style.textContent=css+presenceCSS+'\nbody{overflow:auto!important} .entrance,.player{display:none!important}';doc.head.append(style);
+ const style=doc.createElement('style');style.textContent=css+presenceCSS+'\nbody{overflow:visible!important} .entrance{display:none!important}';doc.head.append(style);
  try{mountPresence(artist,doc,Date.now(),tab!=='page');}catch{}
- doc.querySelectorAll('link[rel=stylesheet]').forEach(el=>el.remove());if(generation===previewGeneration){
-  const frame=$('preview');frame.onload=()=>{
+ doc.querySelectorAll('link[rel=stylesheet]').forEach(el=>{if(/(?:^|\/)style\.css(?:[?#]|$)/.test(el.getAttribute('href')||''))el.remove();});if(generation===previewGeneration){
+  const frame=$('preview');previewToggle.textContent='Preview';previewToggle.setAttribute('aria-pressed','false');frame.onload=()=>{
    if(generation!==previewGeneration||!['home','page'].includes(tab))return;
-   const home=tab==='home';const page=home?(pages.home??={blocks:[]}):pages.pages[selected];
-   mountPageCanvas(frame.contentDocument,{page,artist,home,checkpoint,onChange:()=>{changed(false);if(!home){$('panel-title').textContent=page.title;const entry=$('page-list').children[selected];if(entry)entry.textContent=`${page.nav===false?'○':'▤'} ${page.label||page.title}`;}},onStructure:()=>{clearTimeout(previewTimer);const settings=$('section-settings');if(settings)settings.textContent='Select a section’s Settings to edit its image or destination.';changed(false);preview();},onSelect:selectCanvasSection});frame.contentWindow.scrollTo(0,scroll);
+   const home=tab==='home';pages.home??={blocks:[]};pages.home.overrides??={};pages.home.collections??={};const page=home?pages.home:pages.pages[selected];
+   mountPageCanvas(frame.contentDocument,{page,artist,home,templateEdits:pages.home.overrides,collections:pages.home.collections,navigation:pages.navigation,checkpoint,onChange:()=>{changed(false);if(!home){$('panel-title').textContent=page.title;const entry=$('page-list').children[selected];if(entry)entry.textContent=`${page.nav===false?'○':'▤'} ${page.label||page.title}`;}},onStructure:()=>{clearTimeout(previewTimer);const settings=$('section-settings');if(settings)settings.textContent='Select a section’s Settings to edit its image or destination.';changed(false);preview();},onSelect:selectCanvasSection});mountCanvasMedia(frame.contentDocument,videoPaths);renderMediaShortcuts(frame.contentDocument);frame.contentWindow.scrollTo(0,scroll);
   };frame.srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
  }
 }
@@ -98,7 +111,7 @@ $('connect-form').onsubmit=async event=>{event.preventDefault();if(busy)return;b
  const nextRepo=new GitHubRepository($('repository').value.trim(),$('token').value.trim());const nextBranch=$('branch').value.trim();notice('Loading your site…');
  const nextBase=await nextRepo.head(nextBranch);const [a,p,s,b,t]=await Promise.all(['artist.json','pages.json','index.html','builder.json','tracks.json'].map(path=>nextRepo.read(path,nextBase)));
  if(!a||!s)throw Error('This repository needs artist.json and index.html.');if(!b||JSON.parse(b).enabled!==true)throw Error('Enable the editor with builder.json before connecting.');
- repo=nextRepo;repository=$('repository').value.trim();branch=nextBranch;base=nextBase;artist=JSON.parse(a);pages=p?JSON.parse(p):{schemaVersion:1,pages:[]};validate(artist,pages);validatePresence(artist);const tree=await nextRepo.api('/git/trees/'+nextBase+'?recursive=1');existingPages=tree.tree.filter(x=>/^[^/]+\.html$/.test(x.path)).map(x=>x.path.slice(0,-5));lyricIDs=tree.tree.filter(x=>/^lyrics\/[a-zA-Z0-9_-]+\.json$/.test(x.path)&&!['lyrics/report.json','lyrics/review.json'].includes(x.path)).map(x=>x.path.slice(7,-5));creative={edits:{},projects:{}};assetPaths=tree.tree.filter(x=>x.type==='blob'&&/^assets\/.*\.(png|jpe?g|webp|gif|svg|avif)$/i.test(x.path)).map(x=>x.path);baseCSS=await fetch('../style.css',{cache:'no-store'}).then(r=>r.text());presenceCSS=await fetch('./presence.css',{cache:'no-store'}).then(r=>r.text());previewTracks=t?JSON.parse(t).filter(track=>safePresenceURL(track.audio)):[];setupPreviewMusic();source=s;initialTheme=clone(artist.theme);history=[];draftBranch=null;draftHead=null;dirty=false;try{if($('remember').checked)rememberConnection(localStorage,{repository,branch,token:nextRepo.token});else forgottenConnection(localStorage);}catch{notice('Connected, but this browser could not remember the connection.',true);}$('token').value='';$('connection').hidden=true;$('workspace').hidden=false;$('save').disabled=false;$('publish').disabled=false;render();await preview();notice('Connected. Edits preview immediately. Recover a local draft if you have unfinished changes.');
+ repo=nextRepo;repository=$('repository').value.trim();branch=nextBranch;base=nextBase;artist=JSON.parse(a);pages=p?JSON.parse(p):{schemaVersion:1,pages:[]};validate(artist,pages);validatePresence(artist);const tree=await nextRepo.api('/git/trees/'+nextBase+'?recursive=1');existingPages=tree.tree.filter(x=>/^[^/]+\.html$/.test(x.path)).map(x=>x.path.slice(0,-5));lyricIDs=tree.tree.filter(x=>/^lyrics\/[a-zA-Z0-9_-]+\.json$/.test(x.path)&&!['lyrics/report.json','lyrics/review.json'].includes(x.path)).map(x=>x.path.slice(7,-5));creative={edits:{},projects:{}};assetPaths=tree.tree.filter(x=>x.type==='blob'&&/^assets\/.*\.(png|jpe?g|webp|gif|svg|avif)$/i.test(x.path)).map(x=>x.path);baseCSS=await fetch('../style.css',{cache:'no-store'}).then(r=>r.text());presenceCSS=await fetch('./presence.css',{cache:'no-store'}).then(r=>r.text());previewTracks=t?JSON.parse(t).filter(track=>safePresenceURL(track.audio)):[];setupPreviewMusic();source=s;publishedHTML=await fetch('../index.html',{cache:'no-store'}).then(r=>r.ok?r.text():'').catch(()=>'');videoPaths=tree.tree.filter(x=>x.type==='blob'&&/^assets\/.*\.(mp4|webm|m4v|mov)$/i.test(x.path)).map(x=>x.path);initialTheme=clone(artist.theme);history=[];draftBranch=null;draftHead=null;dirty=false;try{if($('remember').checked)rememberConnection(localStorage,{repository,branch,token:nextRepo.token});else forgottenConnection(localStorage);}catch{notice('Connected, but this browser could not remember the connection.',true);}$('token').value='';$('connection').hidden=true;$('workspace').hidden=false;$('save').disabled=false;$('publish').disabled=false;render();await preview();notice('Connected. Edits preview immediately. Recover a local draft if you have unfinished changes.');
  }catch(error){notice(error.message,true);}finally{busy=false;}};
 for(const b of document.querySelectorAll('[data-tab]'))b.onclick=()=>{tab=b.dataset.tab;render();preview();};
 $('add-page').onclick=()=>{checkpoint();let n=1;while(pages.pages.some(p=>p.slug==='new-page-'+n))n++;pages.pages.push({slug:'new-page-'+n,title:'New page '+n,label:'New page '+n,description:'',nav:true,blocks:[{type:'text',heading:'Your next chapter',text:'Tell your story.'}]});selected=pages.pages.length-1;tab='page';changed();render();};
@@ -163,10 +176,10 @@ async function startContentDemo(){
  artist={name:'Your Artist',slug:'your-artist',theme:{bg:'#100d1b',surface:'#1c1429',ink:'#f3ebdd',muted:'#b8abc6',gold:'#eac584',pink:'#f163bd'},hero:{eyebrow:'INDEPENDENT ARTIST',title:'Your music.',accent:'Your world.',description:'Click this introduction to make it your own.',caption:'New sounds, new stories.'},about:{title:'Behind the music',text:'Tell your story directly on the page.'}};
  pages={schemaVersion:1,pages:[{slug:'story',title:'The story so far',label:'My story',description:'',blocks:[{type:'text',heading:'Made to be heard',text:'Select these words and try Bold or Italic. Add another section below.'},{type:'image',src:'https://maxwellpierce.mixunity.com/admin/demo/heavns-moving-out-of-frame/artwork-original.png',alt:'HEAVNS artwork',caption:'Click this caption to edit it.'},{type:'link',text:'Explore the music',href:'index.html#music'}]}]};
  source='<!doctype html><html><head><title>Content demo</title></head><body><header><nav><a href="index.html">Home</a></nav></header><main><section class="section"><p class="eyebrow">{{hero.eyebrow}}</p><h1>{{hero.title}} <em>{{hero.accent}}</em></h1><p>{{hero.description}}</p><p>{{hero.caption}}</p></section><section class="section"><h2>{{about.title}}</h2><p>{{about.text}}</p></section></main></body></html>';
- baseCSS=await fetch('../style.css').then(r=>r.text());initialTheme=clone(artist.theme);presenceCSS='';creative={edits:{},projects:{}};
+ const real=await fetch('./content-template.txt').then(r=>r.ok?r.text():'').catch(()=>'');if(real){source=real;artist=await fetch('../artist.json').then(r=>r.json());publishedHTML=await fetch('../index.html').then(r=>r.text());tab='home';}baseCSS=await fetch('../style.css').then(r=>r.text());initialTheme=clone(artist.theme);presenceCSS=await fetch('./presence.css').then(r=>r.text());creative={edits:{},projects:{}};
  assetPaths=['https://maxwellpierce.mixunity.com/admin/demo/heavns-moving-out-of-frame/artwork-original.png'];
  $('connection').hidden=true;$('workspace').hidden=false;document.querySelector('.preview-music').hidden=true;for(const id of ['save','publish','disconnect','restore'])$(id).hidden=true;
  document.querySelector('[data-tab="lyrics"]').hidden=true;$('notice').hidden=false;$('notice').textContent='Content editing demo · changes stay in this browser session. No GitHub connection or publishing.';
- tab='page';selected=0;render();await preview();
+ tab=publishedHTML?'home':'page';selected=0;render();await preview();
 }
 if(document.body.dataset.contentDemo==='true')startContentDemo().catch(error=>notice(error.message,true));

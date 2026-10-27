@@ -1,5 +1,10 @@
 # Changes
 
+## 1.17.0
+
+Replace the fixed content formatting bar with a selection-anchored bubble menu. Preserve page spacing with contextual section tools. Bind static template copy, media and links beyond hero/about; retain guarded edits without rewriting artist HTML or scripts. Render published collections and live muted video, load website fonts, edit collection copy/artwork, social labels and event text in place, and provide a clean Preview toggle. Use the real artist template in the token-free demo.
+
+
 ## 1.16.0
 
 Edit home copy and structured pages directly on a sandboxed visual canvas. Support all existing text, image and link section types, insertion between sections, reorder, duplicate, remove and Undo. Add optional home sections, sanitized rich text formatting and contextual asset/link settings. Preserve old plain text and handcrafted HTML; include a token-free content editing demo and updated manual.

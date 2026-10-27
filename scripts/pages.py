@@ -35,6 +35,15 @@ def load_pages(site):
             if block.get('type') not in ['text','image','link']:raise ValueError('Unknown home section')
             if block['type']=='image' and not safe_url(block.get('src'),True):raise ValueError('Invalid image URL')
             if block['type']=='link' and not safe_url(block.get('href')):raise ValueError('Invalid link URL')
+    if 'overrides' in data.get('home',{}):
+        from template_content import validate_overrides
+        validate_overrides(data['home']['overrides'])
+    collections=data.get('home',{}).get('collections',{})
+    if not isinstance(collections,dict):raise ValueError('Invalid collection edits')
+    for key,item in collections.items():
+        if not re.fullmatch(r'[a-zA-Z0-9_-]+',key) or not isinstance(item,dict):raise ValueError('Invalid collection edit')
+        for field,value in item.items():
+            if field not in ['title','description','artwork'] or not isinstance(value,str) or (field=='artwork' and not safe_url(value,True)):raise ValueError('Invalid collection field')
     return data['pages']
 class RichContent(HTMLParser):
     allowed={'strong','b','em','i','u','br','p','div','ul','ol','li'}
