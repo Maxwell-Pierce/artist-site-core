@@ -30,7 +30,7 @@ export function mountPageCanvas(doc,{page,artist,home,checkpoint,onChange,onStru
  .studio-tools button,.studio-tools select{font:inherit!important;background:#18232c!important;color:#e9edf5!important;border:1px solid #78949b88!important;border-radius:6px;padding:6px 9px!important;cursor:pointer;box-shadow:none!important;width:auto}
  .studio-tools button:focus-visible,.studio-tools select:focus-visible{outline:2px solid #b4f2d4}
  .studio-tools button:disabled{opacity:.3;cursor:default}.studio-tools strong{margin-right:auto}
- .studio-format{position:sticky;top:0;z-index:50;padding:8px;background:#101923;box-shadow:0 2px 8px #0008;margin:0}
+ .studio-format{position:fixed;top:0;left:0;right:0;z-index:50;padding:8px;background:#101923;box-shadow:0 2px 8px #0008;margin:0}
  .studio-section figure{margin:0}.studio-section img{max-height:420px;object-fit:contain}.studio-add{justify-content:center;padding:4px;border:1px dashed #80caba66}
  `;doc.head.append(style);
  doc.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault();});
@@ -43,6 +43,8 @@ export function mountPageCanvas(doc,{page,artist,home,checkpoint,onChange,onStru
   const b=button(format,name,()=>{if(!richTarget)return;checkpoint();doc.execCommand(cmd,false,null);richTarget.dispatchEvent(new doc.defaultView.Event('input',{bubbles:true}));});b.onmousedown=e=>e.preventDefault();b.disabled=true;
  }
  doc.body.prepend(format);
+ const measureToolbar=()=>{const height=format.getBoundingClientRect().height;doc.body.style.setProperty('padding-top',height+'px','important');const header=doc.querySelector('body>header');if(header)header.style.top=height+'px';};
+ const toolbarObserver=new doc.defaultView.ResizeObserver(measureToolbar);toolbarObserver.observe(format);measureToolbar();
  function editable(el,label,get,set,rich=false){
   el.contentEditable='true';el.setAttribute('role','textbox');el.setAttribute('aria-label',label);el.dataset.placeholder=label;el.spellcheck=true;
   if(rich)el.innerHTML=richHTML(get());else el.textContent=get()??'';
