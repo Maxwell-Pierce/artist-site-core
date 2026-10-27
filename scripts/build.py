@@ -64,8 +64,8 @@ def build(site,dest):
     if builder_path.exists() and json.loads(builder_path.read_text()).get('enabled') is True:
         if (site/'admin.html').exists() or (site/'admin').exists():raise ValueError('Editor conflicts with an existing admin page')
         shutil.copytree(CORE/'editor',dest/'admin')
-        studio=dest/'admin/index.html'
-        studio.write_text(studio.read_text().replace('Core dev','Core '+html.escape((CORE/'VERSION').read_text().strip())))
+        for studio in (dest/'admin').glob('*.html'):
+            studio.write_text(studio.read_text().replace('Core dev','Core '+html.escape((CORE/'VERSION').read_text().strip())))
         for name in ['presence.mjs','presence.css','social-icons.mjs']:shutil.copy2(CORE/'runtime'/name,dest/'admin'/name)
     if (dest/'admin').exists():
         from admin_assets import version_admin

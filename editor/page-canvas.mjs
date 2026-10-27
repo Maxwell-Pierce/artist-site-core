@@ -20,6 +20,7 @@ export function markHome(doc){
 export function mountPageCanvas(doc,{page,artist,home,checkpoint,onChange,onStructure,onSelect}){
  if(!doc?.querySelector('main'))return;
  const style=doc.createElement('style');style.textContent=`
+ .eyebrow [data-config]{display:inline!important;width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important}
  [contenteditable]{cursor:text;outline:1px dashed transparent;outline-offset:5px;min-height:1.2em;white-space:pre-wrap}
  [contenteditable]:hover{outline-color:#80caba99}[contenteditable]:focus{outline:2px solid #80caba}
  [contenteditable]:empty:before{content:attr(data-placeholder);opacity:.4;pointer-events:none}
@@ -30,7 +31,7 @@ export function mountPageCanvas(doc,{page,artist,home,checkpoint,onChange,onStru
  .studio-tools button:focus-visible,.studio-tools select:focus-visible{outline:2px solid #b4f2d4}
  .studio-tools button:disabled{opacity:.3;cursor:default}.studio-tools strong{margin-right:auto}
  .studio-format{position:sticky;top:0;z-index:50;padding:8px;background:#101923;box-shadow:0 2px 8px #0008;margin:0}
- .studio-section figure{margin:0}.studio-section img{max-height:420px;object-fit:contain}.studio-add{justify-content:center;padding:12px;border:1px dashed #80caba66}
+ .studio-section figure{margin:0}.studio-section img{max-height:420px;object-fit:contain}.studio-add{justify-content:center;padding:4px;border:1px dashed #80caba66}
  `;doc.head.append(style);
  doc.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault();});
  doc.addEventListener('submit',e=>e.preventDefault());

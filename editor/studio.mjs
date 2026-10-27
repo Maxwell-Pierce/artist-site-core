@@ -22,7 +22,7 @@ function configField(parent,label,path,type,options){const keys=path.split('.');
 function button(parent,text,fn,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.onclick=fn;parent.append(b);return b;}
 function render(){
  lyricDispose?.();lyricDispose=null;const mount=++lyricMount;$('workspace').classList.toggle('lyric-mode',tab==='lyrics');if(tab==='lyrics')$('preview-audio').pause();
- const target=$('fields');target.replaceChildren();$('workspace').classList.toggle('canvas-mode',tab==='home'||tab==='page');
+ const target=$('fields');target.replaceChildren();$('workspace').classList.toggle('canvas-mode',tab==='home'||tab==='page');measureContentShell();
  const titles={home:'Home page',pages:'Pages & navigation',identity:'Identity & entrance',theme:'Colours & appearance',events:'DJ events & calendar',socials:'Social & music links',lyrics:'Lyrics & video studio'};
  $('panel-title').textContent=tab==='page'?(pages.pages[selected]?.title||'New page'):titles[tab];
  document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('selected',b.dataset.tab===tab);b.title=b.textContent.trim();b.setAttribute('aria-label',b.textContent.trim());});
@@ -48,6 +48,10 @@ function render(){
   button(target,'Delete page',()=>{if(!confirm('Remove this page on the next publish?'))return;checkpoint();pages.pages.splice(selected,1);tab='pages';changed();render();},'danger');
  }
 }
+function measureContentShell(){
+ if(!$('workspace').hidden)$('workspace').style.setProperty('--content-shell-top',Math.max(44,$('workspace').getBoundingClientRect().top)+'px');
+}
+const contentShellObserver=new ResizeObserver(measureContentShell);contentShellObserver.observe(document.querySelector('body>header'));contentShellObserver.observe($('notice'));window.addEventListener('resize',measureContentShell);
 function renderCanvasSettings(target){
  const hint=document.createElement('p');hint.className='hint';hint.textContent='Edit directly in the page: click a heading, paragraph, caption or link label. Use the inline toolbar for text formatting. Add sections between existing sections.';target.append(hint);
  if(tab==='page'){
@@ -85,7 +89,7 @@ async function preview(){
   const frame=$('preview');frame.onload=()=>{
    if(generation!==previewGeneration||!['home','page'].includes(tab))return;
    const home=tab==='home';const page=home?(pages.home??={blocks:[]}):pages.pages[selected];
-   mountPageCanvas(frame.contentDocument,{page,artist,home,checkpoint,onChange:()=>{changed(false);if(!home){$('panel-title').textContent=page.title;const entry=$('page-list').children[selected];if(entry)entry.textContent=`${page.nav===false?'○':'▤'} ${page.label||page.title}`;}},onStructure:()=>{clearTimeout(previewTimer);changed(false);preview();},onSelect:selectCanvasSection});frame.contentWindow.scrollTo(0,scroll);
+   mountPageCanvas(frame.contentDocument,{page,artist,home,checkpoint,onChange:()=>{changed(false);if(!home){$('panel-title').textContent=page.title;const entry=$('page-list').children[selected];if(entry)entry.textContent=`${page.nav===false?'○':'▤'} ${page.label||page.title}`;}},onStructure:()=>{clearTimeout(previewTimer);const settings=$('section-settings');if(settings)settings.textContent='Select a section’s Settings to edit its image or destination.';changed(false);preview();},onSelect:selectCanvasSection});frame.contentWindow.scrollTo(0,scroll);
   };frame.srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
  }
 }
@@ -161,7 +165,7 @@ async function startContentDemo(){
  source='<!doctype html><html><head><title>Content demo</title></head><body><header><nav><a href="index.html">Home</a></nav></header><main><section class="section"><p class="eyebrow">{{hero.eyebrow}}</p><h1>{{hero.title}} <em>{{hero.accent}}</em></h1><p>{{hero.description}}</p><p>{{hero.caption}}</p></section><section class="section"><h2>{{about.title}}</h2><p>{{about.text}}</p></section></main></body></html>';
  baseCSS=await fetch('../style.css').then(r=>r.text());initialTheme=clone(artist.theme);presenceCSS='';creative={edits:{},projects:{}};
  assetPaths=['https://maxwellpierce.mixunity.com/admin/demo/heavns-moving-out-of-frame/artwork-original.png'];
- $('connection').hidden=true;$('workspace').hidden=false;for(const id of ['save','publish','disconnect','restore'])$(id).hidden=true;
+ $('connection').hidden=true;$('workspace').hidden=false;document.querySelector('.preview-music').hidden=true;for(const id of ['save','publish','disconnect','restore'])$(id).hidden=true;
  document.querySelector('[data-tab="lyrics"]').hidden=true;$('notice').hidden=false;$('notice').textContent='Content editing demo · changes stay in this browser session. No GitHub connection or publishing.';
  tab='page';selected=0;render();await preview();
 }
