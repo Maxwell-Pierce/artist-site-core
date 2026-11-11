@@ -15,6 +15,7 @@ import Timeline from './vendor/timeline.mjs';
 import {retimeWord,practiceBounds,originalTranscript,estimateMissingWords,clone,defaultProject,validateEdit,validateProject,retimeLine,replaceLineText,distributeWords,shiftAll,splitLine,mergeLine,timingStats,subtitles,RATIOS,finite,round} from './lyric-model.mjs';
 import {drawLyricFrame,dimensions,previewLyricHit} from './lyric-renderer.mjs';
 import {mp4Capabilities,renderMP4} from './lyric-export.mjs';
+import {importSunoSong} from './suno-import.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const time=value=>Number(value||0).toFixed(3);
 function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
@@ -44,7 +45,28 @@ export function mountLyricStudio(root,{repo,getBase,tracks,lyricIDs=[],getState,
   const settings=root.querySelector('.lv-settings'),clip=node('div','lv-clip-controls');
   for(const key of ['in','out'])clip.append($(key).closest('label'));clip.append($('in-now'),$('out-now'),useLine);
   const exportSettings=node('section','lv-video-export','<h3>Export range</h3>');exportSettings.append(clip);panels.video.append(exportSettings,settings);panels.timing.append($('details'));const offset=root.querySelector('.lv-offset');const timingOffset=node('div','lv-global-offset');timingOffset.append($('offset').closest('label'),$('shift'));panels.timing.append(timingOffset);
-  panels.assets.append(root.querySelector('.lv-artwork'),$('audio').closest('label'));
+  const sunoImport=node('section','lv-suno-import','<h3>Import from Suno</h3><p class="hint">Paste a Suno song link to import its timed lyrics and audio for this lyric video.</p>');
+  const sunoURL=document.createElement('input');sunoURL.type='url';sunoURL.placeholder='https://suno.com/song/…';sunoURL.setAttribute('aria-label','Suno song link');
+  const sunoURLLabel=document.createElement('label');sunoURLLabel.textContent='Suno song link';sunoURLLabel.append(sunoURL);
+  const sunoKey=document.createElement('input');sunoKey.type='password';sunoKey.autocomplete='off';sunoKey.placeholder='API key';sunoKey.setAttribute('aria-label','Suno API provider key');
+  const sunoKeyLabel=document.createElement('label');sunoKeyLabel.textContent='Suno-API.io key';sunoKeyLabel.append(sunoKey);
+  const sunoButton=node('button','lv-suno-import-button','Import timed lyrics');sunoButton.type='button';
+  const sunoNote=node('p','hint','Uses the third-party Suno-API.io service. The key is sent to that provider for this request and is never saved in the site or video project.');
+  sunoImport.append(sunoURLLabel,sunoKeyLabel,sunoButton,sunoNote);panels.assets.append(sunoImport,root.querySelector('.lv-artwork'),$('audio').closest('label'));
+  sunoButton.onclick=async()=>{
+   sunoButton.disabled=true;status('Requesting timed lyrics and media from Suno-API.io…');
+   try{
+    const result=await importSunoSong({url:sunoURL.value,apiKey:sunoKey.value});
+    const importedTrack={id:result.songID,title:`Suno song ${result.songID.slice(0,8)}`,artist:'Suno',duration:result.edit.duration,audio:result.audio,artwork:result.artwork,lyrics:result.edit.lines.map(line=>line.text).join('\n'),alignedLyrics:result.edit.lines.map(({text,start,end})=>({text,start,end}))};
+    const previous=candidates.findIndex(item=>item.id===result.songID);if(previous>=0)candidates.splice(previous,1);candidates.unshift(importedTrack);
+    getState().edits[result.songID]=clone(result.edit);
+    getState().projects[result.songID]={...(getState().projects[result.songID]||defaultProject(importedTrack)),sunoSongURL:sunoURL.value.trim(),sunoProvider:'suno-api.io',trackDuration:result.edit.duration};
+    let option=[...$('track').options].find(item=>item.value===result.songID);if(!option){option=document.createElement('option');option.value=result.songID;$('track').prepend(option);}option.textContent=importedTrack.title;$('track').value=result.songID;
+    await loadTrack(result.songID);changed({lyrics:true,video:true});
+    status(audioBuffer?'Suno lyrics imported. Review the timings and export your lyric video.':'Timed lyrics imported. Add the matching audio in Assets → Local audio fallback before exporting.');
+   }catch(error){status(error.message||String(error),true);}
+   finally{sunoButton.disabled=false;sunoKey.value='';}
+  };
   const downloads=node('div','lv-downloads');downloads.append($('srt'),$('vtt'),$('project-download'));panels.assets.append(downloads);
   const exportDock=node('div','lv-export-dock');exportDock.append($('export-info'),$('export'),$('cancel'),$('progress'),$('export-status'));
   const scroll=node('div','lv-inspector-scroll');scroll.append(...Object.values(panels));inspector.append(tabs,scroll,exportDock);
