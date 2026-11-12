@@ -1,5 +1,9 @@
 # Changes
 
+## 1.19.1
+
+Put Suno and Treblo song links on the Lyrics & video studio start screen, before track selection. Load Treblo songs from the refreshed site catalog and keep source choices out of the hidden editor workspace.
+
 ## 1.19.0
 
 Add Suno song-link import to Lyrics & video studio Assets, using Suno-API.io to retrieve word-level lyric timing, audio and cover links. Keep the API key session-only and save the source song URL with the video project.
